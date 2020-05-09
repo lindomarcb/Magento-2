@@ -29,13 +29,13 @@
 }
 .scrollup {
     color: #ffffff !important;
-    background-color: #333333 !important;
-    border-color: #333333 !important;
+    background-color: #ca708f !important;
+    border-color: #ca708f !important;
 }
 .scrollup:hover {
-    color: #333333 !important;
+    color: #ca708f !important;
     background-color: #ffffff !important;
-    border-color: #333333 !important;
+    border-color: #ca708f !important;
 }
 .copyright {
     background-image: url('../images/footer-stripeswhite.png');
@@ -241,7 +241,7 @@ input[type="checkbox"],
         color: #222222;
     }
     .nav-toggle:hover::before {
-         color: #f2703e;
+         color: #ca708f;
     }
     .page-header {
         background: transparent;
