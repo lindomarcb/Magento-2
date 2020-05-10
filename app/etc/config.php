@@ -250,6 +250,9 @@ return [
         'UOL_PagSeguro' => 1,
         'Vertex_Tax' => 1,
         'Vertex_AddressValidation' => 1,
+        'WeSupply_Toolbox' => 0,
+        'WeltPixel_Backend' => 1,
+        'WeltPixel_OwlCarouselSlider' => 1,
         'Yotpo_Yotpo' => 1
     ]
 ];

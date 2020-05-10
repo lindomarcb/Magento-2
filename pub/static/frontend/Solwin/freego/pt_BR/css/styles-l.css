@@ -1004,6 +1004,724 @@ span.klarna-payments-method-cell > img {
   padding: 0;
   border-top: none;
 }
+.extend_1,
+.owl-carousel.products .owl-controls .owl-nav .owl-prev,
+.owl-carousel.products .owl-controls .owl-nav .owl-next,
+.owl-carousel.products .owl-controls .owl-dot {
+  cursor: pointer;
+  cursor: hand;
+  user-select: none;
+}
+.products.products-grid,
+.custom-slider {
+  position: relative;
+  padding: 0 0 20px;
+}
+.owl-carousel.products {
+  display: none;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+}
+.owl-carousel.products .animated {
+  animation-duration: 1000ms;
+  animation-fill-mode: both;
+}
+.owl-carousel.products .owl-animated-in {
+  z-index: 0;
+}
+.owl-carousel.products .owl-animated-out {
+  z-index: 1;
+}
+.owl-carousel.products .fadeOut {
+  animation-name: fadeOut;
+}
+.owl-carousel.products .owl-stage {
+  position: relative;
+}
+.owl-carousel.products .owl-stage:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.owl-carousel.products .owl-stage-outer {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+:root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-prev {
+  width: 40px !important;
+  top: 0 !important;
+  left: 0 !important;
+  background: none transparent !important;
+}
+:root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-prev:hover {
+  background: none transparent !important;
+}
+:root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-next {
+  width: 40px !important;
+  top: 0 !important;
+  right: 0 !important;
+  background: none transparent !important;
+}
+:root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-next:hover {
+  background: none transparent !important;
+}
+.owl-carousel.products.owl-loaded {
+  display: block;
+}
+.owl-carousel.products.owl-loading {
+  opacity: 0;
+  display: block;
+}
+.owl-carousel.products.owl-hidden {
+  opacity: 0;
+}
+.owl-carousel.products .owl-item {
+  position: relative;
+  min-height: 1px;
+  float: left;
+  user-select: none;
+}
+.owl-carousel.products .owl-item img {
+  display: block;
+  width: 100%;
+  transform-style: preserve-3d;
+}
+.owl-carousel.products .owl-item .owl-lazy {
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.owl-carousel.products .owl-item .product-item {
+  width: 100% !important;
+  margin: 10px;
+}
+.owl-carousel.products .owl-grab {
+  cursor: move;
+  cursor: grab;
+}
+.owl-carousel.products.owl-rtl {
+  direction: rtl;
+}
+.owl-carousel.products.owl-rtl .owl-item {
+  float: right;
+}
+.owl-carousel.products .owl-video-wrapper {
+  position: relative;
+  height: 100%;
+  background: #000000;
+}
+.owl-carousel.products .owl-video-play-icon {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  left: 50%;
+  top: 50%;
+  margin-left: -40px;
+  margin-top: -40px;
+  background: url(../../../../../frontend/Magento/blank/pt_BR/WeltPixel_OwlCarouselSlider/css/owl.video.play.png) no-repeat;
+  cursor: pointer;
+  z-index: 1;
+  transition: scale 100ms ease;
+}
+.owl-carousel.products .owl-video-play-icon:hover {
+  transition: scale(1.3, 1.3);
+}
+.owl-carousel.products .owl-video-playing .owl-video-tn {
+  display: none;
+}
+.owl-carousel.products .owl-video-playing .owl-video-play-icon {
+  display: none;
+}
+.owl-carousel.products .owl-video-tn {
+  opacity: 0;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: opacity 400ms ease;
+}
+.owl-carousel.products .owl-video-frame {
+  position: relative;
+  z-index: 1;
+}
+.owl-carousel.products .owl-refresh .owl-item {
+  display: none;
+}
+.owl-carousel.products.owl-text-select-on .owl-item {
+  user-select: auto;
+}
+.owl-carousel.products .banner-item .content_slider {
+  position: absolute;
+  top: 25%;
+  left: 50px;
+  width: calc(100% - 120px);
+  z-index: 1;
+  color: #ffffff;
+}
+.owl-carousel.products .banner-item .content_slider .banner-title {
+  width: 100%;
+  color: #ffffff;
+  font-size: 32px;
+  text-transform: uppercase;
+  text-align: center;
+  display: inline-block;
+  clear: both;
+}
+.owl-carousel.products .banner-item .content_slider .banner-description {
+  width: 100%;
+  clear: both;
+  display: inline-block;
+  text-align: center;
+  padding: 15px 0;
+}
+.owl-carousel.products .banner-item .content_slider .buttons {
+  width: 100%;
+  clear: both;
+  display: inline-block;
+  text-align: center;
+}
+.owl-carousel.products .banner-item .content_slider .buttons a.action.primary {
+  margin: 10px;
+}
+.owl-carousel.products .banner-item .content_slider .buttons .custom_content {
+  margin: 10px 0 0;
+  text-align: center;
+}
+.owl-carousel.products .product-item-details {
+  float: left;
+  width: 100%;
+}
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.owl-height {
+  transition: height 500ms ease-in-out;
+}
+.owl-theme.owl-carousel .owl-controls .owl-dot {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+.owl-theme.owl-carousel .owl-controls .owl-dot span {
+  width: 10px;
+  height: 10px;
+  margin: 5px 7px;
+  border: 1px solid #d6d6d6;
+  background: white;
+  display: block;
+  -webkit-backface-visibility: visible;
+  -webkit-transition: opacity 200ms ease;
+  -moz-transition: opacity 200ms ease;
+  -ms-transition: opacity 200ms ease;
+  -o-transition: opacity 200ms ease;
+  transition: opacity 200ms ease;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+}
+.owl-theme.owl-carousel .owl-controls .owl-dot:hover span {
+  background: #000000;
+}
+.owl-theme.owl-carousel .owl-controls .owl-dot.active span {
+  background: #000000;
+  border: 1px solid #000000;
+}
+.owl-theme.owl-carousel .product .price-container .price {
+  padding-right: 3px;
+}
+.owl-theme .owl-controls {
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-] {
+  color: #ffffff;
+  font-size: 14px;
+  margin: calc(-@size / 2) 0 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.5);
+  display: inline-block;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  text-indent: 100%;
+  overflow: hidden;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-] {
+  background: transparent;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev {
+  left: 15px;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev {
+  left: -55px;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev:before {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  z-index: 1;
+  width: 26px;
+  height: 25px;
+  content: "";
+  background-color: black;
+  text-indent: 0;
+  border-top: none;
+  transform: none;
+  -webkit-mask-image: url(../WeltPixel_OwlCarouselSlider/images/arrow.svg);
+  mask-image: url(../WeltPixel_OwlCarouselSlider/images/arrow.svg);
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev:after {
+  border-top: none;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-next {
+  right: 15px;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next {
+  right: -55px;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-next:before {
+  position: absolute;
+  top: 8px;
+  left: 7px;
+  z-index: 1;
+  width: 26px;
+  height: 25px;
+  content: "";
+  background-color: black;
+  border-top: none;
+  transform: rotate(180deg);
+  -webkit-mask-image: url(../WeltPixel_OwlCarouselSlider/images/arrow.svg);
+  mask-image: url(../WeltPixel_OwlCarouselSlider/images/arrow.svg);
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-].owl-next:after {
+  border-top: none;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-]:hover {
+  background: #000000;
+  color: #ffffff;
+  text-decoration: none;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-]:hover {
+  background: transparent;
+  color: #000000;
+}
+.owl-theme .owl-controls .owl-nav [class*=owl-]:hover:before,
+.owl-theme .owl-controls .owl-nav [class*=owl-]:hover:after {
+  background-color: #ffffff;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-]:hover:before,
+[class*=owl-carousel-products-] .owl-theme .owl-controls .owl-nav [class*=owl-]:hover:after {
+  border-color: #000000;
+}
+.owl-theme .owl-controls .owl-nav .disabled {
+  opacity: .5;
+  cursor: default;
+}
+.owl-theme .owl-dots {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+}
+[class*=owl-carousel-products-] .owl-theme .owl-dots {
+  position: relative;
+  bottom: -20px;
+}
+.owl-theme[class*=owl-carousel-product] .owl-controls .owl-nav [class*=owl-]:hover:before,
+.owl-theme[class*=owl-carousel-product] .owl-controls .owl-nav [class*=owl-]:hover:after {
+  background: #000000;
+}
+.no-js .owl-carousel {
+  display: block;
+}
+#pre-div-ajax {
+  position: relative;
+  top: 80px;
+}
+#pre-div {
+  background-color: #ffffff;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10000;
+}
+#pre-div .cssload-loader {
+  position: relative;
+  left: calc(50% - 31px);
+  top: calc(50% - 31px);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  -o-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  perspective: 780px;
+}
+#pre-div .cssload-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-radius: 50%;
+  -o-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+#pre-div .cssload-inner.cssload-one {
+  left: 0%;
+  top: 0%;
+  animation: cssload-rotate-one 1.15s linear infinite;
+  -o-animation: cssload-rotate-one 1.15s linear infinite;
+  -ms-animation: cssload-rotate-one 1.15s linear infinite;
+  -webkit-animation: cssload-rotate-one 1.15s linear infinite;
+  -moz-animation: cssload-rotate-one 1.15s linear infinite;
+  border-bottom: 3px solid #000000;
+}
+#pre-div .cssload-inner.cssload-two {
+  right: 0%;
+  top: 0%;
+  animation: cssload-rotate-two 1.15s linear infinite;
+  -o-animation: cssload-rotate-two 1.15s linear infinite;
+  -ms-animation: cssload-rotate-two 1.15s linear infinite;
+  -webkit-animation: cssload-rotate-two 1.15s linear infinite;
+  -moz-animation: cssload-rotate-two 1.15s linear infinite;
+  border-right: 3px solid #000000;
+}
+#pre-div .cssload-inner.cssload-three {
+  right: 0%;
+  bottom: 0%;
+  animation: cssload-rotate-three 1.15s linear infinite;
+  -o-animation: cssload-rotate-three 1.15s linear infinite;
+  -ms-animation: cssload-rotate-three 1.15s linear infinite;
+  -webkit-animation: cssload-rotate-three 1.15s linear infinite;
+  -moz-animation: cssload-rotate-three 1.15s linear infinite;
+  border-top: 3px solid #000000;
+}
+#pre-div .catalog-product-view .product-items .product-item-actions .actions-secondary {
+  display: inline-block !important;
+}
+#pre-div .catalog-product-view .product-items .product-item-actions .action.tocompare {
+  position: absolute !important;
+  right: 0 !important;
+}
+#pre-div .catalog-product-view .product-items .product-item-actions .action.towishlist {
+  position: absolute !important;
+  left: 0 !important;
+}
+@keyframes cssload-rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@-o-keyframes cssload-rotate-one {
+  0% {
+    -o-transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    -o-transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@-ms-keyframes cssload-rotate-one {
+  0% {
+    -ms-transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    -ms-transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@-webkit-keyframes cssload-rotate-one {
+  0% {
+    -webkit-transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@-moz-keyframes cssload-rotate-one {
+  0% {
+    -moz-transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    -moz-transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+@keyframes cssload-rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@-o-keyframes cssload-rotate-two {
+  0% {
+    -o-transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    -o-transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@-ms-keyframes cssload-rotate-two {
+  0% {
+    -ms-transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    -ms-transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@-webkit-keyframes cssload-rotate-two {
+  0% {
+    -webkit-transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@-moz-keyframes cssload-rotate-two {
+  0% {
+    -moz-transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    -moz-transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+@keyframes cssload-rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+@-o-keyframes cssload-rotate-three {
+  0% {
+    -o-transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    -o-transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+@-ms-keyframes cssload-rotate-three {
+  0% {
+    -ms-transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    -ms-transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+@-webkit-keyframes cssload-rotate-three {
+  0% {
+    -webkit-transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+@-moz-keyframes cssload-rotate-three {
+  0% {
+    -moz-transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    -moz-transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+.catalog-product-view.theme-pearl .column.main .block-content.content .block-actions .action.select {
+  font-size: 18px;
+}
+.catalog-product-view .column.main .block-content.content .block-actions .action.select {
+  margin-left: 10px;
+}
+.catalog-product-view .column.main .products-grid.products-related .product-item .product-item-info .product-item-details .field.choice.related {
+  width: 80px;
+  margin: 0 auto;
+  float: none;
+  position: static;
+}
+/* Mixins */
+.css-code-ie-edge {
+  /* IE10+ Edge CSS styles go here */
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev::before {
+  content: "\e7a4" !important;
+  font-size: 41px !important;
+  line-height: 23px !important;
+  background: transparent;
+  color: black;
+  left: 5px;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+  content: "\e608" !important;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next {
+  overflow: visible !important;
+  right: 30px !important;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next::before {
+  content: "\e7a4" !important;
+  font-size: 41px !important;
+  line-height: 23px !important;
+  background: transparent;
+  color: black;
+  left: 42px;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+  content: "\e617" !important;
+  font-family: "luma-icons";
+  font-size: 22px !important;
+  line-height: 24px !important;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento::before {
+  content: "\e617" !important;
+  font-family: "luma-icons";
+  font-size: 22px !important;
+  line-height: 24px !important;
+  left: 45px;
+}
+.css-code-ie-edge [class*=owl-carousel-products-].owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento {
+  right: -55px !important;
+}
+.css-code-ie-edge .owl-theme .owl-controls .owl-nav [class*=owl-]:hover:before {
+  background: transparent !important;
+  color: #fff !important;
+}
+.css-code-ie-edge [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::before,
+.css-code-ie-edge [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::after {
+  color: black !important;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ Edge CSS styles go here */
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev::before {
+    content: "\e7a4" !important;
+    font-size: 41px !important;
+    line-height: 23px !important;
+    background: transparent;
+    color: black;
+    left: 5px;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+    content: "\e608" !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next {
+    overflow: visible !important;
+    right: 30px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next::before {
+    content: "\e7a4" !important;
+    font-size: 41px !important;
+    line-height: 23px !important;
+    background: transparent;
+    color: black;
+    left: 42px;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+    content: "\e617" !important;
+    font-family: "luma-icons";
+    font-size: 22px !important;
+    line-height: 24px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento::before {
+    content: "\e617" !important;
+    font-family: "luma-icons";
+    font-size: 22px !important;
+    line-height: 24px !important;
+    left: 45px;
+  }
+  [class*=owl-carousel-products-].owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento {
+    right: -55px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-]:hover:before {
+    background: transparent !important;
+    color: #fff !important;
+  }
+  [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::before,
+  [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::after {
+    color: black !important;
+  }
+}
+@supports (-ms-ime-align:auto) {
+  /* IE10+ Edge CSS styles go here */
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev::before {
+    content: "\e7a4" !important;
+    font-size: 41px !important;
+    line-height: 23px !important;
+    background: transparent;
+    color: black;
+    left: 5px;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+    content: "\e608" !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next {
+    overflow: visible !important;
+    right: 30px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next::before {
+    content: "\e7a4" !important;
+    font-size: 41px !important;
+    line-height: 23px !important;
+    background: transparent;
+    color: black;
+    left: 42px;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-prev.icon-angle-left-magento::before {
+    content: "\e617" !important;
+    font-family: "luma-icons";
+    font-size: 22px !important;
+    line-height: 24px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento::before {
+    content: "\e617" !important;
+    font-family: "luma-icons";
+    font-size: 22px !important;
+    line-height: 24px !important;
+    left: 45px;
+  }
+  [class*=owl-carousel-products-].owl-theme .owl-controls .owl-nav [class*=owl-].owl-next.icon-angle-right-magento {
+    right: -55px !important;
+  }
+  .owl-theme .owl-controls .owl-nav [class*=owl-]:hover:before {
+    background: transparent !important;
+    color: #fff !important;
+  }
+  [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::before,
+  [class*=owl-carousel-product].owl-theme .owl-controls .owl-nav [class*=owl-]:hover::after {
+    color: black !important;
+  }
+}
 @media only screen and (min-device-width: 320px) and (max-device-width: 780px) and (orientation: landscape) {
   .product-video {
     height: 100%;
@@ -6341,3 +7059,21 @@ Breadcrumbs less
   }
 }
 /* Add css for theme 19-02-2020 end */
+.block.crosssell .owl-stage .owl-item .product-item {
+  width: 89% !important;
+}
+.block.crosssell .owl-stage .owl-item .product-item .product-item-actions {
+  text-align: center;
+}
+.block.crosssell .owl-stage .owl-item .product-item .product-item-actions .actions-primary {
+  display: block;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
