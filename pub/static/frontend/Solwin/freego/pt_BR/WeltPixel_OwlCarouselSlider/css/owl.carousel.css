@@ -54,7 +54,7 @@
 .owl-carousel .owl-stage-outer {
 	position: relative;
 	overflow: hidden;
-	padding: 20px 0;
+	padding: 0;
 }
 .owl-carousel.owl-loaded {
 	display: block;
