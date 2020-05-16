@@ -4612,7 +4612,7 @@ span.klarna-payments-method-cell > img {
 .owl-carousel.products .owl-stage-outer {
   position: relative;
   overflow: hidden;
-  padding: 20px 0;
+  padding: 0;
 }
 :root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-prev {
   width: 40px !important;

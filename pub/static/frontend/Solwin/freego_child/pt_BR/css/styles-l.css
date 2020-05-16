@@ -1050,7 +1050,7 @@ span.klarna-payments-method-cell > img {
 .owl-carousel.products .owl-stage-outer {
   position: relative;
   overflow: hidden;
-  padding: 20px 0;
+  padding: 0;
 }
 :root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-prev {
   width: 40px !important;
@@ -6779,12 +6779,12 @@ Breadcrumbs less
   left: 10px;
   top: 0;
   width: 60px;
-  height: 73px;
+  height: 60px;
   background: #ffffff;
   color: #ca708f;
   text-align: center;
   font-size: 20px;
-  line-height: 73px;
+  line-height: 60px;
   border: 1px solid #dddddd;
 }
 .fs-main .fs-row .fs-inner .fs-right {

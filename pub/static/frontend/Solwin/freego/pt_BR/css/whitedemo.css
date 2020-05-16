@@ -241,7 +241,7 @@ input[type="checkbox"],
         color: #222222;
     }
     .nav-toggle:hover::before {
-         color: #f2703e;
+         color: #ca708f;
     }
     .page-header {
         background: transparent;

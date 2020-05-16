@@ -72,7 +72,7 @@ fieldset[disabled] .abs-action-link-button {
 .abs-add-fields .action.remove {
   line-height: 1.42857143;
   padding: 0;
-  color: #f2703e;
+  color: #ca708f;
   text-decoration: none;
   background: none;
   border: 0;
@@ -84,7 +84,7 @@ fieldset[disabled] .abs-action-link-button {
 .abs-action-remove:visited,
 .abs-discount-block .action.check:visited,
 .abs-add-fields .action.remove:visited {
-  color: #f2703e;
+  color: #ca708f;
   text-decoration: none;
 }
 .abs-action-button-as-link:hover,
@@ -128,7 +128,7 @@ fieldset[disabled] .abs-discount-block .action.check,
 .abs-add-fields .action.remove.disabled,
 .abs-add-fields .action.remove[disabled],
 fieldset[disabled] .abs-add-fields .action.remove {
-  color: #f2703e;
+  color: #ca708f;
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
@@ -340,7 +340,7 @@ fieldset[disabled] .abs-add-fields .action.remove {
   text-decoration: none;
 }
 .abs-like-link:visited {
-  color: #f2703e;
+  color: #ca708f;
   text-decoration: none;
 }
 .abs-like-link:hover {
@@ -577,7 +577,7 @@ fieldset[disabled] .abs-add-fields .action.remove {
   text-align: center;
 }
 .product-item-actions .actions-secondary > .action:hover {
-  color: #f2703e;
+  color: #ca708f;
   text-decoration: none;
 }
 .abs-cart-block > .title,
@@ -1050,7 +1050,7 @@ span.klarna-payments-method-cell > img {
 .owl-carousel.products .owl-stage-outer {
   position: relative;
   overflow: hidden;
-  padding: 20px 0;
+  padding: 0;
 }
 :root .catalog-product-view .owl-carousel.products .owl-controls .owl-nav.fullscreen .owl-prev {
   width: 40px !important;
@@ -2512,14 +2512,14 @@ span.klarna-payments-method-cell > img {
   }
   .navigation .level0 > .level-top:hover,
   .navigation .level0 > .level-top.ui-state-focus {
-    background: #f2703e;
+    background: #ca708f;
     border: none;
     color: #ffffff;
     text-decoration: none;
   }
   .navigation .level0.active > .level-top,
   .navigation .level0.has-active > .level-top {
-    background: #f2703e;
+    background: #ca708f;
     border-color: #222222;
     border-style: solid;
     border-width: 0;
@@ -2627,11 +2627,11 @@ span.klarna-payments-method-cell > img {
   .navigation .level0 .submenu a:hover,
   .navigation .level0 .submenu a.ui-state-focus {
     background: transparent;
-    color: #f2703e;
+    color: #ca708f;
     text-decoration: none;
   }
   .navigation .level0 .submenu .active > a {
-    border-color: #f2703e;
+    border-color: #ca708f;
     border-style: solid;
     border-width: 0 0 0 3px;
     color: #222222;
@@ -3572,7 +3572,7 @@ span.klarna-payments-method-cell > img {
     text-align: center;
   }
   .block-search .action.search:hover:before {
-    color: #f2703e;
+    color: #ca708f;
   }
   .block-search .action.search:active:before {
     color: inherit;
@@ -3806,20 +3806,20 @@ span.klarna-payments-method-cell > img {
     background: #d7d7d7;
   }
   .opc-progress-bar-item._complete > span {
-    color: #f2703e;
+    color: #ca708f;
   }
   .opc-progress-bar-item._complete > span:after {
     font-family: 'luma-icons';
     content: '\e610';
   }
   .opc-progress-bar-item._active:before {
-    background: #f2703e;
+    background: #ca708f;
   }
   .opc-progress-bar-item._active > span {
     color: #222222;
   }
   .opc-progress-bar-item._active > span:before {
-    background: #f2703e;
+    background: #ca708f;
   }
   .opc-progress-bar-item._active > span:after {
     font-family: 'luma-icons';
@@ -4056,7 +4056,7 @@ span.klarna-payments-method-cell > img {
     margin-right: 0;
   }
   .block-wishlist-management .wishlist-select-items .current {
-    border-bottom: 3px solid #f2703e;
+    border-bottom: 3px solid #ca708f;
     font-weight: 600;
   }
   .block-wishlist-management .wishlist-select .wishlist-name-current {
@@ -4653,7 +4653,7 @@ span.klarna-payments-method-cell > img {
   .page-header .switcher .options ul.dropdown li:hover a,
   .page-footer .switcher .options ul.dropdown li:hover a,
   .customer-welcome ul li:hover a {
-    color: #f2703e;
+    color: #ca708f;
   }
   .nav-sections {
     background: #222222;
@@ -4664,7 +4664,7 @@ span.klarna-payments-method-cell > img {
     font-size: 14px;
   }
   .navigation .level0 .submenu {
-    border-top: 3px solid #f2703e;
+    border-top: 3px solid #ca708f;
     padding: 5px 0;
   }
   .navigation .level0 {
@@ -4707,12 +4707,12 @@ span.klarna-payments-method-cell > img {
     font-family: "Fontawesome";
   }
   .navigation .level0 > .level-top.ui-state-active {
-    background: #f2703e;
+    background: #ca708f;
     color: #ffffff;
   }
   .navigation .level0 .submenu a.ui-state-active {
     background: transparent;
-    color: #f2703e;
+    color: #ca708f;
   }
 }
 @media all and (min-width: 769px), print {
@@ -5300,7 +5300,7 @@ theme slider navigation buttons
 ================================*/
 .owl-theme .owl-controls .owl-buttons div.lft-btn,
 .owl-theme .owl-controls .owl-buttons div.rgt-btn {
-  background: #f2703e !important;
+  background: #ca708f !important;
   color: #ffffff !important;
   display: inline-block;
   float: left;
@@ -5725,7 +5725,7 @@ Home Page footer Newsletter Block
   width: 550px;
 }
 .cp-newsletter .newsletter-block .block-content .newsletter-input .control #newsletter {
-  border: 3px solid #f2703e;
+  border: 3px solid #ca708f;
   box-sizing: border-box;
   font-size: 16px;
   height: 45px;
@@ -5737,8 +5737,8 @@ Home Page footer Newsletter Block
   position: absolute;
 }
 .cp-newsletter .newsletter-block .block-content .newsletter-input .input-group-btn button {
-  background: none repeat scroll 0 0 #f2703e;
-  border: 1px solid #f2703e;
+  background: none repeat scroll 0 0 #ca708f;
+  border: 1px solid #ca708f;
   border-radius: 0;
   color: #ffffff;
   box-shadow: none;
@@ -5921,7 +5921,7 @@ footer block
   font-size: 14px;
 }
 .cp-footer-container .cp-footer-main .cp-fblock .cp-fcontent ul li a:hover {
-  color: #f2703e;
+  color: #ca708f;
   text-decoration: none;
   outline: none;
 }
@@ -5976,8 +5976,8 @@ footer block
   color: #222222;
 }
 .cp-footer-container .cp-footer-main .cp-fblock .cp-fcontent .block.newsletter > .content .actions .action.subscribe.primary {
-  background: #f2703e;
-  border-color: #f2703e;
+  background: #ca708f;
+  border-color: #ca708f;
   color: #ffffff;
   font-weight: 600;
   margin-left: 0;
@@ -6105,14 +6105,14 @@ top header block
   color: #ffffff;
 }
 .switcher:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 @media only screen and (max-width: 767px) {
   .switcher {
     color: #000000;
   }
   .switcher:hover {
-    color: #f2703e;
+    color: #ca708f;
   }
 }
 .page-header {
@@ -6182,7 +6182,7 @@ Slider navigation arrows (Prev and next)
 .flex-direction-nav .flex-prev,
 .flex-direction-nav .flex-next {
   color: #ffffff;
-  background: #f2703e;
+  background: #ca708f;
 }
 .flex-direction-nav .flex-prev:hover,
 .flex-direction-nav .flex-next:hover {
@@ -6213,7 +6213,7 @@ fieldset[disabled] .block-search .action.search {
     color: #ffffff;
   }
   .minicart-wrapper .action.showcart:hover:before {
-    color: #f2703e;
+    color: #ca708f;
   }
   .minicart-wrapper {
     margin-left: 10px;
@@ -6243,7 +6243,7 @@ Product Detail Page blocks
   width: 100%;
 }
 .fotorama__thumb-border {
-  border: 2px solid #f2703e;
+  border: 2px solid #ca708f;
 }
 .product-info-main .product.attibute.overview > .value {
   font-size: 14px;
@@ -6296,7 +6296,7 @@ Product Detail Page blocks
 Testimonial less Variables
 =============================*/
 .t-avtar {
-  border: 8px solid #f2703e;
+  border: 8px solid #ca708f;
 }
 .t-sept .t-vert,
 .t-sept .t-horz {
@@ -6306,7 +6306,7 @@ Testimonial less Variables
   font-size: 24px;
   font-weight: 600;
   text-transform: uppercase;
-  color: #f2703e;
+  color: #ca708f;
 }
 .t-info .th-name > span > a:hover {
   color: #f48256;
@@ -6315,7 +6315,7 @@ Testimonial less Variables
   background: #dddddd;
 }
 .t-info .th-company {
-  color: #f2703e;
+  color: #ca708f;
   font-size: 18px;
 }
 .t-info .th-desc .th-desc-inner {
@@ -6346,11 +6346,11 @@ Testimonial less Variables
 }
 .t-info .th-links .th-website > a:hover,
 .t-info .th-links .th-email > a:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 /*testimonial detail page*/
 .tdet-wrapper .tdet-main .tdet-name {
-  color: #f2703e;
+  color: #ca708f;
   font-weight: 400;
   font-size: 24px;
   text-transform: uppercase;
@@ -6358,7 +6358,7 @@ Testimonial less Variables
   line-height: 30px;
 }
 .tdet-wrapper .tdet-main .tdet-info .tdet-desc .fa {
-  color: #f2703e;
+  color: #ca708f;
   font-size: 24px;
 }
 .tdet-wrapper .tdet-main .tdet-info .tdet-desc > span {
@@ -6390,7 +6390,7 @@ Testimonial less Variables
 .tdet-wrapper .tdet-main .tdet-info .tdet-company a:hover,
 .tdet-wrapper .tdet-main .tdet-info .tdet-email a:hover,
 .tdet-wrapper .tdet-main .tdet-info .tdet-website a:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 .tdet-wrapper .tdet-main .tdet-info .tdet-company span,
 .tdet-wrapper .tdet-main .tdet-info .tdet-email span,
@@ -6437,7 +6437,7 @@ category page pagination less Variables
   min-width: 15px;
   border: 1px solid #dddddd;
   background: #f2f2f2;
-  color: #f2703e;
+  color: #ca708f;
   font-weight: 400;
   text-align: center;
 }
@@ -6472,7 +6472,7 @@ Contact Us Page less Variables
   padding-left: 30px;
 }
 .c-add .cs-name {
-  color: #f2703e;
+  color: #ca708f;
   font-size: 24px;
   font-weight: 400;
   line-height: 30px;
@@ -6535,7 +6535,7 @@ New and Sale Label less
 =============================*/
 .new-lbl,
 .sale-lbl {
-  background: #f2703e;
+  background: #ca708f;
   border-radius: 50%;
   color: #ffffff;
   height: 45px;
@@ -6781,7 +6781,7 @@ Breadcrumbs less
   width: 60px;
   height: 60px;
   background: #ffffff;
-  color: #f2703e;
+  color: #ca708f;
   text-align: center;
   font-size: 20px;
   line-height: 60px;
@@ -6833,25 +6833,25 @@ Breadcrumbs less
   color: #222222;
 }
 .products-list .product-item .product-item-actions .actions-secondary .action:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 .product-info-main .product-social-links .product-addto-links a.action.towishlist {
   color: #222222;
 }
 .product-info-main .product-social-links .product-addto-links a.action.towishlist:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 .product-info-main .product-social-links .product-addto-links a.action.tocompare {
   color: #222222;
 }
 .product-info-main .product-social-links .product-addto-links a.action.tocompare:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 .product-info-main .product-social-links .action.mailto.friend {
   color: #222222;
 }
 .product-info-main .product-social-links .action.mailto.friend:hover {
-  color: #f2703e;
+  color: #ca708f;
 }
 .product-info-main .product-social-links .action.mailto.friend > span {
   line-height: 18px;
