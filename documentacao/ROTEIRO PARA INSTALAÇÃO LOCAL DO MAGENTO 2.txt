@@ -1,0 +1,815 @@
+################################################
+## ROTEIRO PARA INSTALAÇÃO LOCAL DO MAGENTO 2 ##
+################################################
+
+INSTALAÇÃO E CONFIGURAÇÃO DO AMBIENTE
+=====================================
+
+INSTALAR O XAMPP
+----------------
+
+
+1) BAIXAR O XAMPP ATRAVÉS DO SITE: https://www.apachefriends.org/pt_br/download.html (7.2.30 / PHP 7.2.30)
+   
+2) INSTALAR O PHP, APACHE E MARIADB A PARTIR DO ARQUIVO BAIXADO DO XAMPP
+
+
+INSTALAR O COMPOSER
+-------------------
+
+3) BAIXAR O COMPOSER ATRAVÉS DO SITE: https://getcomposer.org/download/
+
+4) INSTALAR O ARQUIVO Composer-Setup.exe 
+
+5) ENTRAR ATRAVÉS DO SHELL DO PAINEL XAMPP E ENTRAR NA PASTA htdocs
+
+6) INSTALAR O COMPOSER ATRAVÉS DO SHELL NA PASTA htdocs COM O COMANDO: php composer-setup.php
+
+7) EXECUTAR O Control Painel do XAMMP (Procure no menu de programas do windows e DEIXE ELE ABERTO)
+   ATENÇÃO: EXECUTAR O XAMPP COMO ADMINISTRADOR
+
+
+ALTERAR OS ARQUIVOS DE CONFIGURAÇÃO DO XAMPP
+--------------------------------------------
+
+1) ALTERAR O ARQUIVO php.ini NO BOTÃO Config DO SERVIDOR Apache no XAMPP.
+   Liberar as seguintes linhas do arquivo:
+   ;extension=soap     --> extension=soap
+   ;extension=xsl      --> extension=xsl
+   ;extension=intl     --> extension=intl
+   ;disable_functions= --> disable_functions=
+   ;memory_limit=540Mb --> memory_limit=2G
+   
+2) ALTERAR O ARQUIVO httpd.conf NO BOTÃO Config DO SERVIDOR Apache no XAMPP.
+   Mudar o bloco <Directory /> para:
+   <Directory />
+       Options Indexes FollowSymLinks
+       AllowOverride All
+       Require all granted
+   </Directory>
+ 
+CRIAR UM DOMINIO LOCAL PARA USO DA LOJA NA MÁQUINA
+--------------------------------------------------
+ 
+ 1) ABRIR O EXPLORADOR DE ARQUIVOS DO WINDOWS
+ 2) EDITAR O ARQUIVO: C:\Windows\System32\drivers\etc\hosts (A EDIÇÃO SÓ É POSSIVEL COMO ADMINISTRADOR)
+ 3) COLOQUE NO FIM DO ARQUIVO O SEGUINTE CAMINHO: 127.0.0.1           local.nomedaloja.com.br
+    Quando for executar a loja, será usado esse dominio. Ex: http://local.nomedaloja.com.br/magento2
+ 4) SALVE O ARQUIVO COMO ADMINISTRADOR.
+ 
+ 
+ 
+INSTALAR A LOJA PADRÃO MAGENTO VERSÃO 2.3.4
+===========================================
+
+CRIAR O VÍNCULO COM COMUNIDADE MAGENTO ATRAVÉS DO MARKETPLACE
+-------------------------------------------------------------
+
+1) CRIAR UMA CONTA NA PLATAFORMA DE MARKETPLACE DO MAGENTO NO SITE: https://marketplace.magento.com/
+   OPÇÃO: Sing In no canto superior da tela da plataforma
+   
+   [SE NÃO POSUIR UMA CONTA CADASTRADA]
+   
+   New Users - Botão Register
+   Digite:  First Name, Last Name, Email Address
+   Escolha: My Company Primarily - (Develops Magento extensions)
+            Ny Role              - (Technical/developer) 
+            Country              - (Brazil)
+   Digite:  Password, Confirm Password
+   Clica:   Não sou um robô
+   Selecione: By supplying my contact information, I authorize the Adobe family of companies to contact me via personalized communications about Adobe's products and services. See our Privacy Policy for more details or to opt-out at any time.
+   Clique no botão: Submit
+   Observação: Provavelmente receberá uma confirmação no e-mail digitado. Verifique na caixa de lixo do e-mail.
+   
+2) ENTRAR CONTA NA PLATAFORMA DE MARKETPLACE DO MAGENTO NO SITE: https://marketplace.magento.com/
+   OPÇÃO: Sing In no canto superior da tela da plataforma
+ 
+   [SE POSUIR UMA CONTA CADASTRADA]
+ 
+   ENTRAR NA OPÇÃO Registered Users 
+   Digite: Email, Password
+   Clica:  Login
+   Clicar: Em cima do seu nome no canto superior direito da tela do MarketPlace e escolha My Profile
+   Na aba Marketplace/Products clicar em Access Keys
+   Na aba Magento 2 clique no botão Create A New Access Key
+   Abrirá uma tela pop-up: Digite um nome para essa chave de acesso e em seguida clique em OK
+   A chave de acesso será apresentada na tela anterior através dos campos: Name, Access Keys, Status, Actions
+   No campo Access Keys você terá: Public Key e Private Key que serão usados na instalação da loja
+   Note que ao lado das chaves tem um botão Copy que servirá para você copiar as chaves quando solicitadas na instalação
+   por esse motivo, mantenha essa página aberta para que possa fazer a cópia depois. 
+   A Public Key na instalação será o USERNAME e a Private Key será a PASSWORD no momento da instalação.
+   No campo PASSWORD só aceitará se você copiar a Private Key através do botão Copy. No momento da cópia, o valor não
+   aparecerá na tela da instalação.
+ 
+ CRIAR O BANCO DE DADOS (MARIADB XAMPP) QUE SERÁ USADO NA LOJA
+ -------------------------------------------------------------
+  
+ 1) ABRA O Control Painel do XAMMP E CLIQUE NOS BOTÕES Start do Apache e MySQL (Os módulos devem estar verdes)
+ 2) ABRA O SEU NAVEGADOR DE INTERNET E DIGITE: localhost 
+    OBSERVAÇÃO: A BASE DE EXECUÇÃO DO SERVIDOR APACHE NO XAMPP FICA NA PASTA: C:\xampp\htdocs    
+ 3) APARECERÁ A TELA PADRÃO DO Apache Friends. CLIQUE NO LINK phpMyAdmin NO CANTO SUPERIOR DIREITO DA TELA
+ 4) O PAINEL DE ADMINISTRAÇÃO DE BANCO DE DADOS SERÁ APRESENTADO. CLIQUE À DIREITA NO BOTÃO Novo PARA CRIAR UM NOVO BANCO DE DADOS
+ 5) À DIREITA NA ABA Base de Dados DIGITE O NOME DO NOVO BANCO DE DADOS: magento2 E À DIREITA DO NOME NO CAMPO SEGUINTE 
+    TEM QUE ESTAR:utf8mb4_general_ci
+ 6) CLIQUE NO BOTÃO Criar
+ 7) NOTE QUE O BANCO DE DADOS É APRESENTADO À ESQUERDA NA LISTA DE BANCOS DISPONÍVEIS.
+ 8) DEIXE ESSA TELA DO BANCO DE DADOS ABERTA
+ 
+  
+ BAIXAR E INSTALAR A LOJA NO SERVIDOR LOCAL
+ ==========================================
+ 
+ BAIXANDO A LOJA NO SERVIDOR LOCAL
+ ---------------------------------
+ 
+ 1) CLICAR NO BOTÃO Shell DO  Control Panel do XAMPP
+ 2) A TELA DO shell SE ABRIRÁ NA PASRA c:\xampp. MUDE PARA A PASTA htdocs DIGITANDO: cd htdocs
+ 3) JA DENTRO DA PASTA c:\xampp\htdocs, CRIE O PROJETO DA LOJA COM O SEGUINTE COMANDO:
+     
+     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition <install-directory-name>
+     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.4 magento2
+     
+     
+     
+     ONDE: <install-directory-name> É O NOME DA PASTA ONDE A LOJA SERÁ CRIADA. Ex:
+     
+     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition magento2
+ 4)  AO TECLAR ENTER APÓS O COMANDO, A INSTALAÇÃO PEDIRÁ:
+     UserName: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Public Key
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Username. Tecle Enter.
+     Password: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Private Key
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Password mas não aparecerá.
+                 Tecle Enter.
+ 5)  APARECERÁ A PERGUNTA: Do you want to store credentials for repo.magento.com in c:/Users/Arup Roy/AppData/Roaming/Composer/auth.json ? [Yn]
+ 6)  TECLE Y e TECLE Enter
+ 7)  COMECARÁ O DOWNLOAD DA LOJA. ESSE PROCESSO LEVARÁ ALGUM TEMPO. DEIXE FINALIZAR.
+     ATENÇÃO: ESSA ETAPA SÓ DARÁ CERTO SE OS PROCEDIMENTOS ANTERIORES FOREM FEITOS CORRETAMENTE E CONCLUIDOS COM SUCESSO
+     
+ INSTALANDO A LOJA NO SERVIDOR LOCAL
+ -----------------------------------
+ 
+ 1) APÓS O DOWNLOAD DA LOJA, ABRA UMA NOVA TELA DE NAVEGADOR E DIGITE: http://local.nomedaloja.com.br/magento2
+ 2) A TELA DE ENTRADA PARA INSTALAÇÃO DO MAGENTO SERÁ APRESENTADA. CLIQUE NO BOTÃO Agree and Setup Magento
+ 3) A TELA DE INSTALAÇÃO DO MAGENTO SERÁ APRESENTADA. NOTE QUE NO TOPO É APRESENTADA UMA RÉGUA COM 6 ETAPAS DA INSTALAÇÃO
+    A PRIMEIRA ETAPA É A CHECAGEM DO AMBIENTE. CLIQUE NO BOTÃO Start Readiness Check.
+    ATENÇÃO: NESSA ETAPA TODO O AMBIENTE TEM QUE ESTAR OK. DEVE APARECER TICKES VERDES DE OK EM TODA A CHECAGEM
+             SE APARECER ALGUM ERRO (TICKES VERMELHOS), VERIFIQUE NA PREPARAÇÃO DO AMBIENTE NO TÓPICO: "ALTERAR OS ARQUIVOS DE CONFIGURAÇÃO DO XAMPP".
+ 4) ESTANDO O AMBIENTE TODO OK CLIQUE NO BOTÃO NEXT , A SEGUNDA ETAPA Add a Database é Apresentada. 
+    OS CAMPOS SÃO APRESENTADOS:
+       - Database Server Host:          localhost  (deixe como está)
+       - Database Server Username:      root       (deixe como está)
+       - Database Server Password:      vazia      (deixe como está)
+       - Database Name:			magento    (digite magento2 que é o nome do banco de dados vazio criado anteriormente)
+       - Table prefix:                  (optional) (deixe como está)
+ 5) CLIQUE NO BOTÃO NEXT E A TELA Web Configuration É APRESENTADA:
+    OS CAMPOS SÃO APRESENTADOS:
+       - Your Store Address:     http://local.nomedaloja.com.br/magento2 (deixe como está)
+       - Magento Admin Address:	admin_xxxx - onde xxxx é uma extensão aleatória. (apague a extensão e deixe somente admin)
+ 6) CLIQUE NO BOTÃO NEXT E A TELA Customize Your Store É APRESENTADA:
+    OS CAMPOS SÃO APRESENTADOS:
+       - Store Time Zone: Coordinated Universal Time (UTC)  (Selecione Brasilia/São Paulo)
+       - Store Default Currency: US Dollar (USD)            (Selecione Brazil Real (BRL)
+       - Store Default Language: English (United States)    (Selecione Poruguese Brazil)
+ 7) CLIQUE NO BOTÃO NEXT E A TELA Create Admin Account É APRESENTADA
+    OS CAMPOS SÃO APRESENTADOS:
+       - New User Name			(Digite um nome para o administrador)
+       - New Email			(Digite um email válido para o administrador)
+       - New Password			(Digite uma senha para o administrador)
+       - Confirm Password	        (Digite a confirmação da senha para o administrador)
+ 8) CLIQUE NO BOTÃO NEXT E A TELA Install É APRESENTADA E A INSTALAÇÃO COMEÇA.
+    AGUARDE A INSTALAÇÃO TERMINAR. ESSE PROCESSO DEMORA ALGUNS MINUTOS.
+ 9) APÓS A INSTALAÇÃO A TELA Magento Admin Info É APRESENTADA
+ 10) NO CAMPO: Your Store Address ESTÁ O CAMINHO DA LOJA PADRÃO (front-end) COPIE O ENDEREÇO E COLE NO NAVEGADOR
+     ESSE PROCESSO ABRIRÁ A TELA DA LOJA VAZIA. ISSO SIGNIFICA QUE A INSTALAÇÃO EXECUTOU COM SUCESSO.
+ 11) NO CAMPO: Magento Admin Address ESTÁ O CAMINHO DA PÁGINA DE ADMINISTRAÇÃO DA LOJA (back-end) COPIE E COLE NO NAVEGADOR
+     A PÁGINA DA ADMINISTRAÇÃO TEM UM BUG A SER CORRIGIDO, POIS AO ABRIR NO NAVEGADOR ELA FICA ESCURA E NÃO APRESENTA A TELA DE LOGIN E SENHA.
+     NESSE CASO, DEVEMOS CORRIGIR ESSE BUG PARA ACESSAR A TELA DA ADMINISTRAÇÃO.
+     
+ CORIGINDO O BUG PARA ACESSO À TELA DE ADMINISTRAÇÃO
+ ---------------------------------------------------
+  
+ 1) ATRAVÉS DO EXPLORADOR DE ARQUIVOS DO WINDOWS EDITE O SERGUINTE ARQUIVO:
+    C:\xampp\htdocs\magento2\vendor\magento\framework\View\Element\Template\File\Validator.php
+    
+    procure a linha: $realPath = $this->fileDriver->getRealPath($path);
+    
+    e troque por $realPath = str_replace('\\','/',$this->fileDriver->getRealPath($path));
+ 
+ 2) APÓS A EDIÇÃO DO ARQUIVO, GRAVE O MESMO.
+ 
+ ENTRANDO NA TELA DO ADMINISTRADOR
+ ---------------------------------
+ 
+ 1) VOLTE NA TELA Magento Admin Info DA INSTALAÇÃO, COPIE O Magento Admin Address
+ 2) ABRA UMA PÁGINA DE NAVEGAÇÃO ANÔNOMA NO BROWSER. NO CHROME VOCE PODE ABRIR DE DUAS FORMAS:
+    - TECLANDO: CTRL-SHIFT-N
+    - PELO MENU NO CANTO SUPERIOR DIREITO: NOVA JANELA ANÔNIMA.
+ 3) COLE O ENDEREÇO DO ADMINISTRADOR NA TELA ANÔNIMA.
+ 4) A TELA DE ENTRADA NA ÁREA DE ADMINISTRAÇÃO É APRESENTADA.
+    DIGITE OS CAMPOS: Username e Password. EM SEGUIDA CLIQUE NO BOTÃO Sign In.
+ 5) A TELA DE ADMINISTRAÇÃO É APRESENTADA.
+ 
+  
+ EXECUTAR PROCEDIMENTOS DE AJUSTE DE AMBIENTE NA LOJA
+ ====================================================
+ 
+ LIMPAR O CACHE
+ --------------
+ 
+ 1) DENTRO DO PAINEL ADMINISTRATIVO NO MENU ACESSE AS SEGUINTE OPÇÃO:
+    SYSTEM / Cache Management
+ 2) CLIQUE NO BOTÃO Flush Magento Cache
+ 3) AO FINALIZAR A LIMPEZA DO CACHE, SELECIONE TODAS AS LINHAS DA GRADE
+ 4) ESCOLHA A OPÇÃO Enable NO TOPO DA LISTA E NA SEQUENCIA CLIQUE EM Submit
+    ATENÇÃO: NESSE MOMENTO NÃO EXECUTE AS OPÇÕES DE LIMPEZA DE CACHE ABAIXO DA GRADE.
+             SE ALGUMA OPÇÃO DA GRADE O STATUS ESTIVER COMO INVALIDADE, SELECIONE A LINHA, 
+             ESCOLHA Refresh NO TOPO DA GRADE E EM SEGUIDA CLIQUE EM Submit.
+ 
+ REINDEXAR OS ÍNDICES DA LOJA
+ ----------------------------
+ 
+ 1) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+ 2) EXECUTE O SEGUINTE COMANDO: php bin/magento indexer:reindex
+ 
+ #############
+ ## ATENÇÃO ##
+ #############
+  
+ PARA FINALIZAR A INSTALAÇÃO DO MAGENTO PADRÃO, FAÇA UM BACKUP COMPLETO DA PASTA c:\xampp\htdocs\magento2.
+ PARA OUTRO LUGAR. ESSE BACKUP É SUA GARANTIA DA LOJA JÁ INSTALADA E CONFIGURADA ANTES DE COMEÇAR A INSTALAR
+ MÓDULOS ADICIONAIS TAIS COMO: MÓDULO PARA TRADUÇÃO PORTUGUÊS PT-BR, MÓDULO DE CÁLCULO DE FRETE DOS CORREIOS,
+ MÓDULO DE MEIOS DE PAGAMENTO TIPO PAGSEGURO, TEMPLATE DE UMA LOJA TEMÁTICA.
+                               
+ ############################################################   
+ ## ROTEIRO PARA INSTALAR DADOS DE EXEMPLO NA LOJA MAGENTO ##
+ ############################################################
+ 
+ 
+ 1) CRIE UMA NOVA CHAVE DE ACESSO NO MARKETPLACE DA MAGENTO
+    ENTRAR CONTA NA PLATAFORMA DE MARKETPLACE DO MAGENTO NO SITE: https://marketplace.magento.com/
+    OPÇÃO: Sing In no canto superior da tela da plataforma
+     
+       [SE POSUIR UMA CONTA CADASTRADA]
+     
+       ENTRAR NA OPÇÃO Registered Users 
+       Digite: Email, Password
+       Clica:  Login
+       Clicar: Em cima do seu nome no canto superior direito da tela do MarketPlace e escolha My Profile
+       Na aba Marketplace/Products clicar em Access Keys
+       Na aba Magento 2 clique no botão Create A New Access Key
+       Abrirá uma tela pop-up: Digite um nome para essa chave de acesso (EX: Install_Data_Sample) e em seguida clique em OK
+       A chave de acesso será apresentada na tela anterior através dos campos: Name, Access Keys, Status, Actions
+       No campo Access Keys você terá: Public Key e Private Key que serão usados na instalação da loja
+       Note que ao lado das chaves tem um botão Copy que servirá para você copiar as chaves quando solicitadas na instalação
+       por esse motivo, mantenha essa página aberta para que possa fazer a cópia depois. 
+       A Public Key na instalação será o USERNAME e a Private Key será a PASSWORD no momento da instalação.
+       No campo PASSWORD só aceitará se você copiar a Private Key através do botão Copy. No momento da cópia, o valor não
+       aparecerá na tela da instalação.
+       DEIXE ESSA TELA ABERTA NO BROWSE
+  2) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+  3) EXECUTE O SEGUINTE COMANDO: php bin/magento sampledata:deploy
+  4) AO TECLAR ENTER APÓS O COMANDO, A INSTALAÇÃO PEDIRÁ:
+     UserName: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Public Key (Install_Data_Sample)
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Username. Tecle Enter.
+     Password: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Private Key (Install_Data_Sample)
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Password mas não aparecerá.
+                 Tecle Enter.
+ 5)  APARECERÁ A PERGUNTA: Do you want to store credentials for repo.magento.com in c:/Users/Arup Roy/AppData/Roaming/Composer/auth.json ? [Yn]
+ 6)  TECLE Y e TECLE Enter
+ 7)  COMECARÁ O DOWNLOAD DA LOJA. ESSE PROCESSO LEVARÁ UM TEMPO. DEIXE FINALIZAR.
+ 8)  AO FINALIZAR A ETAPA DE DOWNLOAD, EXECUTE O SEGUINTE COMANDO: php bin/magento setup:upgrade
+     ESSE PROCESSO DEMORA UM TEMPO CONSIDERÁVEL, TENHA PACIENCIA E AGUARDE.
+ 9)  AO FINALIZAR A ETAPA DE DOWNLOAD, EXECUTE O SEGUINTE COMANDO: php bin/magento setup:static-content:deploy pt_BR -f
+10)  AO FINALIZAR A ETAPA DE DOWNLOAD, EXECUTE O SEGUINTE COMANDO: php bin/magento indexer:reindex
+11)  VERIFIQUE OS RESULTADOS ACESSANDO A LOJA: http://local.nomedaloja.com.br/magento2 
+     E ADMINISTRAÇÃO: http://local.nomedaloja.com.br/magento2/admin  
+12)  FAÇA UM BACKUP DA PASTA htdocs\magento2 PARA OUTRA POR EXEMPLO C:\loja_com_dados\magento2
+ 
+ 
+################################
+## TRADUZIR A LOJA PARA PT_BR ##
+################################
+
+
+------------------------------
+
+MANEIRA 1 (COMPOSER) DE INSTALAR (MAIS FÁCIL)
+---------------------------------------------
+
+ 1) SE VOCÊ INSTALOU DA MANEIRA 1, PARA TESTAR INSTALAR PELA MANEIRA 2, APAGUE A PASTA:c:xampp/htdocs/magento2/app/i18n
+    ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+    EXECUTE O SEGUINTE COMANDO: php bin/magento cache:flush 
+    TUDO VOLTARÁ PARA O INGLÊS
+ 2) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+ 3) EXECUTE O SEGUINTE COMANDO: composer require magento2translations/language_pt_br:dev-master
+ 4) AO TECLAR ENTER APÓS O COMANDO, A INSTALAÇÃO PEDIRÁ:
+     UserName: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Public Key (Chave usada pela loja)
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Username. Tecle Enter.
+     Password: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Private Key (Chave usada pela loja)
+                 Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Password mas não aparecerá.
+                 Tecle Enter.
+ 5) APARECERÁ A PERGUNTA: Do you want to store credentials for repo.magento.com in c:/Users/Arup Roy/AppData/Roaming/Composer/auth.json ? [Yn]
+ 6) TECLE Y e TECLE Enter
+ 7) APÓS O INICIO DA INSTALAÇÃO O SISTEMA PEDIRÁ O CAMPO: Token (hidden): (TECLE ENTER) E AGUARDE O FIM DO PROCESSO QUE DEMORA UM POUCO.
+ 9) ASSIM QUE FINALIZAR, EXECUTE O SEGUINTE COMANDO: php bin/magento cache:clean
+10) AO FIM DO PROCESSO, EXECUTE O SEGUINTE COMANDO: php bin/magento setup:static-content:deploy pt_BR -f
+11) VERIFIQUE OS RESULTADOS ACESSANDO A LOJA: http://local.nomedaloja.com.br/magento2
+12) VERIFIQUE OS RESULTADOS ACESSANDO A ADMINISTRAÇÃO: http://local.nomedaloja.com.br/magento2/admin 
+    NOTE QUE DESSA MANEIRA TANTO O FRONT-END QUANTO O BACK-END ESTARÃO TRADUZIDOS.
+
+
+MANEIRA 2 (MANUAL) DE INSTALAR
+
+ 1) BAIXAR O PACOTE OFICIAL DE TRADUÇÃO DO GIT HUB NO ENDEREÇO: https://github.com/Magento2Translations/language_pt_br 
+ 2) BAIXE O ARQUIVO (language_pt_br-master.zip) PARA UMA PASTA DO PC E DESCONPACTE ELE NESSA PASTA.
+ 3) CRIE A SEGUINTE ESTRUTURA DE PASTA:  c:xampp/htdocs/magento2/app/i18n/magento2translations/language_pt_br ONDE A LOJA ESTÁ INSTALADA
+ 4) COPIE TODAS OS ARQUIVOS DE TRADUÇÃO DESCOMPACTADOS DENTRO DESSA PASTA.
+ 5) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+ 6) EXECUTE O SEGUINTE COMANDO: php bin/magento cache:flush
+ 7) VERIFIQUE OS RESULTADOS ACESSANDO A LOJA: http://local.nomedaloja.com.br/magento2
+ 8) VERIFIQUE OS RESULTADOS ACESSANDO A ADMINISTRAÇÃO: http://local.nomedaloja.com.br/magento2/admin 
+    NOTE QUE A TELA DE LOGIN JÁ ESTÁ EM PORTUGUÊS, POIS A MESMA AINDA FAZ PARTE DO FRONT-END
+    ENTRE NA ÁREA ADMINISTRATIVA E NOTE QUE LÁ DENTRO AINDA ESTÁ TUDO EM INGLÊS.
+    NESSE CASO MUDAREMOS A LINGUAGEM PARA O USUÁRIO LOGADO SEGUINDO OS PRÓXIMOS PASSOS
+ 9) CLIQUE NO NOME DO USUÁRIO NO CANTO SUPERIOR DIREITO DA TELA DE ADMINISTRAÇÃO E APARECERÁ UM MENU
+10) CLIQUE NA OPÇÃO Account Setting (nomedousuario)
+12) NA TELA ESCOLHA NO CAMPO: Interface Locale: Português (Brasil) / Poruguese (Brazil)
+13) DIGITE A SENHA DO USUÁRIO LOGADO NO CAMPO: Your Password
+14) CLIQUE NO BOTÃO Save Account NO CANTO SUPERIOR DIREITO DA TELA. ASSIM QUE GRAVAR, NOTE QUE TODO O SITE JÁ FOI TRADUZIDO.
+
+    OBSERVAÇÃO: IMAGINE QUE NO INICIO DA INSTALAÇÃO VOCÊ ESQUECEU DE COLOCAR QUE A LOJA ERA EM PORTUGUÊS.
+                NESSE CASO, ACESSE NO MENU A ESQUERDA. Lojas/Configuração/Opções de Localidade
+                NO CAMPO Localidade você coloca: Português (Brasil)
+                
+
+     
+ 
+ #################################################
+ ### INSTALANDO O MÓDULO DE FRETE DOS CORREIOS ###
+ #################################################
+ 
+ 1) ACESSE O SITE: https://bitbucket.org/imagination-media/correios/wiki/Home
+ 2) CLIQUE EM Download NO MENU À ESQUERDA DA TELA DO bitbucket
+ 3) CLIQUE NO Download Repository À DIREITA DO MENU.
+ 4) ATRAVÉS DO EXPLORADOR DE ARQUIVOS DO WINDOWS, CRIE A SEGUINTE ESTRUTURA DE PASTAS: 
+     C:\xampp\htdocs\magento2\app\code\ImaginationMedia\Correios
+ 5) APÓS O DOWNLOAD, COPIE O ARQUIVO: imagination-media-correios-8c31a96d4ef6.zip 
+    PARA UMA PASTA ACESSÍVEL E EXTRAIA O CONTEÚDO DO ARQUIVO.
+ 6) COPIE TODO O CONTEÚDO EXTRAIDO DO ARQUIVO PARA A PASTA:
+    C:\xampp\htdocs\magento2\app\code\ImaginationMedia\Correios
+ 7) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+ 8) EXECUTE O SEGUINTE COMANDO: php bin/magento setup:upgrade 
+    PARA QUE O MÓDULO SEJA RECONHECIDO PELA LOJA. ESSE PROCESSO DEMORA UM POUCO. AGUARDE.
+ 9) AO FIM DO PROCESSO, EXECUTE O SEGUINTE COMANDO: php bin/magento setup:static-content:deploy pt_BR -f
+ 
+ #################################
+ ### CONFIGURAR DADOS DE ENVIO ###
+ #################################
+ 
+ CONFIGURANDO OS SERVIÇOS DO CORREIO
+ ===================================
+
+ 1) ENTRAR NA ADMINISTRAÇÃO DA LOJA
+ 2) CLIQUE NA OPÇÃO IMAGINATION MÉDIA NO MENU À ESQUERDA
+ 3) ESCOLHA A OPÇÃO Código das Formas de Entrega
+ 4) INCLUA OS Códigos(*) das formas de Entrega CLICANDO NO BOTÃO Adicionar
+    INCLUA:   04014 - Sedex sem contrato
+              04510 - PAC sem contrato
+              00000 - Grátis (um código para controlar um bug do módulo do correio)
+ 
+    (*) Os códigos foram obtidos no documento dos correios nesse link:
+         https://www.correios.com.br/enviar-e-receber/ferramentas/calculador-remoto-de-precos-e-prazos/pdf/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos
+ 
+ 5) APÓS ADICIONAR TODOS OS CÓDIGOS, CLIQUE NO BOTÃO Gravar Configuração NO CANTO SUPERIOR DIREITO DA TELA.
+ 
+ CONFIGURANDO MÉTODOS DE ENVIO
+ =============================
+ 
+ 1) CLIQUE NA OPÇÃO Lojas NO MENU À ESQUERDA
+ 2) CLIQUE NA OPÇÃO Configuração / Vendas E EM SEGUIDA NA OPÇÃO Métodos de Envio
+ 3) NA TELA À DIREITA CLIQUE NA ABA Correios ATÉ ELA ABRIR POR COMPLETO
+ 4) NESSA ABA, PREENCHA OS SEGUINTES CAMPOS:
+    - Habilitado: 							  Sim
+    - Título do método de entrega: 				 	  CORREIOS
+    - Serviços Disponíveis: (COM A TECLA CTRL+CLICK MOUSE, ESCOLHA): 	  Sedex sem contrato(04014) e PAC sem contrato (04510)
+    - Método Gratuito:							  Grátis (00000) (um código para controlar um bug do módulo do correio)
+    - Tipo de Peso no cálculo:						  Kilos
+    - Validar Dimensões							  Não
+    - Altura Padrão							  15
+    - Largura Padrão							  16
+    - Profundidade						          11
+    - Exibir Prazo de Entrega:						  Sim
+    - Incrementar dias ao prazo:					  1
+    - Mensagem do prazo de entrega					  O serviço %s prevê a entrega em %d dias úteis
+    - Url do webservice dos Correios					  http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?StrRetorno=xml
+    - Peso Máximo							  30
+    - Habilitar logs?							  Sim (o log está em: C:\xampp\htdocs\magento2\var\log\imaginationmedia_correios.log)
+    - Intervalo de dias para atualização(Faixas de CEP offline)		  5
+    - Modo de Funcionamento						  Híbrido
+ 5) APÓS PREENCHER TODOS OS CÓDIGOS, CLIQUE NO BOTÃO Gravar Configuração 
+    NO CANTO SUPERIOR DIREITO DA TELA.
+ 	
+ CONFIGURANDO DADOS DE LOCALIZAÇÃO DA LOJA
+ =========================================
+   
+  1) CLIQUE NA OPÇÃO Lojas NO MENU À ESQUERDA
+  2) CLIQUE NA OPÇÃO Configuração / Geral
+  3) NA TELA À DIREITA CLIQUE NA ABA Opções de Países ATÉ ELA ABRIR POR COMPLETO
+  4) DESMARQUE O CAMPO País Padrão E ESCOLHA: Brasil
+  5) DESMARQUE O CAMPO Permitir Países E ESCOLHA: Brasil
+  6) DESMARQUE O CAMPO CEP/Código Postal é opcional para, 
+     CLIQUE NO PRIMEIRO PAIS E TECLE CTRL+A PARA MARCAR TODOS PAISES, EM SEGUIDA, PROCURE NA LISTA Brasil 
+     E CLIQUE (COM OP CTRL PRESSIONADO) SOBRE ELE PARA QUE SOMENTE ELE SEJA OBRIGATÓRIO A DIGITAÇÃO DO CEP.
+  7) O CAMPO Principais destinos ESCOLHA: Brasil  
+  8) CLIQUE NO BOTÃO Gravar Configuração  
+  9) FECHE ABA Opções de Países
+ 10) ABRA A ABA Opções de Estado
+ 11) NO CAMPO Estado é necessário para ESCOLHA: Brasil
+ 12) CLIQUE NO BOTÃO Gravar Configuração  
+ 13) FECHE ABA Opções de Estado
+ 14) ABRA A ABA Opções de Localidade
+ 15) DESMARQUE O CAMPO Unidade de Peso E ESCOLHA: kgs
+ 16) CLIQUE NO BOTÃO Gravar Configuração  
+ 17) FECHE ABA Opções de Localidade
+ 18) ABRA A ABA Informação da Loja
+     PRENCHA OS CAMPOS:	Nome da loja
+     			Número de telefone da loja
+     			Horários de funcionamento
+     			País: ESCOLHA: Brasil
+     			Região/estado: ESCOLHA: São Paulo
+     			CEP/Código Postal
+     			Cidade
+     			CPF/CNPJ
+ 19) CLIQUE NO BOTÃO Gravar Configuração  
+ 20) FECHE ABA Informação da Loja   
+
+CONFIGURANDO A TAXA DE ENVIO
+============================
+
+1) CLIQUE NA OPÇÃO Lojas NO MENU À ESQUERDA
+2) CLIQUE NA OPÇÃO Configuração / Vendas E EM SEGUIDA NA OPÇÃO Métodos de Envio
+3) À DIREITA ABRA A ABA Default Tax Destination Calculation 
+4) DESMARQUE O CAMPO País Padrão E SELECIONE: Brasil
+5) CLIQUE NO BOTÃO Gravar Configuração  
+6) FECHE ABA Default Tax Destination Calculation 
+
+CONFIGURANDO DETALHE DE ENVIO
+=============================
+
+1) CLIQUE NA OPÇÃO Lojas NO MENU À ESQUERDA
+2) CLIQUE NA OPÇÃO Configuração / Vendas E EM SEGUIDA NA OPÇÃO Detalhes do Envio
+3) À DIREITA ABRA A ABA Origem
+   PRENCHA OS CAMPOS:   DEMARQUE O CAMPO País: ESCOLHA: Brasil
+     			Região/estado: ESCOLHA: São Paulo
+     			CEP/Código Postal: DIGITE O CEP DA LOJA	
+     			Cidade: DIGITE São Paulo
+4) CLIQUE NO BOTÃO Gravar Configuração  
+5) FECHE ABA Origem
+
+OBSERVAÇÃO: QUANDO A LOJA UTILIZA O MÓDULO DE CÁLCULO DE FRETE, ELE UTILIZA UMA CHAMADA API 
+            DIRETO DO WEBSERVICE DOS CORREIOS. QUANDO ESSE SERVIÇO ESTÁ FORA, O CÁLCULO NÃO
+            É EFETUADO E CONSEQUENTEMENTE A COMPRA NÃO É FINALIZADA. 
+            PARA RESOLVER ESSE PROBLEMA, O MÓDULO POSSUI UMA TABELA NO BANCO DE DADOS PARA 
+            GUARDAR AS TARIFAS E DESSA FORMA O MÓDULO UTILIZARÁ ESSA INFORMAÇÃO "OFF-LINE"
+            QUANDO O WEBSERVICE DOS CORREIOS ESTIVER FORA DO AR. (SE CONFIGUROU O 
+            "Modo de Funcionamento" COMO Hibrido. (veja em "CONFIGURANDO MÉTODOS DE ENVIO")
+            ENCONTREI UM BUG: ESSA TABELA DEVERIA SER CARREGADA ATRAVÉS DO 
+            MÓDULO NA ÁREA ADMINISTRATIVA DA LOJA E A ROTINA NÃO ESTÁ FUNCIONANDO.
+            ENTÃO TEREMOS QUE DAR UMA CARGA MANUAL DIRETO NO BANCO DE DADOS E PARA ISSO,
+            TEREMOS QUE BAIXAR AS FAIXAS DE CEP/TARIFAS ATRAVÉS DE UM SITE QUE ENCONTREI
+            NA INTERNET: https://planilha.xpagencia.com.br/. 
+            ESSE SITE, BAIXA A INFORMAÇÃO PARA VÁRIAS EMPRESAS E A QUE MAIS SE APROXIMOU 
+            COM O LAYOUT DO MÓDULO DA LOJA FOI AS FAIXAS DO "CARREFOUR". 
+            A IDEIA É BAIXAR A INFORMAÇÃO, TRATAR DE MANEIRA A SE ADEQUAR AO NOSSO LAYOUT
+            E IMPORTAR PARA O BANCO DE DADOS DE TEMPOS EM TEMPOS.
+            PARA BAIXAR A INFORMAÇÃO DEVE-SE SEGUIR OS SEGUINTES PASSOS:
+            
+            Formato: Carrefour
+            Transportadora: Correios - PAC - Código de Serviço 04510
+                            Correios - SEDEX - Código de Serviço 04014 
+                            
+                            * SÓ DÁ PARA ESCOLHER UM DE CADA VEZ, MAS, DÁ PARA FAZER EM 
+                              JANELAS DIFERENTES SIMULTANEAMENTE.
+                            
+                            Cep de origem: Digite o CEP do endereço da loja
+                            
+                            Margem de segurança: de 5% a 25%
+                            * Essa margem adiciona o percentual a mais na tarifa dos correios
+                              para garantir uma variação de preços no período em que a tabela
+                              ficar estática dentro da loja.
+                              
+                            CLIQUE EM: Gerar Planilha.
+                            
+            OBSERVAÇÃO: ESSE PROCESSO É FEITO EM UMA SEGUNDA TELA EDEMORA ATÉ 2 HORAS E 
+                        MEIA, VAI DEPENDER DO LINK DE INTERNET. ASSIM QUE FINALIZAR. 
+                        CLIQUE EM Gerar Planilha NOVAMENTE E UMA PLANILHA EXCEL SERÁ 
+                        GERADA NA PASTA DE DOWNLOAD DO SEU PC.
+                            
+            NÃO É NECESSÁRIO FAZER ISSO AGORA.
+
+################################################################
+### INSTALANDO E CONFIGURANDO MEIOS DE PAGAMENTO - PAGSEGURO ###
+################################################################
+
+CRIAR UMA CONTA NO PAGSEGURO
+============================
+
+A CONTA DO PAGSEGURO É GRÁTIS, NÃO POSSUI TARIFA, É CRIADA UMA CONTA CORRENTE E AINDA PODE 
+TER UM CARTÃO DE DÉBITO CRÉDITO SEM ANUIDADE PARA MOVIMENTAR O DINHEIRO DESSA CONTA.
+ESSA CONTA SERÁ A QUE VAI SER USADA NOS MEIOS DE PAGAMENTO DENTRO DA LOJA SE OPTAR EM INSTALAR
+O MÓDULO DE PAGSEGURO COMO MEIO DE PAGAMENTO.
+NO MEU CASO, COMO JÁ TENHO A CONTA, ENTÃO CADASTREI O MÓDULO E ABAIXO ESTÃO AS INSTRUÇÕES 
+PARA INSTALAR O MÓDULO.
+A CONTA DO PAGSEGURO, EXIGIRÁ O ENVIO DE FOTOS DE ALGUNS DOCUMENTOS PARA LIBERAÇÃO DA CONTA
+QUE DEVE OCORRER UM OU DOIS DIAS APÓS A SOLICITAÇÃO.
+
+EM PRIMEIRO MOMENTO, A INSTALAÇÃO DO MÓDULO, NÃO ESTÁ ATRELADO A ABERTURA DA CONTA OU SEJA,
+NÃO É NECESSÁRIO CRIAR A CONTA, A ÚNICA COISA QUE VAI ACONTECER É QUE 
+NÃO DARÁ PARA TESTAR OS PAGAMENTO DO PAGSEGURO ATRAVÉS DA LOJA.
+
+SE QUISER CRIAR A CONTA, SIGA AS SEGUINTES INSTRUÇÕES:
+
+1) ENTRAR NO SITE DO PAGSEGURO: https://pagseguro.uol.com.br/
+2) CLICAR EM: Acessar minha conta / Criar Conta
+3) ESCOLHA Conta Pessoal (COMO PESSOA FÍSICA) E DIGITE O NÚMERO DO CELULAR.
+   * SE FOR UMA CONTA PARA EMPRESA (DE UM CLIENTE COM CNPJ POR EXEMPLO) ESCOLHA A OPÇÃO: Para meu negócio.
+     NESSE CASO O IDEAL É O PRÓPRIO CLIENTE ABRIR A CONTA PARA ELE.
+4) CLIQUE EM Continuar E SIGA AS INSTRUÇÕES PARA A CRIAÇÃO DA CONTA. (NÃO VOU CRIAR PORQUE JÁ TENHO UMA)
+
+INSTALANDO O MÓDULO PAGSEGURO
+=============================
+
+ 1) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
+ 2) EXECUTE O SEGUINTE COMANDO: composer require pagseguro/magento2 --ignore-platform-reqs
+    DOCUMETAÇÃO E ARQUIVOS EM: https://github.com/pagseguro/magento2
+    ESSE PROCESSO DEMORA UM POUCO.
+ 3) AO FINALIZAR EXECUTE O SEGUINTE COMANDO: php bin/magento setup:upgrade 
+    ESSE PROCESSO DEMORA UM POUCO.
+ 4) AO FINALIZAR EXECUTE O SEGUINTE COMANDO: php bin/magento setup:static-content:deploy pt_BR -f
+ 5) AO FINALIZAR EXECUTE O SEGUINTE COMANDO: php bin/magento indexer:reindex  
+
+CORRIGINDO UM BUG
+-----------------
+
+NO TESTE DE USO DO COMPONENTE O SISTEMA NÃO RECONHECE O MÓDULO COMO DEVERIA, ENTÃO, DEVEMOS FAZER UM PEQUENO AJUSTE.
+
+1) COM O EXPLORADOR DE ARQUIVOS, CRIE A SEGUINTE PASTA NO MÓDULO DO PAGSEGURO:
+   C:\xampp\htdocs\magento2\vendor\pagseguro\magento2\view\frontend\web\js\action
+2) COM O EXPLORADOR DE ARQUIVOS, VÁ ATÉ A SEGUINTE PASTA:  
+   C:\xampp\htdocs\magento2\vendor\magento\module-checkout\view\frontend\web\js\action
+   
+   --> EDITE COM UM EDITOR DE TEXTOS O ARQUIVO: select-payment-method.js
+   --> MUDE SEU CONTEÚDO PARA:
+   
+	   /**
+	    * Copyright © Magento, Inc. All rights reserved.
+	    * See COPYING.txt for license details.
+	    */
+
+	   /**
+	    * @api
+	    */
+	   define([
+	       '../model/quote'
+	   ], function (quote) {
+	       'use strict';
+
+	       return function (paymentMethod) {
+
+		   /***** TRECHO COMENTADO *****/
+
+		   /*if (paymentMethod) {
+		       paymentMethod.__disableTmpl = {
+			   title: true
+		       };
+		   }*/
+
+		   /****************************/
+
+		   quote.paymentMethod(paymentMethod);
+	       };
+	});
+	
+     --> GRAVE A ALTERAÇÃO E FECHE O ARQUIVO.	
+   
+3) COPIE OS SEGUINTES ARQUIVOS:
+   - select-payment-method.js
+   - set-payment-information.js
+   - set-payment-information-extended.js
+4) COLE OS ARQUIVOS NA PASTA DO MÓDULO DO PAGSEGURO CRIADA ANTERIORMENTE:
+    C:\xampp\htdocs\magento2\vendor\pagseguro\magento2\view\frontend\web\js\action
+
+OBSERVAÇÃO: SE POR ACASO NECESSITAR RETIRAR O MÓDULO DO PAGSEGURO, UTILIZE O SEGUINTE COMANDO NO Shell DO XAMPP:
+            php bin/magento module:disable UOL_PagSeguro -c
+
+
+CONFIGURAR
+==========
+
+
+========= FALTA O PASSO-A-PASSO PARA O ENDEREÇO DO CLIENTE EM: LOJAS / CONFIGURAÇÃO /CONFIGURAÇÃO DE CLIENTES
+
+
+
+PARA ACESSAR E CONFIGURAR O MÓDULO ACESSE O MENU PAGSEGURO -> CONFIGURAÇÕES. AS OPÇÕES DISPONÍVEIS ESTÃO DESCRITAS ABAIXO.
+
+Configurações Gerais
+====================
+
+ambiente: especifica em que ambiente as transações serão feitas (produção/sandbox).
+e-mail: e-mail cadastrado no PagSeguro.
+
+token: token cadastrado no PagSeguro. (DENTRO DO´SITE DO PAGSEGURO, GERE O TOKEN EM: VENDAS ON-LINE / INTEGRAÇÕES / UTILIZAÇÕES DE API / BOTÃO GERAR TOKEN) GERE O TOKEN, COPIE E COLE NESSE CAMPO.
+
+url de redirecionamento: ao final do fluxo de pagamento no PagSeguro, seu cliente será redirecionado automaticamente para a página de confirmação em sua loja ou então para a URL que você informar neste campo. Para ativar o redirecionamento ao final do pagamento é preciso ativar o serviço de Pagamentos via API. Obs.: Esta URL é informada automaticamente e você só deve alterá-la caso deseje que seus clientes sejam redirecionados para outro local.
+url de notificação: sempre que uma transação mudar de status, o PagSeguro envia uma notificação para sua loja. O valor padrão que deve ser utilizado pelo módulo é: http://www.minhaloja.com.br/index.php/pagseguro/notification/response
+Observação: Esta URL só deve ser alterada caso você deseje receber as notificações em outro local.
+charset: codificação do seu sistema (ISO-8859-1 ou UTF-8).
+ativar log: ativa/desativa a geração de logs.
+diretório: informe o local e nome do arquivo a partir da raíz de instalação do Magento onde se deseja criar o arquivo de log. Ex.: var/log/pagseguro.log.
+Por padrão o módulo virá configurado para salvar o arquivo de log em var/log/pagseguro.log.
+listar transações abandonadas?: ativa/desativa a pesquisa de transações que foram abandonadas no checkout do PagSeguro.
+transações -> abandonadas: permite consultar as transações que foram abandonadas nos últimos 10 dias, desta forma você pode enviar emails de recuperação de venda. O e-mail conterá um link que redirecionará o comprador para o fluxo de pagamento, exatamente no ponto onde ele parou.
+habilitar recuperação de carrinho: Habilita a recuperação de carrinho do PagSeguro. (por padrão está desabilitada)
+listar parcelamento: Habilita a exibição de uma listagem de parcelas na tela de visualização do produto. (Irá exibir o maior parcelamento disponível para o produto na tela de exibição do mesmo)
+Configurar Tipos de Checkout Nesta seção você irá configurar os meios de pagamento do PagSeguro que deseja disponibilizar na sua loja.
+
+Meios de pagamento
+==================
+
+PagSeguro (Padrão ou Lightbox) (NÃO HABILITE ESSE MEIO DE PAGAMENTO)
+------------------------------
+
+ativar: ativa/desativa o meio de pagamento PagSeguro (padrão ou lightbox).
+checkout: especifica o modelo de checkout que será utilizado. É possível escolher entre checkout padrão ou checkout lightbox.
+nome de exibição: define o nome que será utilizado para o meio de pagamento na tela de checkout.
+posição na tela de checkout (Sort Order): Configura a ordem de exibição deste meio de pagamento na sua loja. Esta ordem é relativa à todos os outros meios de pagamento configurados na sua loja.
+oferecer desconto para ...: ativa/desativa desconto para checkouts por meio de pagamento (cartão de crédito, boleto, débito online, depósito em conta e saldo pagseguro)
+percentual de desconto: define o percentual de desconto a ser concedido para o meio de pagamento escolhido (Aceita valores de 0.01 à 99.99)
+Checkout Transparente - Cartão de Crédito
+
+Checkout Transparente - Cartão de Crédito (HABILITE EM UM SEGUNDO MOMENTO / NÃO FUNCIONA SE NÃO TIVER O CERTIFICADO DIGITAL)
+-----------------------------------------
+
+ativar: ativa/desativa o meio de pagamento Checkout Transparente - Cartão de Crédito.
+nome de exibição: define o nome que será utilizado para esse meio de pagamento na tela de checkout.
+posição na tela de checkout (Sort Order): Configura a ordem de exibição deste meio de pagamento na sua loja. Esta ordem é relativa à todos os outros meios de pagamento configurados na sua loja.
+Checkout Transparente - Boleto Bancário
+
+Checkout Transparente - Boleto Bancário (HABILITE - FUNCIONA CORRETAMENTE)
+---------------------------------------
+
+ativar: ativa/desativa o meio de pagamento Checkout Transparente - Boleto Bancário.
+nome de exibição: define o nome que será utilizado para esse meio de pagamento na tela de checkout.
+posição na tela de checkout (Sort Order): Configura a ordem de exibição deste meio de pagamento na sua loja. Esta ordem é relativa à todos os outros meios de pagamento configurados na sua loja.
+Checkout Transparente - Débito Online
+
+Checkout Transparente - Débito Online (HABILITE - FUNCIONA CORRETAMENTE)
+-------------------------------------
+
+ativar: ativa/desativa o meio de pagamento Checkout Transparente - Débito Online.
+nome de exibição: define o nome que será utilizado para esse meio de pagamento na tela de checkout.
+posição na tela de checkout (Sort Order): Configura a ordem de exibição deste meio de pagamento na sua loja. Esta ordem é relativa à todos os outros meios de pagamento configurados na sua loja.
+
+#####################################
+### APLICAR UM NOVO TEMA/TEMPLATE ###
+#####################################
+
+CADA TEMPLATE QUE SE INSTALA NA LOJA TEM ALGUMAS PARTICULARIDADES E GERALMENTE  EXISTE UMA DOCUMENTAÇÃO 
+DE COMO INSTALAR O TEMA.
+EU ENCONTREI UM SITE: https://bssthemes.com/blog/top-10-magento-2-theme-free-download-with-documentation/
+COM 10 TEMPLATES GRÁTIS. 
+TODA VEZ QUE ESCOLHER UM TEMPLATE, DEVE-SE ESTAR ATENTO À VERSÃO DO MAGENTO QUE ELA SE ADEQUA MAIS.
+NA LOJA QUE EU CONFIGUREI EU ESCOLHI O TEMPLATE 9. FreeGo
+QUE VC ACESSA NESSE ENDEREÇO:  https://www.solwininfotech.com/product/magento-2-themes/freego-responsive-theme-magento-2/
+TEM TRÊS BOTÕES: LIVE DEMO (PARA VER A LOJA FUNCIONANDO) 
+                 DOCUMENTATION (DOCUMENTO DE COMO INSTALAR O TEMA)
+                 FREE DOWNLOAD (BAIXAR O TEMA)
+MINHA SUGESTÃO É BAIXAR TODOS OS TEMAS DESSE SITE, ELES PODEM TIRAR DO AR E PERDEMOS A OPORTUNIDADE DE TER ESSES TEMAS DE GRAÇA.
+TENTE INSTALAR ESSE TEMA NA LOJA.                     
+
+####################################################
+### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
+####################################################
+
+
+php bin/magento setup:upgrade                           -- USADO TODA VEZ QUE INSTALA ALGO NOVO NO MAGENTO
+php bin/magento deploy:mode:set developer		-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE DESENVOLVEDOR (DEFAULT)
+php bin/magento deploy:mode:set production              -- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE PRODUÇÃO
+php bin/magento deploy:mode:show			-- USADO PARA VERIFICAR EM QUE MODO O MAGENTO ESTÁ: DESENVOLVEDOR OU PRODUÇÃO
+php bin/magento setup:di:compile			-- USADO PARA COMPILAR A LOJA
+php bin/magento setup:static-content:deploy pt_BR -f	-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
+php bin/magento cache:flush				-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
+php bin/magento cache:clean				-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
+php bin/magento indexer:reindex				-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
+php bin/magento module:status                           -- verifica o status dos módulos instalados
+php bin/magento module:enable <nome do módulo>		-- Habilita o módulo novo
+php bin/magento module:disable <nome do módulo>		-- Desabilita o módulo
+C:/Users/lindo/AppData/Roaming/Composer/auth.json       -- lugar onde é guardado as credenciais no caso de clicar em Y
+
+
+CORRIGINDO BUGS
+
+CORRIGINDO A FORMATAÇÃO DO CEP
+------------------------------
+
+1) ACESSE O ARQUIVO: C:\xampp\htdocs\magento2\vendor\magento\module-directory\etc\zip_codes.xml
+
+MUDE ISSO:
+----------
+
+<zip countryCode="BR">
+        <codes>
+            <code id="pattern_1" active="true" example="12345">^[0-9]{5}$</code>
+            <code id="pattern_2" active="true" example="12345-678">^[0-9]{5}\-[0-9]{3}$</code>
+        </codes>
+</zip>
+
+PARA ISSO:
+----------
+<zip countryCode="BR">
+        <codes>
+            <code id="pattern_1" active="true" example="12345678">^[0-9]{8}$</code>
+            <code id="pattern_2" active="true" example="12345-678">^[0-9]{5}\-[0-9]{3}$</code>
+        </codes>
+</zip>
+
+
+CORRIGINDO TELA CRIAR NOVA CONTA DE CLIENTE
+-------------------------------------------
+
+NA TELA Criar Nova Conta de Cliente
+
+EXISTE UM CAMPO CHAMADO: Tax/VAT Number QUE NADA MAIS É ONDE SERÁ SOLICITADO O CPF
+
+TEMOS QUE MUDAR O RÓTULO DA TELA, PARA ISSO, TEMOS QUE ALTERAR NO BANCO DE DADOS DA SEGUINTE MANEIRA:
+
+1) ACESSE A BASE DE DADOS MYSQL E CLIQUE NO SCHEMA DA LOJA
+2) APÓS APARECEREM AS TABELAS, CLIQUE NA ABA SQL
+3) ESCREVA O COMANDO SQL ABAIXO NO EDITOR SQL
+   SELECT * FROM `eav_attribute` WHERE frontend_label = "Tax/VAT Number"
+4) CLIQUE NO BOTÃO Executar
+5) ASSIM QUE O REGISTRO APARECER, CLIQUE EM Editar
+6) MUDE O CONTEÚDO DO CAMPO frontend_label DE: Tax/VAT Number PARA: C.P.F.
+7) CLIQUE NO BOTÃO Executar
+8) VÁ ATÉ O PAINEL XAMPP E ENTRE NA PASTA: htdocs\magento2 ATRAVÉS DO Shell
+9) php bin/magento cache:flush
+10) VOLTE ATÉ A TELA Criar Nova Conta de Cliente E TECLE CTRL+F5
+    O CAMPO C.P.F. DEVE APARECER.
+
+
+CORRIGINDO BUG DE CSS NOS E-MAILS
+---------------------------------
+1) ATUALIZE O PACOTE pelago/emogrifier (https://packagist.org/packages/pelago/emogrifier?#v2.2.0) PARA A VERSÃO 2.2.0
+   OBSERVAÇÃO: A BASE DO MAGENTO 2.3.4 SÓ ACEITA A ATÉ A VERSÃO 2.2.0 DO pelago/emogrifier
+2) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
+   - composer require pelago/emogrifier:2.2.0 --ignore-platform-reqs
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile 
+     OBSERVAÇÃO: SE COMPILOU OK, COM O EXPLORADOR DE ARQUIVOS DO WINDOWS, 
+                 APAGUE TODOS ARQUIVOS DA PASTA: C:\xampp\htdocs\magento2\generated\code
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy pt_BR -f
+3) COPIAR OS ARQUIVOS ABAIXO DA PASTA: C:\xampp\htdocs\magento2\vendor\magento\theme-frontend-blank\web\css
+   - email.less
+   - email-inline.less
+4) COLAR ELES NA PASTA (DO TEMA ESCOLHIDO, NESSE CASO freego): C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\web\css
+5) EDITAR OS DOIS ARQUIVOS E RETIRAR A LINHA: '@import 'source/_theme.less'. EM SEGUIDA GRAVE E FECHE OS ARQUIVOS.
+6) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento setup:static-content:deploy -f
+
+
+
+    
+    
+CRIAR UM MÓDULO BASICO NO MAGENTO 2
+-----------------------------------
+
+https://www.magenteiro.com/blog/magento-2/como-criar-um-modulo-para-magento-2/
+
+
+Ajustar campos Endereços
+
+
+https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
+
+
+
+
+---------------------
+slider
+---------------------
+<div class="hb-main pad-main-bottom">
+<div class="hb-left">
+<ul class="hb-slider">
+<li><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-925-456.png"}}" alt="img-925-456"> </a></li>
+<li><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-925-456.png"}}" alt="img-925-456"> </a></li>
+</ul>
+</div>
+<div class="hb-right">
+<div class="hb-top"><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-295-218.png"}}" alt="img-295-218"> </a></div>
+<div class="hb-bottom"><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-295-218.png"}}" alt="img-295-218"> </a></div>
+</div>
+</div>

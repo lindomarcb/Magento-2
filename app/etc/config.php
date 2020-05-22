@@ -241,6 +241,7 @@ return [
         'Klarna_Kp' => 1,
         'Magento_PaypalReCaptcha' => 1,
         'MSP_TwoFactorAuth' => 1,
+        'Magenteiro_StreetLines' => 1,
         'Solwin_Breadcrumbs' => 1,
         'Solwin_Core' => 1,
         'Solwin_Cpanel' => 1,
@@ -250,7 +251,6 @@ return [
         'UOL_PagSeguro' => 1,
         'Vertex_Tax' => 1,
         'Vertex_AddressValidation' => 1,
-        'WeSupply_Toolbox' => 0,
         'WeltPixel_Backend' => 1,
         'WeltPixel_OwlCarouselSlider' => 1,
         'Yotpo_Yotpo' => 1
