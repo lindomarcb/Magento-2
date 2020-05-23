@@ -780,21 +780,29 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
    - php bin/magento setup:di:compile
    - php bin/magento setup:static-content:deploy -f
 
-
-
     
-    
-CRIAR UM MÓDULO BASICO NO MAGENTO 2
------------------------------------
-
-https://www.magenteiro.com/blog/magento-2/como-criar-um-modulo-para-magento-2/
-
 
 Ajustar campos Endereços
 
 
 https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
 
+
+Incluir Ordenação de Preço na loja
+
+1) baixar o módulo no Git https://github.com/MestreMagento/magento2-sort-price-low-high/magento2-sort-price-low-high-master.zip
+2) Descompactar o arquivo
+3) Criar a pasta magento2\app\code\MestreMagento\SortPriceLowHigh pelo Shell do Xampp 
+4) Copiar o conteúdo do zip dentro da pasta criada.
+5) Na pasta raiz da loja pelo Xampp dar os seguintes comandos:
+   a) php bin/magento deploy:mode:set developer
+   b) php bin/magento module:enable -c MestreMagento_SortPriceLowHigh
+   c) php bin/magento setup:upgrade
+   d) php bin/magento setup:static-content:deploy pt_BR -f
+6) Ir para a loja dentro de uma categoria e verificar a ordenação à direita.
+   devem ter as seguintes opções: Menores preços e Maiores Preços 
+   Faça o teste da ordenação.
+   
 
 
 

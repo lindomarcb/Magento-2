@@ -1,1 +1,10 @@
-C:/xampp/htdocs/magento2/vendor/magento/module-backend/view/adminhtml/web/js/bootstrap/editor.js
+/**
+ *
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+require([
+    'Magento_Variable/variables',
+    'mage/adminhtml/browser'
+]);
