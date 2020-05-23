@@ -241,6 +241,8 @@ return [
         'Klarna_Ordermanagement' => 1,
         'Klarna_Kp' => 1,
         'Magento_PaypalReCaptcha' => 1,
+        'MSP_SecuritySuiteCommon' => 1,
+        'MSP_Shield' => 1,
         'MSP_TwoFactorAuth' => 1,
         'Magenteiro_StreetLines' => 1,
         'Solwin_Breadcrumbs' => 1,
