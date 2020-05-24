@@ -766,7 +766,8 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
    - php bin/magento cache:flush
     
 
-Ajustar campos Endereços
+AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS
+===================================
 
 
 https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
@@ -897,6 +898,10 @@ ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
      $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
    - ABRA UMA LINHA NOVA ANTES DESSA INSTRUÇÃO E ADICIONE O CONTEÚDO ABAIXO:
      $labelValues[$groupRelations[$code]]['label'] = $groupRelations[$code];
+     
+     REFERENCIAS FORUM SOBRE O PROBLEMA: https://github.com/magento/magento2/issues/4145
+     
+     
 5) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
@@ -904,8 +909,9 @@ ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
    - php bin/magento setup:static-content:deploy -f
    - php bin/magento cache:flush
 
-   REFERENCIAS: 
-
+   REFERENCIAS FORUM DE INSTRUÇÃO: 
+      https://magento.stackexchange.com/questions/204532/magento-2-2-1-how-to-give-discount-on-payment-methods?answertab=votes#tab-top
+   REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/KInkdNJOFYU
 
 
 CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO
@@ -1003,7 +1009,24 @@ php bin/magento module:disable <nome do módulo>			-- Desabilita o módulo
 php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
 C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
 
+####################################
+### ALGUMAS DICAS DE USABILIDADE ###
+####################################
 
+
+COMO APRESENTAR MENSAGENS NO CONSOLE USANDO O PHP
+=================================================
+
+echo 
+"<div display='none'>
+    <script type='text/javascript'>
+        console.log('console log message');
+    </script>
+</div>";
+
+
+MODELO SLIDER FREEGO
+====================
 
 ---------------------
 slider
