@@ -136,7 +136,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     public function getValueSelectOptions()
     {
         if (!$this->hasData('value_select_options')) {
-            switch ($this->getAttribute()) {
+	         switch ($this->getAttribute()) {
                 case 'country_id':
                     $options = $this->_directoryCountry->toOptionArray();
                     break;

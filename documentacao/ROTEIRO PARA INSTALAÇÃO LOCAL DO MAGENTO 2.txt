@@ -761,14 +761,169 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
 6) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
    - php bin/magento setup:static-content:deploy -f
-
+   - php bin/magento cache:flush
     
 
 Ajustar campos Endereços
 
 
 https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
+
+
+ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
+========================================================================
+
+1) CRIE A PASTA: C:\xampp\htdocs\magento2\app\code\AR\SalesRule
+2) CRIE COM O BLOCO DE NOTAS OS SEGUINTES ARQUIVOS:
+   
+   #### registration.php ####
+   
+   ---- código abaixo ----
+   
+	   <?php
+	   /**
+	    * Copyright Â© 2013-2017 Magento, Inc. All rights reserved.
+	    * See COPYING.txt for license details.
+	    */
+	      \Magento\Framework\Component\ComponentRegistrar::register(
+	      \Magento\Framework\Component\ComponentRegistrar::MODULE,
+		  'AR_SalesRule',
+		  __DIR__
+	 );
+ 
+ #### AddressPlugin.php ####
+ 
+ ---- código abaixo ----
+ 
+	 <?php
+
+	 namespace AR\SalesRule;
+
+	 use Magento\SalesRule\Model\Rule\Condition\Address;
+
+	 class AddressPlugin
+	 {
+	     /**
+	      * Your Description.
+	      *
+	      * @param  Address
+	      *
+	      * @return Address
+	      */
+	     public function afterLoadAttributeOptions(Address $subject)
+	     {
+		 $options = $subject->getAttributeOption();
+
+		 if (!array_key_exists('payment_method', $options)) {
+		     $subject->setAttributeOption(array_merge($options, ['payment_method' => __('Payment Method')]));
+		 }
+
+		 return $subject;
+	     }
+	}
+
+3) CRIE A ESTRUTURA DE PASTA:
+   C:\xampp\htdocs\magento2\app\code\AR\SalesRule\Model\Rule\Condition COM O ARQUIVO:
+   
+   #### Address.php ####
+    
+   ---- código abaixo ----
+	<?php
+	/**
+	 * Copyright Â© 2013-2017 Magento, Inc. All rights reserved.
+	 * See COPYING.txt for license details.
+	 */
+	namespace AR\SalesRule\Model\Rule\Condition;
+
+	class Address extends \Magento\SalesRule\Model\Rule\Condition\Address
+	{
+	    /**
+	     * Load attribute options
+	     *
+	     * @return $this
+	     */
+	    public function loadAttributeOptions()
+	    {
+		$attributes = [
+		    'base_subtotal' => __('Subtotal'),
+		    'total_qty' => __('Total Items Quantity'),
+		    'weight' => __('Total Weight'),
+		    'shipping_method' => __('Shipping Method'),
+		    'payment_method' => __('Payment Method'),
+		    'postcode' => __('Shipping Postcode'),
+		    'region' => __('Shipping Region'),
+		    'region_id' => __('Shipping State/Province'),
+		    'country_id' => __('Shipping Country'),
+		];
+
+		$this->setAttributeOption($attributes);
+
+		return $this;
+	    }
+	}	
+3) CRIE A ESTRUTURA DE PASTA: C:\xampp\htdocs\magento2\app\code\AR\SalesRule\etc COM OS ARQUIVOS:
+
+	#### di.xml ####
+
+	---- código abaixo ----
+
+	<?xml version="1.0"?>
+	<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	     <preference for="Magento\SalesRule\Model\Rule\Condition\Address" type="AR\SalesRule\Model\Rule\Condition\Address" />
+	</config>
+
+	#### module.xml ####
+
+	---- código abaixo ----
+
+	<?xml version="1.0"?>
+	<!--
+	/**
+	 * Copyright Â© 2015 Ccc. All rights reserved.
+	 */
+	-->
+	<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+	    <module name="AR_SalesRule" setup_version="1.0.0">
+		<sequence>
+		    <module name="Magento_SalesRule"/>
+		</sequence>
+	   </module>
+	</config>
+
+4) CORRIGIR UM BUG NATIVO NO ARQUIVO: C:\xampp\htdocs\magento2\vendor\magento\module-payment\Helper\data.php
+   - ABRA O ARQUIVO E ENCONTRE A LINHA: 296 COM ESSE CONTEÚDO:
+     $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
+   - ABRA UMA LINHA NOVA ANTES DESSA INSTRUÇÃO E ADICIONE O CONTEÚDO ABAIXO:
+     $labelValues[$groupRelations[$code]]['label'] = $groupRelations[$code];
+5) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento cache:flush
+
+   REFERENCIAS: 
+
+
+
+CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO
+=========================================================
+
+1) BAIXAR O ARQUIVO: magento2-fix-discount-rules-master.zip 
+   DE CORREÇÃO EM: https://github.com/MagestyApps/magento2-fix-discount-rules 
+2) PELO Shell do XAMPP NA PASTA CRIE A SEGUINTE ESTRUTURA DE PASTAS: 
+   C:\xampp\htdocs\magento2\app\code\MagestyApps\FixRules/
+3) COPIE PARA A PASTA TODOS OS ARQUIVOS DO ARQUIVO: magento2-fix-discount-rules-master.zip
+4) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento cache:flush
+
+   REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/-oU2MuMGkrs
 
 
 INCLUIR ORDENAÇÃO DE PREÇO NA LOJA
@@ -798,6 +953,10 @@ INCLUIR ORDENAÇÃO DE PREÇO NA LOJA
    i) Ir para a loja dentro de uma categoria e verificar a ordenação à direita.
       A opção Preço tem que sumir. 
 
+   REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/C8WI2HZwab8
+   
+   
+
 
 INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
 ========================================================================
@@ -819,8 +978,9 @@ INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
    Na pesquisa digite: drop table magento
    O módulo de segurança deve apresentar a seguinte mensagem:
    - 500 Internal Server Error - Security Exception Isso significa que está tudo certo.
-
-
+   
+   REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/IECtVs51W80
+ 
 
 
 ####################################################
@@ -828,19 +988,20 @@ INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
 ####################################################
 
 
-php bin/magento setup:upgrade                           -- USADO TODA VEZ QUE INSTALA ALGO NOVO NO MAGENTO
-php bin/magento deploy:mode:set developer		-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE DESENVOLVEDOR (DEFAULT)
-php bin/magento deploy:mode:set production              -- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE PRODUÇÃO
-php bin/magento deploy:mode:show			-- USADO PARA VERIFICAR EM QUE MODO O MAGENTO ESTÁ: DESENVOLVEDOR OU PRODUÇÃO
-php bin/magento setup:di:compile			-- USADO PARA COMPILAR A LOJA
-php bin/magento setup:static-content:deploy pt_BR -f	-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
-php bin/magento cache:flush				-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
-php bin/magento cache:clean				-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
-php bin/magento indexer:reindex				-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
-php bin/magento module:status                           -- verifica o status dos módulos instalados
-php bin/magento module:enable <nome do módulo>		-- Habilita o módulo novo
-php bin/magento module:disable <nome do módulo>		-- Desabilita o módulo
-C:/Users/lindo/AppData/Roaming/Composer/auth.json       -- lugar onde é guardado as credenciais no caso de clicar em Y
+php bin/magento setup:upgrade                           	-- USADO TODA VEZ QUE INSTALA ALGO NOVO NO MAGENTO
+php bin/magento deploy:mode:set developer			-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE DESENVOLVEDOR (DEFAULT)
+php bin/magento deploy:mode:set production              	-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE PRODUÇÃO
+php bin/magento deploy:mode:show				-- USADO PARA VERIFICAR EM QUE MODO O MAGENTO ESTÁ: DESENVOLVEDOR OU PRODUÇÃO
+php bin/magento setup:di:compile				-- USADO PARA COMPILAR A LOJA
+php bin/magento setup:static-content:deploy pt_BR -f		-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
+php bin/magento cache:flush					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
+php bin/magento cache:clean					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
+php bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
+php bin/magento module:status                           	-- verifica o status dos módulos instalados
+php bin/magento module:enable <nome do módulo>			-- Habilita o módulo novo
+php bin/magento module:disable <nome do módulo>			-- Desabilita o módulo
+php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
+C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
 
 
 
