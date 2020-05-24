@@ -34,11 +34,15 @@ ALTERAR OS ARQUIVOS DE CONFIGURAÇÃO DO XAMPP
 
 1) ALTERAR O ARQUIVO php.ini NO BOTÃO Config DO SERVIDOR Apache no XAMPP.
    Liberar as seguintes linhas do arquivo:
-   ;extension=soap     --> extension=soap
-   ;extension=xsl      --> extension=xsl
-   ;extension=intl     --> extension=intl
-   ;disable_functions= --> disable_functions=
-   ;memory_limit=540Mb --> memory_limit=2G
+   ;extension=soap          	--> extension=soap
+   ;extension=xsl      		--> extension=xsl
+   ;extension=intl     		--> extension=intl
+   ;disable_functions= 		--> disable_functions=
+   ;memory_limit=540Mb 		--> memory_limit=2G
+   ;max_input_vars = 900 	--> max_input_vars = 200000
+   ;max_input_time=60		--> max_input_time=600
+   ;max_execution_time=1200	--> max_execution_time=3600
+   
    
 2) ALTERAR O ARQUIVO httpd.conf NO BOTÃO Config DO SERVIDOR Apache no XAMPP.
    Mudar o bloco <Directory /> para:
@@ -769,8 +773,237 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
 AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS
 ===================================
 
+1) CRIAR A SEGUINTE ESTRUTURA DE PASTA:
+   C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines
+ 
+   - CRIAR COM O BLOCO DE NOTAS OS SEGUINTES ARQUIVOS NA PASTA:
+   
+   #### composer.json ####
+   
+   --- código abaixo ---
 
-https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
+	{
+	    "name": "magenteiro/streetlines",
+	    "description": "",
+	    "require": {
+		"php": "~5.5.0|~5.6.0|~7.0.0",
+
+		"magento/magento-composer-installer": "*"
+	    },
+	    "suggest": {
+
+	    },
+	    "type": "magento2-module",
+	    "version": "1.0.0",
+	    "license": [
+
+	    ],
+	    "autoload": {
+		"files": [
+		    "registration.php"
+		],
+		"psr-4": {
+		    "Magenteiro\\StreetLines\\": ""
+		}
+	    },
+	    "extra": {
+		"map": [
+		    [
+			"*",
+			"Magenteiro/StreetLines"
+		    ]
+		]
+	    }
+	}
+
+ #### registration.php ####
+ 
+ ---- código abaixo ----
+ 
+	 <?php
+
+	 \Magento\Framework\Component\ComponentRegistrar::register(
+	     \Magento\Framework\Component\ComponentRegistrar::MODULE,
+	     'Magenteiro_StreetLines',
+	     __DIR__
+	);
+3) CRIAR A SEGUINTE ESTRUTURA DE PASTA: C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines\etc	
+   - CRIAR COM O BLOCO DE NOTAS O SEGUINTE ARQUIVO NA PASTA:
+   
+    #### module.xml ####
+    
+    ---- código abaixo ----
+
+	<?xml version="1.0"?>
+	<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+	    <module name="Magenteiro_StreetLines" setup_version="1.0.0">
+	    </module>
+	</config>
+4) CRIAR A SEGUINTE ESTRUTURA DE PASTA: C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines\etc\frontend	
+   - CRIAR COM O BLOCO DE NOTAS O SEGUINTE ARQUIVO NA PASTA:
+
+    #### di.xml ####
+    
+    ---- código abaixo ----
+
+	<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+		<plugin name="rewrite-street" type="Magenteiro\StreetLines\Plugin\Checkout\LayoutProcessorPlugin" sortOrder="10"/>
+	    </type>
+	</config>
+
+5) CRIAR A SEGUINTE ESTRUTURA DE PASTA: C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines\i18n	
+   - CRIAR COM O BLOCO DE NOTAS O SEGUINTE ARQUIVO NA PASTA:
+    
+    #### pt_BR.csv ####
+    
+    ---- conteúdo abaixo ----
+	Street,Rua
+	"Street Number","Número"
+	"Address complement","Complemento"
+	Neighborhood,Bairro
+	"Street Address","Endereço"
+5) CRIAR A SEGUINTE ESTRUTURA DE PASTA: C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines\Plugin\Checkout	
+   - CRIAR COM O BLOCO DE NOTAS O SEGUINTE ARQUIVO NA PASTA:
+  
+    #### LayoutProcessorPlugin.php ####
+    
+    ---- código abaixo ----
+	<?php
+
+	namespace Magenteiro\StreetLines\Plugin\Checkout;
+
+	/**
+	 * Class LayoutProcessorPlugin
+	 * Based on Eduardo's solution. See  https://magento.stackexchange.com/a/188678/555.
+	 *
+	 * @author    Ricardo Martins
+	 * @copyright 2019 Magenteiro.com
+	 * @package   Magenteiro\StreetLines\Plugin\Checkout
+	 */
+	class LayoutProcessorPlugin
+	{
+	    /**
+	     * @param \Magento\Checkout\Block\Checkout\LayoutProcessor $subject
+	     * @param array $jsLayout
+	     * @return array
+	     */
+
+	    public function afterProcess(
+		\Magento\Checkout\Block\Checkout\LayoutProcessor $subject,
+		array  $jsLayout
+	    ) {
+		$jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
+		['shippingAddress']['children']['shipping-address-fieldset']['children']['street'] = [
+		    'component' => 'Magento_Ui/js/form/components/group',
+		    'label' => __('Complete Street Address'),
+		    'required' => true,
+		    'dataScope' => 'shippingAddress.street',
+		    'provider' => 'checkoutProvider',
+		    'sortOrder' => 0,
+		    'type' => 'group',
+		    'additionalClasses' => 'street',
+		    'children' => [
+			[
+			    'label' => __('Street'),
+			    'component' => 'Magento_Ui/js/form/element/abstract',
+			    'config' => [
+				'customScope' => 'shippingAddress',
+				'template' => 'ui/form/field',
+				'elementTmpl' => 'ui/form/element/input'
+			    ],
+			    'dataScope' => '0',
+			    'provider' => 'checkoutProvider',
+			    'validation' => ['required-entry' => true, "min_text_len??gth" => 1, "max_text_length" => 255],
+			],
+			[
+			    'label' => __('Street Number'),
+			    'component' => 'Magento_Ui/js/form/element/abstract',
+			    'config' => [
+				'customScope' => 'shippingAddress',
+				'template' => 'ui/form/field',
+				'elementTmpl' => 'ui/form/element/input'
+			    ],
+			    'dataScope' => '1',
+			    'provider' => 'checkoutProvider',
+			    'validation' => ['required-entry' => true, "min_text_len??gth" => 1, "max_text_length" => 255],
+			],
+			[
+			    'label' => __('Address complement'),
+			    'component' => 'Magento_Ui/js/form/element/abstract',
+			    'config' => [
+				'customScope' => 'shippingAddress',
+				'template' => 'ui/form/field',
+				'elementTmpl' => 'ui/form/element/input'
+			    ],
+			    'dataScope' => '2',
+			    'provider' => 'checkoutProvider',
+			    'validation' => ['required-entry' => false, "min_text_len??gth" => 1, "max_text_length" => 255],
+			],
+			[
+			    'label' => __('Neighborhood'),
+			    'component' => 'Magento_Ui/js/form/element/abstract',
+			    'config' => [
+				'customScope' => 'shippingAddress',
+				'template' => 'ui/form/field',
+				'elementTmpl' => 'ui/form/element/input'
+			    ],
+			    'dataScope' => '3',
+			    'provider' => 'checkoutProvider',
+			    'validation' => ['required-entry' => true, "min_text_len??gth" => 1, "max_text_length" => 255],
+			],
+		    ]
+		];
+		return $jsLayout;
+	    }
+	}
+6) IR ATÉ A PASTA: C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\Magento_Customer\web\css\source 
+   - CRIAR COM O BLOCO DE NOTAS O SEGUINTE ARQUIVO NA PASTA:
+
+   #### _extend.less ####
+   
+   ---- código abaixo ----
+   
+	   & when (@media-common = true) {
+		.field.street {
+			.field {
+			  .label {
+				clip: inherit;
+				width: inherit;
+				height: inherit;
+				position: static!important;
+			  }
+			}
+		}
+	   }
+7) COPIAR O ARQUIVO: C:\xampp\htdocs\magento2\vendor\magento\module-customer\view\frontend\templates\address\edit.phtml
+   PARA: C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\Magento_Customer\web\css\source\edit.phtml 
+8) EDITAR COM O BLOCO DE NOTAS O ARQUIVO: edit.phtml NA PASTA DESTINO
+9) TROCAR AS SEGUINTES LINHAS:
+   LINHA 39: DE  : <legend class="legend"><span><?= $block->escapeHtml(__('Address')) ?></span></legend><br>
+             PARA: <legend class="legend"><span><?= $block->escapeHtml(__('Complete Street Address')) ?></span></legend><br>
+   LINHA 57: DE  : <span><?= $block->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?></span>
+             PARA: <label class="label" for="street_<?= /* @noEscape */ $_i + 1 ?>">
+		   <?php 
+		     if ($_i + 1 == 2){
+			echo '<span>' . $block->escapeHtml(__('Street Number')) . '</span>';	
+		     } 							      
+		     if ($_i + 1 == 3){
+			    echo '<span>' . $block->escapeHtml(__('Address complement')) . '</span>'; 
+		     }
+		     if ($_i + 1 == 4){
+				echo '<span>' . $block->escapeHtml(__('Neighborhood')) . '</span>'; 
+		     } 
+		   ?>
+		   </label>
+ 10) EXECUTE NO Shell do XAMPP NA PASTA htdocs\magento2 os seguintes comandos:
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento cache:flush
+
+     REFERENCIA DA SOLUÇÃO: https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
 
 
 ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
@@ -961,8 +1194,6 @@ INCLUIR ORDENAÇÃO DE PREÇO NA LOJA
 
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/C8WI2HZwab8
    
-   
-
 
 INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
 ========================================================================
@@ -988,6 +1219,43 @@ INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/IECtVs51W80
  
 
+MUDANÇAS NO TEMA
+================
+
+MUDANDO A COR GENÉRICA
+----------------------
+
+1) MUDANÇAS DAS CORES DO TEMA DEVEM SER FEITAS EM:
+   - C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\web\css\source\_theme.less
+     - TROCAR A COR NA LINHA 17: @base-color: #CA708F;
+
+MUDANDO O ÍCONE DO CARRINHO
+---------------------------
+
+1) MUDANÇAS DO ÍCONE DO CARRINHO SER FEITA EM:
+   - C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\Magento_Checkout\web\css\source\module\_minicart.less
+     - TROCAR OS CÓDIGOS: '\f290' PARA: '\f07a'
+     
+   REFERENCIA DA FONTE USADA: https://fontawesome.com/icons?d=gallery
+   
+MUDANDO O RODAPÉ DA PÁGINA
+--------------------------
+
+1) MUDANÇAS DO RODAPÉ DEVE SER FEITAS EM:
+   - C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\Magento_Theme\templates\html\footer\footer.phtml
+     - TROCAR AS LINHAS: 94  DE   : <div><b>Address</b></div>
+   			     PARA : <div><b><?php echo __('Address') ?></b></div>
+     	                 101 DE   : <div><b>Phone</b></div>
+   			     PARA : <div><b><?php echo __('Phone') ?></b></div>
+                         108 DE   : <div><b>Email</b></div>
+   			     PARA : <div><b><?php echo __('Email') ?></b></div>
+
+ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
+	   - php bin/magento setup:upgrade
+	   - php bin/magento setup:di:compile
+	   - php bin/magento deploy:mode:set developer
+	   - php bin/magento setup:static-content:deploy -f
+	   - php bin/magento cache:flush
 
 ####################################################
 ### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
@@ -1043,3 +1311,18 @@ slider
 <div class="hb-bottom"><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-295-218.png"}}" alt="img-295-218"> </a></div>
 </div>
 </div>
+
+
+#############################
+### CONCEITOS IMPORTANTES ###
+#############################
+
+1) A BASE DO MAGENTO FICA NA PASTA: C:\xampp\htdocs\magento2\vendor\magento NUNCA DEVE SER ALTERADO 
+2) PARA ALTERAR COMPONENTES DO MAGENTO, DEVE-SE CRIAR MÓDULOS NAS PASTAS:
+   - C:\xampp\htdocs\magento2\app\code
+   - C:\xampp\htdocs\magento2\app\design\adminhtml
+   - C:\xampp\htdocs\magento2\app\design\frontend
+3) TEMAS SÃO INSTALADOS NAS PASTAS CITADAS ACIMA
+4) SEMPRE QUE CRIAR UM MÓDULO COM ALTERAÇÃO DE OBJETOS DO MAGENTO, O SISTEMA PRIMEIRO VERIFICA 
+   SE O OBJETO MAGENTO ESTÁ NO MÓDULO PARA EXECUTÁ-LO, SE NÃO EXISTIR, EXECUTARÁ O OBJETO BASE.
+5) QUANDO FIZER QUALQUER MUDANÇA DE ESTRUTURA E LAYOUT DEVE-SE COMPILAR O SISTEMA PARA GARANTIR QUE ESTÁ TUDO OK.

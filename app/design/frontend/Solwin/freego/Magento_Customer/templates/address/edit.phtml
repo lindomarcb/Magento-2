@@ -54,8 +54,7 @@
                     <?php for ($_i = 1, $_n = $this->helper(\Magento\Customer\Helper\Address::class)->getStreetLines(); $_i < $_n; $_i++) : ?>
                         <div class="field additional">
                             <label class="label" for="street_<?= /* @noEscape */ $_i + 1 ?>">
-							
-                               <?php if ($_i + 1 == 2){
+                              <?php if ($_i + 1 == 2){
 									    echo '<span>' . $block->escapeHtml(__('Street Number')) . '</span>';	
 							         } 							      
 								     if ($_i + 1 == 3){
@@ -65,7 +64,6 @@
 										echo '<span>' . $block->escapeHtml(__('Neighborhood')) . '</span>'; 
 								     } 
 								  ?>
-								  
 	                        </label>
                             <div class="control">
                                 <input type="text" name="street[]"
