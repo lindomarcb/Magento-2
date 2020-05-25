@@ -1304,6 +1304,8 @@ php bin/magento deploy:mode:set production              	-- USADO PARA COLOCAR O
 php bin/magento deploy:mode:show				-- USADO PARA VERIFICAR EM QUE MODO O MAGENTO ESTÁ: DESENVOLVEDOR OU PRODUÇÃO
 php bin/magento setup:di:compile				-- USADO PARA COMPILAR A LOJA
 php bin/magento setup:static-content:deploy pt_BR -f		-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
+php bin/magento setup:static-content:deploy pt_BR -f -t Magento/Nome do tema -- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA 
+										ESCOLHIDA, NESSE EXEMPLO PT_BR PARA UM TEMA ESPECÍFICO.
 php bin/magento cache:flush					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
 php bin/magento cache:clean					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
 php bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
@@ -1362,3 +1364,20 @@ slider
 4) SEMPRE QUE CRIAR UM MÓDULO COM ALTERAÇÃO DE OBJETOS DO MAGENTO, O SISTEMA PRIMEIRO VERIFICA 
    SE O OBJETO MAGENTO ESTÁ NO MÓDULO PARA EXECUTÁ-LO, SE NÃO EXISTIR, EXECUTARÁ O OBJETO BASE.
 5) QUANDO FIZER QUALQUER MUDANÇA DE ESTRUTURA E LAYOUT DEVE-SE COMPILAR O SISTEMA PARA GARANTIR QUE ESTÁ TUDO OK.
+
+
+Instalar
+
+https://youtu.be/w6jjzALue68
+https://youtu.be/z_gLxfBeVZI
+https://youtu.be/YFmO8bnYoZE
+https://youtu.be/ZHxoAE0xppY
+https://youtu.be/tUtKimDOkvE
+https://youtu.be/IHFFugLilaU
+https://youtu.be/9WAP5iJ25LA
+https://youtu.be/4seZx2PFptw (mais tarde)
+https://youtu.be/GIvuNfsGtNo (mais tarde)
+https://youtu.be/-NnQCe-Pyw0 (mais tarde)
+https://youtu.be/w9iZ7JfrGIQ (mais tarde)
+https://youtu.be/NaUGjd2NyU0 (mais tarde)
+https://github.com/mageplaza/magento-2-image-optimizer?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=Image%20Optimizer
