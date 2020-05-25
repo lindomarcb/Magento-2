@@ -398,6 +398,7 @@ return array(
     'Codeception\\' => array($vendorDir . '/codeception/codeception/src/Codeception', $vendorDir . '/codeception/stub/src'),
     'Cache\\' => array($vendorDir . '/cache/cache/src'),
     'Braintree\\' => array($vendorDir . '/braintree/braintree_php/lib/Braintree'),
+    'Bold\\OrderComment\\' => array($vendorDir . '/boldcommerce/magento2-ordercomments'),
     'Base32\\' => array($vendorDir . '/christian-riesen/base32/src'),
     'Assert\\' => array($vendorDir . '/beberlei/assert/lib/Assert'),
     'Amazon\\Payment\\' => array($vendorDir . '/amzn/amazon-pay-module'),

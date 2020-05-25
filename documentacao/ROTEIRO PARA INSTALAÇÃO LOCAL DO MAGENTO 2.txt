@@ -766,7 +766,7 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
    - php bin/magento deploy:mode:set developer
-   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento setup:static-content:deploy pt_BR -f
    - php bin/magento cache:flush
     
 
@@ -1000,7 +1000,7 @@ AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
    - php bin/magento deploy:mode:set developer
-   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento setup:static-content:deploy pt_BR -f
    - php bin/magento cache:flush
 
      REFERENCIA DA SOLUÇÃO: https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
@@ -1159,7 +1159,7 @@ CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
    - php bin/magento deploy:mode:set developer
-   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento setup:static-content:deploy pt_BR -f
    - php bin/magento cache:flush
 
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/-oU2MuMGkrs
@@ -1219,6 +1219,42 @@ INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/IECtVs51W80
  
 
+INSTALAR MÓDULO PARA COMENTÁRIOS DO CLIENTE NA TELA DO PAGAMENTO
+================================================================
+
+1) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2
+2) EXECUTAR OS SEGUINTES COMANDOS:
+   - composer require boldcommerce/magento2-ordercomments --ignore-platform-reqs
+   - php bin/magento module:enable Bold_OrderComment
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento cache:flush
+   
+3) CORRIGIR O ARQUIVO DE TRADUÇÃO
+   - ABRIR NO BLOCO DE NOTAS O ARQUIVO:
+     C:\xampp\htdocs\magento2\vendor\boldcommerce\magento2-ordercomments\i18n\it_IT.csv
+   - SALVAR ESTE ARQUIVO NA MESMA PASTA COMO pt_BR.csv
+   - TROCAR O CONTEÚDO DELE POR:
+   
+     "Do you have any comments regarding the order?","Deseja fazer um comentário? Essa é a hora!"
+     "Enter your comment...","Escreva aqui seu comentário..."
+     "Order Comment","Comentário do Pedido"
+     "The order comment could not be saved","Seu comentário não pode ser salvo"
+     "Cart %1 doesn't contain products","O carrinho %1 não contém produtos"
+   - SALVAR E FECHAR O ARQUIVO.
+4) EXECUTAR OS SEGUINTES COMANDOS:   
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy pt_BR -f
+   - php bin/magento cache:flush
+
+   REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/HTXWfDZ0THM
+   REFERENCIA ARQUIVO DE ISNTALAÇÃO: https://github.com/boldcommerce/magento2-ordercomments
+
+
+
 MUDANÇAS NO TEMA
 ================
 
@@ -1254,7 +1290,7 @@ ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
 	   - php bin/magento setup:upgrade
 	   - php bin/magento setup:di:compile
 	   - php bin/magento deploy:mode:set developer
-	   - php bin/magento setup:static-content:deploy -f
+	   - php bin/magento setup:static-content:deploy pt_BR -f
 	   - php bin/magento cache:flush
 
 ####################################################
@@ -1276,7 +1312,7 @@ php bin/magento module:enable <nome do módulo>			-- Habilita o módulo novo
 php bin/magento module:disable <nome do módulo>			-- Desabilita o módulo
 php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
 C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
-
+ 
 ####################################
 ### ALGUMAS DICAS DE USABILIDADE ###
 ####################################

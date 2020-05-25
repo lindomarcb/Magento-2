@@ -295,6 +295,7 @@ return array(
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     '3109cb1a231dcd04bee1f9f620d46975' => $vendorDir . '/paragonie/sodium_compat/autoload.php',
     'aa75ea0761a2f40c1f3b32ad314f86c4' => $vendorDir . '/phpseclib/mcrypt_compat/lib/mcrypt.php',
+    'c0274a2622dd4dbb2a527563cb28e940' => $vendorDir . '/boldcommerce/magento2-ordercomments/registration.php',
     'eda65932675b68b5aee4503e0762d64d' => $vendorDir . '/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/_bootstrap.php',
     '94dd8aee7c44774105b92eb6195e7ee0' => $vendorDir . '/magento2translations/language_pt_br/registration.php',
     'c23fc53f04f271ef258f8ffdee3dec54' => $vendorDir . '/msp/shield/registration.php',

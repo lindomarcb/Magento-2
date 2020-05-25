@@ -560,6 +560,50 @@
         ]
     },
     {
+        "name": "boldcommerce/magento2-ordercomments",
+        "version": "1.6.4",
+        "version_normalized": "1.6.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/boldcommerce/magento2-ordercomments.git",
+            "reference": "b0a318cf1cd0ed087e5e15b3a81a6c29c28f9b09"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/boldcommerce/magento2-ordercomments/zipball/b0a318cf1cd0ed087e5e15b3a81a6c29c28f9b09",
+            "reference": "b0a318cf1cd0ed087e5e15b3a81a6c29c28f9b09",
+            "shasum": ""
+        },
+        "require": {
+            "php": "~7.0.0|~7.1.0|~7.2.0|~7.3.0"
+        },
+        "time": "2019-10-11T15:18:10+00:00",
+        "type": "magento2-module",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "registration.php"
+            ],
+            "psr-4": {
+                "Bold\\OrderComment\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bold Commerce BV",
+                "email": "info@boldcommerce.nl"
+            }
+        ],
+        "description": "Magento 2 Module to add  a comment field above the place order button in the checkout",
+        "keywords": [
+            "magento2"
+        ]
+    },
+    {
         "name": "braintree/braintree_php",
         "version": "3.35.0",
         "version_normalized": "3.35.0.0",

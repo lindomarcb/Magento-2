@@ -11,6 +11,7 @@
         "sort-packages": true
     },
     "require": {
+        "boldcommerce/magento2-ordercomments": "^1.6",
         "magento/product-community-edition": "2.3.4",
         "magento2translations/language_pt_br": "dev-master",
         "msp/shield": "^2.1",

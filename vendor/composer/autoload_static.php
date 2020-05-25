@@ -296,6 +296,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'aa75ea0761a2f40c1f3b32ad314f86c4' => __DIR__ . '/..' . '/phpseclib/mcrypt_compat/lib/mcrypt.php',
+        'c0274a2622dd4dbb2a527563cb28e940' => __DIR__ . '/..' . '/boldcommerce/magento2-ordercomments/registration.php',
         'eda65932675b68b5aee4503e0762d64d' => __DIR__ . '/..' . '/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/_bootstrap.php',
         '94dd8aee7c44774105b92eb6195e7ee0' => __DIR__ . '/..' . '/magento2translations/language_pt_br/registration.php',
         'c23fc53f04f271ef258f8ffdee3dec54' => __DIR__ . '/..' . '/msp/shield/registration.php',
@@ -764,6 +765,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'B' => 
         array (
             'Braintree\\' => 10,
+            'Bold\\OrderComment\\' => 18,
             'Base32\\' => 7,
         ),
         'A' => 
@@ -2349,6 +2351,10 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'Braintree\\' => 
         array (
             0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
+        ),
+        'Bold\\OrderComment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/boldcommerce/magento2-ordercomments',
         ),
         'Base32\\' => 
         array (
