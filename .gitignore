@@ -38,6 +38,8 @@
 
 /var/*
 !/var/.htaccess
+
+!/var/*
 !/var/backups/*.sql
 
 !/var/package
