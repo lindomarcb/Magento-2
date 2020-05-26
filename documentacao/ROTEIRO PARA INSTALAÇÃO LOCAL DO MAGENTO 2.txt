@@ -769,9 +769,9 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
    - php bin/magento setup:static-content:deploy pt_BR -f
    - php bin/magento cache:flush
     
-
-AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS
-===================================
+#########################################
+## AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS ##
+#########################################
 
 1) CRIAR A SEGUINTE ESTRUTURA DE PASTA:
    C:\xampp\htdocs\magento2\app\code\Magenteiro\StreetLines
@@ -1005,9 +1005,9 @@ AJUSTAR CAMPOS/RÓTULOS DE ENDEREÇOS
 
      REFERENCIA DA SOLUÇÃO: https://www.magenteiro.com/blog/magento-2/linhas-endereco-amigaveis-magento2/
 
-
-ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
-========================================================================
+##############################################################################
+## ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO ##
+##############################################################################
 
 1) CRIE A PASTA: C:\xampp\htdocs\magento2\app\code\AR\SalesRule
 2) CRIE COM O BLOCO DE NOTAS OS SEGUINTES ARQUIVOS:
@@ -1146,9 +1146,9 @@ ADICIONAR A OPÇÃO MÉTODO DE PAGAMENTO NAS REGRAS DE DESCONTO DO CARRINHO
       https://magento.stackexchange.com/questions/204532/magento-2-2-1-how-to-give-discount-on-payment-methods?answertab=votes#tab-top
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/KInkdNJOFYU
 
-
-CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO
-=========================================================
+###############################################################
+## CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO ##
+###############################################################
 
 1) BAIXAR O ARQUIVO: magento2-fix-discount-rules-master.zip 
    DE CORREÇÃO EM: https://github.com/MagestyApps/magento2-fix-discount-rules 
@@ -1160,13 +1160,14 @@ CORRIGIR CÁLCULO DE REGRA METODO DE PAGAMENTO DO CARRINHO
    - php bin/magento setup:di:compile
    - php bin/magento deploy:mode:set developer
    - php bin/magento setup:static-content:deploy pt_BR -f
+   - php bin/magento indexer:reindex
    - php bin/magento cache:flush
 
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/-oU2MuMGkrs
 
-
-INCLUIR ORDENAÇÃO DE PREÇO NA LOJA
-==================================
+########################################
+## INCLUIR ORDENAÇÃO DE PREÇO NA LOJA ##
+########################################
 
 1) baixar o módulo no Git https://github.com/MestreMagento/magento2-sort-price-low-high/magento2-sort-price-low-high-master.zip
 2) Descompactar o arquivo
@@ -1194,9 +1195,9 @@ INCLUIR ORDENAÇÃO DE PREÇO NA LOJA
 
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/C8WI2HZwab8
    
-
-INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
-========================================================================
+##############################################################################
+## INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES ##
+##############################################################################
 
 1) ACESSAR A PÁGINA https://github.com/magespecialist/m2-MSP_Shield
 2) Na pasta raiz da loja pelo Xampp dar os seguintes comandos:
@@ -1218,9 +1219,9 @@ INSTALAR MÓDULO DE SEGURANÇA (Security Suite) CONTRA INJECTIONS/INVASÕES
    
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/IECtVs51W80
  
-
-INSTALAR MÓDULO PARA COMENTÁRIOS DO CLIENTE NA TELA DO PAGAMENTO
-================================================================
+######################################################################
+## INSTALAR MÓDULO PARA COMENTÁRIOS DO CLIENTE NA TELA DO PAGAMENTO ##
+######################################################################
 
 1) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2
 2) EXECUTAR OS SEGUINTES COMANDOS:
@@ -1229,7 +1230,7 @@ INSTALAR MÓDULO PARA COMENTÁRIOS DO CLIENTE NA TELA DO PAGAMENTO
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
    - php bin/magento deploy:mode:set developer
-   - php bin/magento setup:static-content:deploy -f
+   - php bin/magento setup:static-content:deploy pt_BR -f
    - php bin/magento cache:flush
    
 3) CORRIGIR O ARQUIVO DE TRADUÇÃO
@@ -1253,7 +1254,74 @@ INSTALAR MÓDULO PARA COMENTÁRIOS DO CLIENTE NA TELA DO PAGAMENTO
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/HTXWfDZ0THM
    REFERENCIA ARQUIVO DE ISNTALAÇÃO: https://github.com/boldcommerce/magento2-ordercomments
 
+##############################
+## INSTALAR O MÓDULO DO FAQ ##
+##############################
 
+1) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2
+2) BAIXAR O MÓDULO (magento2-faqs-extensions-master.zip) EM : https://github.com/php-cuong/magento2-faqs-extensions 
+3) CRIAR AS PASTAS PARA RECEBER O MÓDULO: C:\xampp\htdocs\magento2\app\code\PHPCuong\Faq
+4) COPIAR OS ARQUIVOS DO ZIP EM \app\code\PHPCuong\Faq
+5) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2 E EXECUTAR OS SEGUINTES COMANDOS:
+   - php bin/magento module:enable PHPCuong_Faq
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy pt_BR -f
+   - php bin/magento cache:flush 
+6) Link a ser implementado: http://sualoja.com.br/faqs.html
+
+   REFERENCIA VÍDEO MESTRE MAGENTO: https://youtu.be/z_gLxfBeVZI
+ 
+
+############################################ 
+## INSTALAR O MÓDULO DE OTIMIZAÇÃO DO SEO ##
+############################################
+ 
+ 1) ATRAVÉS DO Shell DO Xampp NA PASTA htdocs\magento2 EXECUTE O SEGUINTES COMANDOS:
+    - composer require staempfli/magento2-module-seo --ignore-platform-reqs
+    - php bin/magento module:enable Staempfli_Seo
+    - php bin/magento setup:upgrade
+    - php bin/magento setup:di:compile
+    - php bin/magento deploy:mode:set developer
+    - php bin/magento setup:static-content:deploy pt_BR -f
+    - php bin/magento cache:flush 
+ 3) VERIFICAR NA ADMINISTRAÇÃO EM:
+    - Lojas > Configuração > Otimização para Motores de Pesquisa (Seo)
+    - Configurar as abas:
+      - Site Verifications Code
+      - Twitter Card
+      - Robots
+      - hreflang (opcional)
+ 
+ REFERENCIA VÍDEO MESTRE MAGENTO: https://youtu.be/ZHxoAE0xppY
+ REFERENCIA ARQUIVO DE INSTALAÇÃO: https://github.com/staempfli/magento2-module-seo
+ 
+##################################################################################
+## INSTALAR NOTIFICAÇÃO E ENVIO DE NOVOS PEDIDOS POR EMAIL PARA O ADMINISTRADOR ##
+##################################################################################
+
+ 1) SE CADASTRAR E COMPRAR O MÓDULO QUE É DE GRAÇA EM: https://www.hiddentechies.com/new-order-notification-magento-2.html
+ 2) DA PRIMEIRA VEZ PREENCHA O CADASTRO DA LOJA, FAÇA A COMPRA E DEPOIS QUE FINALIZAR A COMPRA,
+    ENTRE NA SUA CONTA A BUSQUE A OPÇÃO: My Downloadable Products, BAIXE O ARQUIVO  
+    EM: Download New Order Notification: hiddentechies-neworder.zip
+ 3) DESCOMPACTE E COLOQUE A PASTA Hiddentechies DO ARQUIVO DESCOMPACTADO NA PASTA \app\code DA LOJA
+ 4) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2 E EXECUTAR OS SEGUINTES COMANDOS:
+   - php bin/magento module:enable Hiddentechies_Base
+   - php bin/magento module:enable Hiddentechies_Neworder
+   - php bin/magento setup:upgrade
+   - php bin/magento setup:di:compile
+   - php bin/magento deploy:mode:set developer
+   - php bin/magento setup:static-content:deploy pt_BR -f
+   - php bin/magento cache:flush 
+ 5) ACESSAR O MÓDULO NA ADMINITRAÇÃO DO SITE EM:
+   - LOJAS > CONFIGURAÇÃO > HIDDENTECHIES > NOTIFICAÇÃO DE NOVO PEDIDO 
+     ABA GERAL - CAMPOS: Ativar Notificação?: Sim
+                         E-mail do administrador: preencher com e-mail do administrador
+                         Assunto do email do administrador: preencher um assunto para o e-mail.
+ 
+ REFERENCIA VÍDEO MESTRE MAGENTO: https://youtu.be/tUtKimDOkvE
+  
 
 MUDANÇAS NO TEMA
 ================
@@ -1293,6 +1361,113 @@ ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
 	   - php bin/magento setup:static-content:deploy pt_BR -f
 	   - php bin/magento cache:flush
 
+#############################
+### CONCEITOS IMPORTANTES ###
+#############################
+
+1) A BASE DO MAGENTO FICA NA PASTA: C:\xampp\htdocs\magento2\vendor\magento NUNCA DEVE SER ALTERADO 
+2) PARA ALTERAR COMPONENTES DO MAGENTO, DEVE-SE CRIAR MÓDULOS NAS PASTAS:
+   - C:\xampp\htdocs\magento2\app\code
+   - C:\xampp\htdocs\magento2\app\design\adminhtml
+   - C:\xampp\htdocs\magento2\app\design\frontend
+3) TEMAS SÃO INSTALADOS NAS PASTAS CITADAS ACIMA
+4) SEMPRE QUE CRIAR UM MÓDULO COM ALTERAÇÃO DE OBJETOS DO MAGENTO, O SISTEMA PRIMEIRO VERIFICA 
+   SE O OBJETO MAGENTO ESTÁ NO MÓDULO PARA EXECUTÁ-LO, SE NÃO EXISTIR, EXECUTARÁ O OBJETO BASE.
+5) QUANDO FIZER QUALQUER MUDANÇA DE ESTRUTURA E LAYOUT DEVE-SE COMPILAR O SISTEMA PARA GARANTIR QUE ESTÁ TUDO OK.
+
+
+####################################
+## COMO DEIXAR A LOJA MAIS RÁPIDA ##
+####################################
+
+1) OTIMIZAR OS REQUISITOS DO SERVIDOR E DO SISTEMA (NÃO FIZ)
+   ---------------------------------------------------------
+   Os requisitos de servidor e sistema podem ser considerados os dois fatores mais importantes que podem ajudá-lo 
+   a aumentar a velocidade do seu site Magento 2.
+   Requisitos do servidor: Como o Magento é uma loja bastante poderosa, em vez de hospedagem compartilhada para o 
+   Magento , você deve hospedar sua loja Magento em um servidor dedicado ou hospedagem VPS .
+2) ATUALIZE A VERSÃO MAIS RECENTE DO MAGENTO 2 (ESTOU NA VERSÃO 2.3.4)
+   -------------------------------------------------------------------
+   Quando se trata de otimizar a velocidade do Magento, uma das maneiras mais simples que você não pode esquecer de 
+   usar é atualizar a versão mais recente. Sempre que o Magento lançar uma nova versão, o desempenho, assim como 
+   outros ajustes, serão melhorados significativamente. Conseqüentemente, é altamente recomendável que você atualize 
+   a versão da sua loja para a mais recente, a fim de melhorar a velocidade do site da sua loja.
+3) ATIVAR O CACHE DE VERNIZ
+   ------------------------
+   Existem várias práticas que precisam ser implementadas para acelerar o site Magento, incluindo o cache.
+   Altere em: Lojas > Configuração > Avançado > Sistema > Aba: Cache de Página Inteira 
+              Campo: Cache Aplicação - Escolha: Cache Varnish (Recomendada)
+4) CONFIGURAR O MEMCACHED (NÃO FIZ)
+   --------------------------------
+   Outro método para acelerar as lojas Magento 2 é diminuir a carga do banco de dados. E a maneira de fazer isso é 
+   configurar o Memcached, que é um sistema de armazenamento em cache de objetos de memória distribuída de código 
+   
+   - instalar o Memcached - veja em: https://gist.github.com/tomysmile/339a6f04b1570a0803d8facdcf2a27cd
+   
+   aberto e gratuito. Como fazer:
+    - Abra o arquivo: C:\xampp\htdocs\magento2\app\etc\env.php
+    - Localize o trecho abaixo:
+      'session' => [
+              'save' => 'files'
+      ],
+    - troque por:
+      'session' =>
+          array [
+            'save' => 'memcached',
+            'save_path' => '<memcache ip or host>:<memcache port>'
+      ],
+    - apague o conteúdo das pastas: var/cache, var/page_cache e var/session
+    - Navegue entre as páginas da loja e adminitrativo. Se não der problema a configuração deu tudo certo.
+5) ATIVAR CATEGORIAS E PRODUTOS SIMPLES
+   ------------------------------------
+   Um dos motivos mais comuns que tornam o site Magento 2 mais lento é a velocidade de leitura do banco de dados. 
+   Para corrigir esse problema, você pode habilitar o Flat Catalog em:
+    - Lojas > Configuração > Catálogo - Aba Frente de Loja - Habilitar os seguintes campos:
+      - Usar Categoria do Catálogo Flat : Sim
+      - Usar Produto do Catálogo Flat: Sim
+6) OTIMIZAR JAVASCRIPT E CSS
+   -------------------------
+   Outro motivo que leva à baixa velocidade do Magento 2 é o Javascript e CSS.    
+   A seguir, está o guia para minimizar o Javascript e CSS , a fim de aumentar a velocidade do Magento 2:
+   - Lojas > Configuração > Avançado > Desenvolvedor 
+        - Aba Definições de JavaScript - Habilitar os campos:
+          - Combinar Ficheiros JavaScript: Sim
+          - Ativar Combinação de Ficheiros: Sim
+          - Reduzir Dimensão de Ficheiros JavaScript
+        - Aba Configurações CSS - Habilitar os seguintes campos:
+          - Mesclar arquivos CSS: Sim
+          - Reduzir dimensão dos Ficheiros CSS: Sim
+7) CONFIGURAR A REDE DE ENTREGA DE CONTEÚDO
+   ----------------------------------------
+   Você também pode configurar o Content Delivery Network para melhorar a velocidade da sua loja Magento em:
+   - Lojas > Configuração > Geral > Web - 
+       - Aba URLs Base - Preencha o endereço da loja no campo:
+        - URL Base: http://sualoja.com.br
+       - Aba URLs Base (Seguro) - Preencha o endereço da loja no campo:
+        - URL Base: https://sualoja.com.br
+8) USE UM BOM TEMA
+   ---------------
+   É altamente recomendável usar um tema Magento mais rápido e leve, pois pode ajudar a melhorar 
+   significativamente a velocidade de carregamento do Magento 2.
+   Melhores temas: https://www.mageplaza.com/magento-2-themes/
+9) ESCOLHA EXTENSÕES
+   Vários usuários tendem a usar extensões sem verificar ou confirmar sua segurança. Se contiver erros, 
+   sua velocidade do Magento definitivamente será afetada. É por isso que você sempre deve usar uma 
+   extensão de terceiros sem bugs para sua loja Magento 2.   
+   Melhores extensões: https://www.mageplaza.com/magento-2-extensions/
+10) OTIMIZAR IMAGENS
+    ----------------
+    No site da sua loja, existem inúmeras imagens de produtos. Isso pode diminuir a velocidade do 
+    Magento se essas imagens não forem otimizadas corretamente. Aqui estão alguns pontos-chave na otimização 
+    de imagem:
+    - As imagens precisam ser compactadas.
+    - O logotipo da sua loja deve estar no formato PNG ou SVG.
+    - A imagem do produto deve estar no formato JPEG. 
+    Melhores extensões para otimizar imagens: https://www.mageplaza.com/review/magento-2-image-optimizer/
+ 
+ REFERENCIAS: https://www.mageplaza.com/magento-2-module-development/
+ 	      https://www.mageplaza.com/devdocs/speed-up-magento-2.html#step-1
+
 ####################################################
 ### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
 ####################################################
@@ -1312,8 +1487,19 @@ php bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEM
 php bin/magento module:status                           	-- verifica o status dos módulos instalados
 php bin/magento module:enable <nome do módulo>			-- Habilita o módulo novo
 php bin/magento module:disable <nome do módulo>			-- Desabilita o módulo
+
+php bin/magento setup:backup -h					-- MOSTRA TODAS AS OPÇÕES DE BACKUP
+php bin/magento setup:backup --db				-- FAZ BACKUP DO BANCO DE DADOS E GRAVA NA PASTA var/backups
+                                                                   OBSERVAÇÃO: A OPÇÃO DE BACKUP DEVE ESTAR HABILITADA EM:
+                                                                   LOJAS > CONFIGURAÇÃO > AVANÇADO > SISTEMA > CONFIGURAÇÕES DE BACKUP
+php bin/magento info:backup:list				-- MOSTRA TODOS OS BACKUPS JÁ FEITOS
+
 php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
 C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
+ 
+composer require modulo --ignore-platform-reqs 			-- INSTALAR MÓDULOS VIA COMPOSER
+
+ 
  
 ####################################
 ### ALGUMAS DICAS DE USABILIDADE ###
@@ -1349,35 +1535,22 @@ slider
 <div class="hb-bottom"><a href="#"> <img class="img-resp center-b" src="{{media url="wysiwyg/home/img-295-218.png"}}" alt="img-295-218"> </a></div>
 </div>
 </div>
+ 
+########################
+## MÓDULOS ADICIONAIS ##
+########################
 
+https://youtu.be/z_gLxfBeVZI -- Como Criar uma Página FAQ
+https://youtu.be/ZHxoAE0xppY -- Módulo de Otimização Seo
+https://youtu.be/tUtKimDOkvE -- Notificação e Envio de Novos Pedidos por Email no Magento
 
-#############################
-### CONCEITOS IMPORTANTES ###
-#############################
-
-1) A BASE DO MAGENTO FICA NA PASTA: C:\xampp\htdocs\magento2\vendor\magento NUNCA DEVE SER ALTERADO 
-2) PARA ALTERAR COMPONENTES DO MAGENTO, DEVE-SE CRIAR MÓDULOS NAS PASTAS:
-   - C:\xampp\htdocs\magento2\app\code
-   - C:\xampp\htdocs\magento2\app\design\adminhtml
-   - C:\xampp\htdocs\magento2\app\design\frontend
-3) TEMAS SÃO INSTALADOS NAS PASTAS CITADAS ACIMA
-4) SEMPRE QUE CRIAR UM MÓDULO COM ALTERAÇÃO DE OBJETOS DO MAGENTO, O SISTEMA PRIMEIRO VERIFICA 
-   SE O OBJETO MAGENTO ESTÁ NO MÓDULO PARA EXECUTÁ-LO, SE NÃO EXISTIR, EXECUTARÁ O OBJETO BASE.
-5) QUANDO FIZER QUALQUER MUDANÇA DE ESTRUTURA E LAYOUT DEVE-SE COMPILAR O SISTEMA PARA GARANTIR QUE ESTÁ TUDO OK.
-
-
-Instalar
-
-https://youtu.be/w6jjzALue68
-https://youtu.be/z_gLxfBeVZI
-https://youtu.be/YFmO8bnYoZE
-https://youtu.be/ZHxoAE0xppY
-https://youtu.be/tUtKimDOkvE
-https://youtu.be/IHFFugLilaU
-https://youtu.be/9WAP5iJ25LA
-https://youtu.be/4seZx2PFptw (mais tarde)
-https://youtu.be/GIvuNfsGtNo (mais tarde)
-https://youtu.be/-NnQCe-Pyw0 (mais tarde)
-https://youtu.be/w9iZ7JfrGIQ (mais tarde)
-https://youtu.be/NaUGjd2NyU0 (mais tarde)
+https://youtu.be/IHFFugLilaU (mais tarde) -- Pop UP de Saída no Magento 2
+https://youtu.be/9WAP5iJ25LA (mais tarde) -- Reindexar Índices pelo Painel Administrativo (Sem SSH)
+https://youtu.be/w6jjzALue68 (mais tarde) -- Como Proteger sua Loja de Spam e Cadastros Falsos
+https://youtu.be/4seZx2PFptw (mais tarde) -- Login com Redes Sociais Magento 2 - Facebook, Google, Twitter entre outros!
+https://youtu.be/GIvuNfsGtNo (mais tarde) -- SMTP PRO Magento 2 - Disparo de E-mail Não Funciona?
+https://youtu.be/-NnQCe-Pyw0 (mais tarde) -- Magento 2: Plugin de Comentários do Facebook no Produto de Graça! (API Facebook Comments)
+https://youtu.be/w9iZ7JfrGIQ (Já estava instalado, precisa configurar) -- Captcha nos Formulários, Login, Cadastro e Painel
+https://youtu.be/NaUGjd2NyU0 (mais tarde) -- Integrando o Magento 2 e o Google Analytics, com Ecommerce Tracking Habilitado
+Otimizador de imagens abaixo: (mais tarde)
 https://github.com/mageplaza/magento-2-image-optimizer?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=Image%20Optimizer

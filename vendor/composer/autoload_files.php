@@ -300,5 +300,6 @@ return array(
     '94dd8aee7c44774105b92eb6195e7ee0' => $vendorDir . '/magento2translations/language_pt_br/registration.php',
     'c23fc53f04f271ef258f8ffdee3dec54' => $vendorDir . '/msp/shield/registration.php',
     '4beb9924c69c20e87e9ee08062a697ff' => $vendorDir . '/pagseguro/magento2/registration.php',
+    '718035bb19bc495df43a88a18dbec904' => $vendorDir . '/staempfli/magento2-module-seo/registration.php',
     'b4cf39431a4b949eea8aa69ebb3d39da' => $baseDir . '/app/etc/NonComposerComponentRegistration.php',
 );

@@ -301,6 +301,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         '94dd8aee7c44774105b92eb6195e7ee0' => __DIR__ . '/..' . '/magento2translations/language_pt_br/registration.php',
         'c23fc53f04f271ef258f8ffdee3dec54' => __DIR__ . '/..' . '/msp/shield/registration.php',
         '4beb9924c69c20e87e9ee08062a697ff' => __DIR__ . '/..' . '/pagseguro/magento2/registration.php',
+        '718035bb19bc495df43a88a18dbec904' => __DIR__ . '/..' . '/staempfli/magento2-module-seo/registration.php',
         'b4cf39431a4b949eea8aa69ebb3d39da' => __DIR__ . '/../..' . '/app/etc/NonComposerComponentRegistration.php',
     );
 
@@ -409,6 +410,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Staempfli\\Seo\\' => 14,
             'SelfUpdate\\' => 11,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
@@ -1093,6 +1095,10 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Staempfli\\Seo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/staempfli/magento2-module-seo',
         ),
         'SelfUpdate\\' => 
         array (
