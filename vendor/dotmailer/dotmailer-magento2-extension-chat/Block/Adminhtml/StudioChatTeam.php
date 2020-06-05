@@ -3,14 +3,13 @@
 namespace Dotdigitalgroup\Chat\Block\Adminhtml;
 
 use Dotdigitalgroup\Email\Helper\OauthValidator;
-use Dotdigitalgroup\Email\Block\Adminhtml\EngagementCloudEmbedInterface;
 use Dotdigitalgroup\Chat\Model\Config;
 use Magento\Backend\Block\Template\Context;
 
 /**
  * @api
  */
-class StudioChatTeam extends \Magento\Backend\Block\Template implements EngagementCloudEmbedInterface
+class StudioChatTeam extends \Magento\Backend\Block\Template implements \Dotdigitalgroup\Email\Block\Adminhtml\EngagementCloudEmbedInterface
 {
     /**
      * @var OauthValidator

@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class that adds preconfigured mock creation for specific use-cases that cross multiple test classes
  *
+ * @package Klarna\Kp\Test\Unit\Mock
  */
 class ScopeMocker extends TestCase
 {

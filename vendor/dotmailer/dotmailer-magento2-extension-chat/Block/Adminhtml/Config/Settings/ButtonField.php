@@ -55,6 +55,7 @@ abstract class ButtonField extends \Magento\Config\Block\System\Config\Form\Fiel
      */
     abstract protected function getButtonUrl();
 
+
     /**
      * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string

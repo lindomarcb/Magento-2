@@ -9,7 +9,7 @@ namespace Magento\DownloadableImportExport\Test\Unit\Model\Import\Product\Type;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager as ObjectManager;
 
 /**
- * Class DownloadableTest for downloadable products import
+ * Class DownloadableTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -164,7 +164,7 @@ class DownloadableTest extends \Magento\ImportExport\Test\Unit\Model\Import\Abst
         // 7. $fileHelper
         $this->uploaderHelper = $this->createPartialMock(
             \Magento\DownloadableImportExport\Helper\Uploader::class,
-            ['getUploader', 'isFileExist']
+            ['getUploader']
         );
         $this->uploaderHelper->expects($this->any())->method('getUploader')->willReturn($this->uploaderMock);
         $this->downloadableHelper = $this->createPartialMock(
@@ -660,7 +660,6 @@ class DownloadableTest extends \Magento\ImportExport\Test\Unit\Model\Import\Abst
         $metadataPoolMock->expects($this->any())->method('getLinkField')->willReturn('entity_id');
         $this->downloadableHelper->expects($this->atLeastOnce())
             ->method('fillExistOptions')->willReturn($parsedOptions['link']);
-        $this->uploaderHelper->method('isFileExist')->willReturn(false);
 
         $this->downloadableModelMock = $this->objectManagerHelper->getObject(
             \Magento\DownloadableImportExport\Model\Import\Product\Type\Downloadable::class,

@@ -3,14 +3,10 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 namespace Magento\Catalog\Test\Unit\Model\Category\Attribute\Backend;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
-use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Test for Magento\Catalog\Model\Category\Attribute\Backend\Image class.
@@ -44,16 +40,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     private $filesystem;
 
     /**
-     * @var StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject;
-     */
-    private $storeManagerInterfaceMock;
-
-    /**
-     * @var Store|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $storeMock;
-
-    /**
      * @inheritdoc
      */
     protected function setUp()
@@ -70,6 +56,10 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ['getName']
         );
 
+        $this->attribute->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue('test_attribute'));
+
         $this->logger = $this->getMockForAbstractClass(
             \Psr\Log\LoggerInterface::class,
             [],
@@ -84,14 +74,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             \Magento\Catalog\Model\ImageUploader::class,
             ['moveFileFromTmp', 'getBasePath']
         );
-
-        $this->storeManagerInterfaceMock = $this->getMockBuilder(
-            StoreManagerInterface::class
-        )->disableOriginalConstructor()->getMock();
-
-        $this->storeMock = $this->getMockBuilder(
-            Store::class
-        )->disableOriginalConstructor()->getMock();
 
         $this->filesystem = $this->getMockBuilder(\Magento\Framework\Filesystem::class)->disableOriginalConstructor()
             ->getMock();
@@ -115,10 +97,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     public function testBeforeSaveValueDeletion($value)
     {
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test_attribute'));
-
         $model = $this->objectManager->getObject(\Magento\Catalog\Model\Category\Attribute\Backend\Image::class);
         $model->setAttribute($this->attribute);
 
@@ -154,10 +132,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     public function testBeforeSaveValueInvalid($value)
     {
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test_attribute'));
-
         $model = $this->objectManager->getObject(\Magento\Catalog\Model\Category\Attribute\Backend\Image::class);
         $model->setAttribute($this->attribute);
 
@@ -173,11 +147,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     public function testBeforeSaveAttributeFileName()
     {
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test_attribute'));
-
-        $model = $this->setUpModelForTests();
+        $model = $this->setUpModelForAfterSave();
         $mediaDirectoryMock = $this->createMock(WriteInterface::class);
         $this->filesystem->expects($this->once())
             ->method('getDirectoryWrite')
@@ -207,11 +177,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     public function testBeforeSaveAttributeFileNameOutsideOfCategoryDir()
     {
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test_attribute'));
-
-        $model = $this->setUpModelForTests();
+        $model = $this->setUpModelForAfterSave();
         $model->setAttribute($this->attribute);
         $imagePath = '/pub/media/wysiwyg/test123.jpg';
         $this->filesystem
@@ -245,19 +211,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      */
     public function testBeforeSaveTemporaryAttribute()
     {
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test_attribute'));
-
-        $this->storeManagerInterfaceMock->expects($this->once())
-            ->method('getStore')
-            ->willReturn($this->storeMock);
-
-        $this->storeMock->expects($this->once())
-            ->method('getBaseMediaDir')
-            ->willReturn('pub/media');
-
-        $model = $this->setUpModelForTests();
+        $model = $this->setUpModelForAfterSave();
         $model->setAttribute($this->attribute);
 
         $mediaDirectoryMock = $this->createMock(WriteInterface::class);
@@ -266,16 +220,10 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ->with(DirectoryList::MEDIA)
             ->willReturn($mediaDirectoryMock);
 
-        $this->imageUploader->expects($this->any())->method('moveFileFromTmp')->willReturn('test123.jpg');
-
         $object = new \Magento\Framework\DataObject(
             [
                 'test_attribute' => [
-                    [
-                        'name' => 'test123.jpg',
-                        'tmp_name' => 'abc123',
-                        'url' => 'http://www.example.com/pub/media/temp/test123.jpg'
-                    ],
+                    ['name' => 'test123.jpg', 'tmp_name' => 'abc123', 'url' => 'http://www.example.com/test123.jpg'],
                 ],
             ]
         );
@@ -284,7 +232,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             [
-                ['name' => '/pub/media/test123.jpg', 'tmp_name' => 'abc123', 'url' => '/pub/media/test123.jpg'],
+                ['name' => 'test123.jpg', 'tmp_name' => 'abc123', 'url' => 'http://www.example.com/test123.jpg'],
             ],
             $object->getData('_additional_data_test_attribute')
         );
@@ -309,7 +257,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
     /**
      * @return \Magento\Catalog\Model\Category\Attribute\Backend\Image
      */
-    private function setUpModelForTests()
+    private function setUpModelForAfterSave()
     {
         $objectManagerMock = $this->createPartialMock(\Magento\Framework\App\ObjectManager::class, ['get']);
 
@@ -320,7 +268,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ->will(
                 $this->returnCallback(
                     function ($class, $params = []) use ($imageUploaderMock) {
-                        if ($class == "\Magento\Catalog\CategoryImageUpload") {
+                        if ($class == \Magento\Catalog\CategoryImageUpload::class) {
                             return $imageUploaderMock;
                         }
 
@@ -335,7 +283,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
                 'objectManager' => $objectManagerMock,
                 'logger' => $this->logger,
                 'filesystem' => $this->filesystem,
-                'storeManager' => $this->storeManagerInterfaceMock
             ]
         );
         $this->objectManager->setBackwardCompatibleProperty($model, 'imageUploader', $this->imageUploader);
@@ -360,13 +307,12 @@ class ImageTest extends \PHPUnit\Framework\TestCase
      * @dataProvider attributeValueDataProvider
      *
      * @param array $value
-     * @throws FileSystemException
      */
-    public function testBeforeSaveWithAdditionalData($value)
+    public function testAfterSaveWithAdditionalData($value)
     {
-        $model = $this->setUpModelForTests();
+        $model = $this->setUpModelForAfterSave();
 
-        $this->imageUploader->expects($this->never())
+        $this->imageUploader->expects($this->once())
             ->method('moveFileFromTmp')
             ->with($this->equalTo('test1234.jpg'));
 
@@ -377,18 +323,17 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $model->beforeSave($object);
+        $model->afterSave($object);
     }
 
     /**
      * @dataProvider attributeValueDataProvider
      *
      * @param array $value
-     * @throws FileSystemException
      */
-    public function testBeforeSaveWithoutAdditionalData($value)
+    public function testAfterSaveWithoutAdditionalData($value)
     {
-        $model = $this->setUpModelForTests();
+        $model = $this->setUpModelForAfterSave();
 
         $this->imageUploader->expects($this->never())
             ->method('moveFileFromTmp');
@@ -399,38 +344,15 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $model->beforeSave($object);
+        $model->afterSave($object);
     }
 
     /**
      * Test afterSaveWithExceptions.
      */
-    public function testBeforeSaveWithExceptions()
+    public function testAfterSaveWithExceptions()
     {
-        $model = $this->setUpModelForTests();
-
-        $this->storeManagerInterfaceMock->expects($this->once())
-            ->method('getStore')
-            ->willReturn($this->storeMock);
-
-        $this->storeMock->expects($this->once())
-            ->method('getBaseMediaDir')
-            ->willReturn('pub/media');
-
-        $this->attribute->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('_additional_data_test_attribute'));
-
-        $mediaDirectoryMock = $this->createMock(WriteInterface::class);
-        $this->filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->with(DirectoryList::MEDIA)
-            ->willReturn($mediaDirectoryMock);
-        $this->imageUploader->expects($this->any())->method('getBasePath')->willReturn('base/path');
-        $mediaDirectoryMock->expects($this->any())
-            ->method('getAbsolutePath')
-            ->with('base/path/test1234.jpg')
-            ->willReturn('absolute/path/base/path/test1234.jpg');
+        $model = $this->setUpModelForAfterSave();
 
         $exception = new \Exception();
 
@@ -448,6 +370,6 @@ class ImageTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $model->beforeSave($object);
+        $model->afterSave($object);
     }
 }

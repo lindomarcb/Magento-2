@@ -79,7 +79,7 @@
         <see selector="{{CheckoutSuccessMainSection.successTitle}}" userInput="Thank you for your purchase!" stepKey="waitForLoadSuccessPage3"/>
         <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber}}" stepKey="grabOrderNumber"/>
 
-        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
+        <actionGroup ref="OpenOrderById" stepKey="openOrder">
             <argument name="orderId" value="{$grabOrderNumber}"/>
         </actionGroup>
         <waitForPageLoad stepKey="waitForPageLoad27"/>

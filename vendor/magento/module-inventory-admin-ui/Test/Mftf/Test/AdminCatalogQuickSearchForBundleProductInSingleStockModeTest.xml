@@ -34,10 +34,10 @@
         <comment userInput="Create bundle product." stepKey="createBundleProductComment"/>
         <amOnPage url="{{AdminProductIndexPage.url}}" stepKey="visitAdminProductPageBundle"/>
         <waitForPageLoad stepKey="waitForPageLoad1"/>
-        <actionGroup ref="GoToCreateProductPageActionGroup" stepKey="goToCreateBundleProduct">
+        <actionGroup ref="goToCreateProductPage" stepKey="goToCreateBundleProduct">
             <argument name="product" value="BundleProduct"/>
         </actionGroup>
-        <actionGroup ref="FillProductNameAndSkuInProductFormActionGroup" stepKey="fillBundleProductNameAndSku">
+        <actionGroup ref="fillProductNameAndSkuInProductForm" stepKey="fillBundleProductNameAndSku">
             <argument name="product" value="BundleProduct"/>
         </actionGroup>
 
@@ -50,7 +50,7 @@
         <waitForPageLoad stepKey="waitForPageLoad3"/>
         <click selector="{{AdminProductFormBundleSection.addProductsToOption}}" stepKey="clickAddProductsToOption"/>
         <waitForPageLoad stepKey="waitForPageLoad4"/>
-        <actionGroup ref="FilterProductGridBySkuActionGroup" stepKey="filterBundleProductOptions">
+        <actionGroup ref="filterProductGridBySku" stepKey="filterBundleProductOptions">
             <argument name="product" value="$$simpleProduct$$"/>
         </actionGroup>
         <checkOption selector="{{AdminAddProductsToOptionPanel.firstCheckbox}}" stepKey="selectFirstGridRow"/>

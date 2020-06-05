@@ -3,7 +3,6 @@
 namespace Dotdigitalgroup\Email\Block;
 
 use Magento\Quote\Model\ResourceModel\Quote;
-use Magento\Framework\Filesystem\DriverInterface;
 
 /**
  * Feefo block
@@ -46,11 +45,6 @@ class Feefo extends \Magento\Framework\View\Element\Template
     private $quoteFactory;
 
     /**
-     * @var DriverInterface
-     */
-    private $driver;
-
-    /**
      * Feefo constructor.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -59,7 +53,6 @@ class Feefo extends \Magento\Framework\View\Element\Template
      * @param \Dotdigitalgroup\Email\Model\ResourceModel\Review $review
      * @param Quote $quoteResource
      * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
-     * @param DriverInterface $driver
      * @param array $data
      */
     public function __construct(
@@ -69,7 +62,6 @@ class Feefo extends \Magento\Framework\View\Element\Template
         \Dotdigitalgroup\Email\Model\ResourceModel\Review $review,
         \Magento\Quote\Model\ResourceModel\Quote $quoteResource,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
-        DriverInterface $driver,
         array $data = []
     ) {
         $this->helper = $helper;
@@ -78,7 +70,6 @@ class Feefo extends \Magento\Framework\View\Element\Template
         $this->assetRepository = $context->getAssetRepository();
         $this->quoteFactory = $quoteFactory;
         $this->quoteResource = $quoteResource;
-        $this->driver = $driver;
         parent::__construct($context, $data);
     }
 
@@ -157,7 +148,7 @@ class Feefo extends \Magento\Framework\View\Element\Template
             $url = self::FEEFO_PRODUCT_REVIEWS_ROOT . 'merchant_identifier=' . $logon
                 . '&page_size=' . $limit . '&product_sku=' . $sku . '&page=1';
 
-            $json = $this->driver->fileGetContents($url);
+            $json = file_get_contents($url);
             $productReviewObject = json_decode($json);
 
             if (count($productReviewObject->reviews) > 0) {

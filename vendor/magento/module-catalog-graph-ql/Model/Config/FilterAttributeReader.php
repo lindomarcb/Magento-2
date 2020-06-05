@@ -10,15 +10,16 @@ namespace Magento\CatalogGraphQl\Model\Config;
 use Magento\Framework\Config\ReaderInterface;
 use Magento\Framework\GraphQl\Schema\Type\Entity\MapperInterface;
 use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
+use Magento\Catalog\Model\ResourceModel\Product\Attribute\Collection;
 use Magento\Catalog\Model\ResourceModel\Eav\Attribute;
 
 /**
  * Adds custom/eav attributes to product filter type in the GraphQL config.
  *
  * Product Attribute should satisfy the following criteria:
- * - (Attribute is searchable AND "Visible in Advanced Search" is set to "Yes")
- * - OR attribute is "Used in Layered Navigation"
- * - AND Attribute of type "Select" must have options
+ * - Attribute is searchable
+ * - "Visible in Advanced Search" is set to "Yes"
+ * - Attribute of type "Select" must have options
  */
 class FilterAttributeReader implements ReaderInterface
 {
@@ -76,7 +77,7 @@ class FilterAttributeReader implements ReaderInterface
         $typeNames = $this->mapper->getMappedTypes(self::ENTITY_TYPE);
         $config = [];
 
-        foreach ($this->getFilterAttributes() as $attribute) {
+        foreach ($this->getAttributeCollection() as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
 
             foreach ($typeNames as $typeName) {
@@ -119,25 +120,15 @@ class FilterAttributeReader implements ReaderInterface
     }
 
     /**
-     * Get attributes to use in product filter input
+     * Create attribute collection
      *
-     * @return array
+     * @return Collection|\Magento\Catalog\Model\ResourceModel\Eav\Attribute[]
      */
-    private function getFilterAttributes(): array
+    private function getAttributeCollection()
     {
-        $filterableAttributes = $this->collectionFactory
-            ->create()
-            ->addHasOptionsFilter()
-            ->addIsFilterableFilter()
-            ->getItems();
-
-        $searchableAttributes = $this->collectionFactory
-            ->create()
+        return $this->collectionFactory->create()
             ->addHasOptionsFilter()
             ->addIsSearchableFilter()
-            ->addDisplayInAdvancedSearchFilter()
-            ->getItems();
-
-        return $filterableAttributes + $searchableAttributes;
+            ->addDisplayInAdvancedSearchFilter();
     }
 }

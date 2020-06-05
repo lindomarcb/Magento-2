@@ -8,6 +8,9 @@ declare(strict_types=1);
 namespace Magento\Catalog\Controller\Adminhtml\Category\Save;
 
 use Magento\CatalogUrlRewrite\Model\Map\DataCategoryUrlRewriteDatabaseMap;
+use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\TestFramework\TestCase\AbstractBackendController;
 use Magento\UrlRewrite\Model\ResourceModel\UrlRewriteCollectionFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
@@ -17,20 +20,23 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class UrlRewriteTest extends AbstractSaveCategoryTest
+class UrlRewriteTest extends AbstractBackendController
 {
-    /**
-     * @var UrlRewriteCollectionFactory
-     */
+    /** @var $urlRewriteCollectionFactory */
     private $urlRewriteCollectionFactory;
 
+    /** @var Json */
+    private $jsonSerializer;
+
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function setUp()
     {
         parent::setUp();
+
         $this->urlRewriteCollectionFactory = $this->_objectManager->get(UrlRewriteCollectionFactory::class);
+        $this->jsonSerializer = $this->_objectManager->get(Json::class);
     }
 
     /**
@@ -41,14 +47,19 @@ class UrlRewriteTest extends AbstractSaveCategoryTest
      */
     public function testUrlRewrite(array $data): void
     {
-        $responseData = $this->performSaveCategoryRequest($data);
-        $this->assertRequestIsSuccessfullyPerformed($responseData);
-        $categoryId = $responseData['category']['entity_id'];
+        $this->getRequest()->setMethod(HttpRequest::METHOD_POST);
+        $this->getRequest()->setPostValue($data);
+        $this->dispatch('backend/catalog/category/save');
+        $categoryId = $this->jsonSerializer->unserialize($this->getResponse()->getBody())['category']['entity_id'];
         $this->assertNotNull($categoryId, 'The category was not created');
         $urlRewriteCollection = $this->urlRewriteCollectionFactory->create();
         $urlRewriteCollection->addFieldToFilter(UrlRewrite::ENTITY_ID, ['eq' => $categoryId])
             ->addFieldToFilter(UrlRewrite::ENTITY_TYPE, ['eq' => DataCategoryUrlRewriteDatabaseMap::ENTITY_TYPE]);
-        $this->assertEquals(1, $urlRewriteCollection->getSize(), 'Wrong count of url rewrites was created');
+        $this->assertCount(
+            1,
+            $urlRewriteCollection->getItems(),
+            'Wrong count of url rewrites was created'
+        );
     }
 
     /**
@@ -66,6 +77,7 @@ class UrlRewriteTest extends AbstractSaveCategoryTest
                     'include_in_menu' => '1',
                     'display_mode' => 'PRODUCTS',
                     'is_anchor' => true,
+                    'return_session_messages_only' => true,
                     'use_config' => [
                         'available_sort_by' => 1,
                         'default_sort_by' => 1,

@@ -92,17 +92,7 @@ class MediaGalleryProcessor
                     if ($updatedEntry['file'] === null) {
                         unset($updatedEntry['file']);
                     }
-                    if (isset($updatedEntry['content'])) {
-                        //need to recreate image and reset object
-                        $existingEntry['recreate'] = true;
-                        // phpcs:ignore Magento2.Performance.ForeachArrayMerge
-                        $newEntry = array_merge($existingEntry, $updatedEntry);
-                        $newEntries[] = $newEntry;
-                        unset($existingMediaGallery[$key]);
-                    } else {
-                        // phpcs:ignore Magento2.Performance.ForeachArrayMerge
-                        $existingMediaGallery[$key] = array_merge($existingEntry, $updatedEntry);
-                    }
+                    $existingMediaGallery[$key] = array_merge($existingEntry, $updatedEntry);
                 } else {
                     //set the removed flag
                     $existingEntry['removed'] = true;

@@ -1,7 +1,5 @@
 <?php
 
-namespace Dotdigitalgroup\Email\Test\Unit\Model\Sync\Catalog;
-
 use Dotdigitalgroup\Email\Helper\Data;
 use Dotdigitalgroup\Email\Model\Importer;
 use Dotdigitalgroup\Email\Model\ImporterFactory;
@@ -71,12 +69,8 @@ class StoreCatalogSyncerTest extends TestCase
      * @param $websiteId
      * @param $importType
      */
-    public function testThatIfImporterIsSuccessThenSyncByStoreReturnsTheProducts(
-        $productToProcess,
-        $storeId,
-        $websiteId,
-        $importType
-    ) {
+    public function testThatIfImporterIsSuccessThenSyncByStoreReturnsTheProducts($productToProcess, $storeId, $websiteId, $importType)
+    {
         $products = $this->getMockProducts();
 
         $this->exporterMock->expects($this->once())
@@ -109,12 +103,8 @@ class StoreCatalogSyncerTest extends TestCase
      * @param $websiteId
      * @param $importType
      */
-    public function testThatIfImporterFailsThenSyncByStoreReturnsEmptyArray(
-        $productToProcess,
-        $storeId,
-        $websiteId,
-        $importType
-    ) {
+    public function testThatIfImporterFailsThenSyncByStoreReturnsEmptyArray($productToProcess, $storeId, $websiteId, $importType)
+    {
         $products = $this->getMockProducts();
 
         $this->exporterMock->expects($this->once())

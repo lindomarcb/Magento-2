@@ -100,10 +100,7 @@ class StudioTest extends \PHPUnit\Framework\TestCase
     public function testEcLoginNoCreds()
     {
         $url = parse_url($this->studio->getAction());
-        $this->assertStringStartsWith(
-            $this->trialSetup->getTrialSignupHostAndScheme(),
-            sprintf('%s://%s', $url['scheme'], $url['host'])
-        );
+        $this->assertStringStartsWith($this->trialSetup->getTrialSignupHostAndScheme(), sprintf('%s://%s', $url['scheme'], $url['host']));
     }
 
     /**

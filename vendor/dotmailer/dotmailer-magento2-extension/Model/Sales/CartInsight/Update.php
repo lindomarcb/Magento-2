@@ -39,7 +39,8 @@ class Update
         \Magento\Quote\Model\QuoteRepository $quoteRepository,
         Data $abandonedCartData,
         \Dotdigitalgroup\Email\Model\ImporterFactory $importerFactory
-    ) {
+    )
+    {
         $this->automationFactory = $automationFactory;
         $this->quoteRepository = $quoteRepository;
         $this->abandonedCartData = $abandonedCartData;

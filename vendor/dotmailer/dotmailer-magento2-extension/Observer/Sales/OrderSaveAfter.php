@@ -63,7 +63,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
     private $helper;
 
     /**
-     * @var Magento\Framework\Serialize\SerializerInterface
+     * @var \Dotdigitalgroup\Email\Model\Config\Json
      */
     private $serializer;
 
@@ -89,7 +89,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
      * @param \Dotdigitalgroup\Email\Model\ResourceModel\Order $orderResource
      * @param \Dotdigitalgroup\Email\Model\OrderFactory $emailOrderFactory
      * @param \Magento\Framework\Registry $registry
-     * @param Magento\Framework\Serialize\SerializerInterface $serializer
+     * @param \Dotdigitalgroup\Email\Model\Config\Json $serializer
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManagerInterface
      * @param \Magento\Store\Model\App\EmulationFactory $emulationFactory
@@ -105,7 +105,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
         \Dotdigitalgroup\Email\Model\ResourceModel\Order $orderResource,
         \Dotdigitalgroup\Email\Model\OrderFactory $emailOrderFactory,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Serialize\SerializerInterface $serializer,
+        \Dotdigitalgroup\Email\Model\Config\Json $serializer,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManagerInterface,
         \Magento\Store\Model\App\EmulationFactory $emulationFactory,
@@ -160,7 +160,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
             ->setOrderStatus($status);
 
         if ($emailOrder->getEmailImported() != \Dotdigitalgroup\Email\Model\Contact::EMAIL_CONTACT_IMPORTED) {
-            $emailOrder->setEmailImported(0);
+            $emailOrder->setEmailImported(null);
         }
 
         $isEnabled = $this->helper->isStoreEnabled($store->getId());
@@ -298,18 +298,19 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
      * @param int $websiteId
      * @param string $storeName
      *
-     * @return void
+     * @return null
      */
     private function statusCheckAutomationEnrolment($order, $status, $customerEmail, $websiteId, $storeName)
     {
-        $orderStatusAutomations = $this->scopeConfig->getValue(
-            \Dotdigitalgroup\Email\Helper\Config::XML_PATH_CONNECTOR_AUTOMATION_STUDIO_ORDER_STATUS,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $order->getStore()
+        $configStatusAutomationMap = $this->serializer->unserialize(
+            $this->scopeConfig->getValue(
+                \Dotdigitalgroup\Email\Helper\Config::XML_PATH_CONNECTOR_AUTOMATION_STUDIO_ORDER_STATUS,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $order->getStore()
+            )
         );
 
-        try {
-            $configStatusAutomationMap = $this->serializer->unserialize($orderStatusAutomations);
+        if (!empty($configStatusAutomationMap)) {
             foreach ($configStatusAutomationMap as $configMap) {
                 if ($configMap['status'] == $status) {
                     //send to automation queue
@@ -325,8 +326,6 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
                     );
                 }
             }
-        } catch (\InvalidArgumentException $e) {
-            return;
         }
     }
 }

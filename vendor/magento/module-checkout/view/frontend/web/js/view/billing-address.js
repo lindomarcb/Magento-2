@@ -255,11 +255,9 @@ function (
                 return attribute.label;
             }
 
-            if (typeof this.source.get('customAttributes') !== 'undefined') {
-                resultAttribute = _.findWhere(this.source.get('customAttributes')[attribute['attribute_code']], {
-                    value: attribute.value
-                });
-            }
+            resultAttribute = _.findWhere(this.source.get('customAttributes')[attribute['attribute_code']], {
+                value: attribute.value
+            });
 
             return resultAttribute && resultAttribute.label || attribute.value;
         }

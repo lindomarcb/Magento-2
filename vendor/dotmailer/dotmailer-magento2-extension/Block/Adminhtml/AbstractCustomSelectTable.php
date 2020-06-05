@@ -83,8 +83,7 @@ abstract class AbstractCustomSelectTable extends AbstractFieldArray
     {
         $options = [];
         foreach (array_keys($this->getColumnLayout()) as $field) {
-            $optionHash = $this->getFieldRenderer()->calcOptionHash($row->getData($field));
-            $options['option_' . $optionHash] = 'selected="selected"';
+            $options['option_' . $this->getFieldRenderer()->calcOptionHash($row->getData($field))] = 'selected="selected"';
         }
 
         $row->setData('option_extra_attrs', $options);

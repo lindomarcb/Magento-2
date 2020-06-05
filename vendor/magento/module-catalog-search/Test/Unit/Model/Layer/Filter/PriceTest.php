@@ -209,6 +209,12 @@ class PriceTest extends \PHPUnit\Framework\TestCase
         $priceId = '15-50';
         $requestVar = 'test_request_var';
 
+        $this->target->setAttributeModel($this->attribute);
+        $attributeCode = 'price';
+        $this->attribute->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+
         $this->target->setRequestVar($requestVar);
         $this->request->expects($this->exactly(1))
             ->method('getParam')

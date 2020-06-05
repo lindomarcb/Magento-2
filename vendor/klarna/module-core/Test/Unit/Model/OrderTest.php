@@ -13,6 +13,9 @@ namespace Klarna\Core\Model;
 use Klarna\Core\Api\OrderInterface;
 
 /**
+ * Class OrderTest
+ *
+ * @package Klarna\Core\Model
  * @coversDefaultClass \Klarna\Core\Model\Order
  */
 class OrderTest extends \PHPUnit\Framework\TestCase

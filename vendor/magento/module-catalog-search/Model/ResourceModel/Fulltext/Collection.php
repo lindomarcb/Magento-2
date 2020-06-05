@@ -386,8 +386,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
     public function clear()
     {
         $this->searchResult = null;
-        $this->setFlag('has_category_filter', false);
-
         return parent::clear();
     }
 
@@ -398,8 +396,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
     protected function _reset()
     {
         $this->searchResult = null;
-        $this->setFlag('has_category_filter', false);
-
         return parent::_reset();
     }
 
@@ -430,11 +426,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
             throw $e;
         }
 
-        $position = 0;
         foreach ($rows as $value) {
-            if ($this->getFlag('has_category_filter')) {
-                $value['cat_index_position'] = $position++;
-            }
             $object = $this->getNewEmptyItem()->setData($value);
             $this->addItem($object);
             if (isset($this->_itemsById[$object->getId()])) {
@@ -442,9 +434,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
             } else {
                 $this->_itemsById[$object->getId()] = [$object];
             }
-        }
-        if ($this->getFlag('has_category_filter')) {
-            $this->setFlag('has_category_filter', false);
         }
 
         return $this;
@@ -685,7 +674,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         if ($this->defaultFilterStrategyApplyChecker->isApplicable()) {
             parent::addCategoryFilter($category);
         } else {
-            $this->setFlag('has_category_filter', true);
             $this->_productLimitationPrice();
         }
 

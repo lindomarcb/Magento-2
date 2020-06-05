@@ -60,7 +60,7 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
      */
     public function open($filename)
     {
-        if (!$filename || filesize($filename) === 0 || !$this->validateURLScheme($filename)) {
+        if (!$filename || filesize($filename) === 0) {
             throw new \InvalidArgumentException('Wrong file');
         }
         $this->_fileName = $filename;
@@ -85,23 +85,6 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
                 }
             }
         }
-    }
-
-    /**
-     * Checks for invalid URL schema if it exists
-     *
-     * @param string $filename
-     * @return bool
-     */
-    private function validateURLScheme(string $filename) : bool
-    {
-        $allowed_schemes = ['ftp', 'ftps', 'http', 'https'];
-        $url = parse_url($filename);
-        if ($url && isset($url['scheme']) && !in_array($url['scheme'], $allowed_schemes)) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -839,9 +822,8 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
      * @param int $src_w
      * @param int $src_h
      * @param int $pct
+     *
      * @return bool
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function imagecopymergeWithAlphaFix(
         $dst_im,
@@ -877,24 +859,12 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
             return false;
         }
 
-        if (false === imagesavealpha($tmpImg, true)) {
-            return false;
-        }
-
         if (false === imagecopy($tmpImg, $src_im, 0, 0, 0, 0, $sizeX, $sizeY)) {
             return false;
         }
 
-        $transparency = 127 - (($pct*127)/100);
-        if (false === imagefilter($tmpImg, IMG_FILTER_COLORIZE, 0, 0, 0, $transparency)) {
-            return false;
-        }
-
-        if (false === imagealphablending($dst_im, true)) {
-            return false;
-        }
-
-        if (false === imagesavealpha($dst_im, true)) {
+        $transparancy = 127 - (($pct*127)/100);
+        if (false === imagefilter($tmpImg, IMG_FILTER_COLORIZE, 0, 0, 0, $transparancy)) {
             return false;
         }
 

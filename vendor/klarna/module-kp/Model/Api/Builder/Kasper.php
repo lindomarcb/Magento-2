@@ -29,6 +29,9 @@ use Magento\Quote\Model\Quote\Address;
 use Klarna\Core\Api\BuilderInterface;
 
 /**
+ * Class Kasper
+ *
+ * @package Klarna\Kp\Model\Api\Builder
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Kasper extends \Klarna\Core\Model\Api\Builder
@@ -46,6 +49,8 @@ class Kasper extends \Klarna\Core\Model\Api\Builder
     private $rate;
 
     /**
+     * Kasper constructor.
+     *
      * @param EventManager                                $eventManager
      * @param Collector                                   $collector
      * @param Url                                         $url
@@ -156,11 +161,7 @@ class Kasper extends \Klarna\Core\Model\Api\Builder
             $tax += $fptResult['tax'];
         }
 
-        $country = $address->getCountryId();
-        if ($country === null) {
-            $country = $this->directoryHelper->getDefaultCountry($store);
-        }
-        $this->requestBuilder->setPurchaseCountry($country)
+        $this->requestBuilder->setPurchaseCountry($this->directoryHelper->getDefaultCountry($store))
             ->setPurchaseCurrency($quote->getBaseCurrencyCode())
             ->setLocale(str_replace('_', '-', $this->configHelper->getLocaleCode()))
             ->setOptions($options)

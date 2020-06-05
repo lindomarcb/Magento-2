@@ -1700,11 +1700,7 @@ EOF;
                         if (!$v) {
                             continue;
                         }
-                        $id = (string) $v;
-                        while ($this->container->hasAlias($id)) {
-                            $id = (string) $this->container->getAlias($id);
-                        }
-                        $definition = $this->container->getDefinition($id);
+                        $definition = $this->container->findDefinition($id = (string) $v);
                         $load = !($definition->hasErrors() && $e = $definition->getErrors()) ? $this->asFiles && !$this->inlineFactories && !$this->isHotPath($definition) : reset($e);
                         $serviceMap .= sprintf("\n            %s => [%s, %s, %s, %s],",
                             $this->export($k),

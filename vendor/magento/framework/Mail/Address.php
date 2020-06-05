@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\Framework\Mail;
 
 /**
- * Class Address
+ * Class MailAddress
  */
 class Address
 {
@@ -23,7 +23,7 @@ class Address
     private $email;
 
     /**
-     * Address constructor
+     * MailAddress constructor
      *
      * @param string|null $email
      * @param string|null $name
@@ -49,9 +49,9 @@ class Address
     /**
      * Email getter
      *
-     * @return string|null
+     * @return string
      */
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }

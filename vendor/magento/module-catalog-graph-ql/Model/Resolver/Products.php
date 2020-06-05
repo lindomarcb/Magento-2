@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\CatalogGraphQl\Model\Resolver;
 
-use Magento\CatalogGraphQl\Model\Resolver\Products\Query\ProductQueryInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\CatalogGraphQl\Model\Resolver\Products\Query\Filter;
 use Magento\CatalogGraphQl\Model\Resolver\Products\Query\Search;
@@ -25,9 +24,27 @@ use Magento\CatalogGraphQl\DataProvider\Product\SearchCriteriaBuilder;
 class Products implements ResolverInterface
 {
     /**
-     * @var ProductQueryInterface
+     * @var Builder
+     * @deprecated 100.3.4
+     */
+    private $searchCriteriaBuilder;
+
+    /**
+     * @var Search
      */
     private $searchQuery;
+
+    /**
+     * @var Filter
+     * @deprecated 100.3.4
+     */
+    private $filterQuery;
+
+    /**
+     * @var SearchFilter
+     * @deprecated 100.3.4
+     */
+    private $searchFilter;
 
     /**
      * @var SearchCriteriaBuilder
@@ -35,14 +52,23 @@ class Products implements ResolverInterface
     private $searchApiCriteriaBuilder;
 
     /**
-     * @param ProductQueryInterface $searchQuery
+     * @param Builder $searchCriteriaBuilder
+     * @param Search $searchQuery
+     * @param Filter $filterQuery
+     * @param SearchFilter $searchFilter
      * @param SearchCriteriaBuilder|null $searchApiCriteriaBuilder
      */
     public function __construct(
-        ProductQueryInterface $searchQuery,
+        Builder $searchCriteriaBuilder,
+        Search $searchQuery,
+        Filter $filterQuery,
+        SearchFilter $searchFilter,
         SearchCriteriaBuilder $searchApiCriteriaBuilder = null
     ) {
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->searchQuery = $searchQuery;
+        $this->filterQuery = $filterQuery;
+        $this->searchFilter = $searchFilter;
         $this->searchApiCriteriaBuilder = $searchApiCriteriaBuilder ??
             \Magento\Framework\App\ObjectManager::getInstance()->get(SearchCriteriaBuilder::class);
     }
@@ -69,7 +95,11 @@ class Products implements ResolverInterface
             );
         }
 
-        $searchResult = $this->searchQuery->getResult($args, $info);
+        //get product children fields queried
+        $productFields = (array)$info->getFieldSelection(1);
+        $includeAggregations = isset($productFields['filters']) || isset($productFields['aggregations']);
+        $searchCriteria = $this->searchApiCriteriaBuilder->build($args, $includeAggregations);
+        $searchResult = $this->searchQuery->getResult($searchCriteria, $info, $args);
 
         if ($searchResult->getCurrentPage() > $searchResult->getTotalPages() && $searchResult->getTotalCount() > 0) {
             throw new GraphQlInputException(

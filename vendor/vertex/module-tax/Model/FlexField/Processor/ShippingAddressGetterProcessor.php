@@ -16,7 +16,6 @@ use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\OrderItemRepositoryInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
-use Vertex\Tax\Model\Api\Utility\IsVirtualLineItemDeterminer;
 use Vertex\Tax\Model\FlexField\Extractor\AttributeExtractor;
 use Vertex\Tax\Model\FlexField\Extractor\EavAttributeExtractor;
 use Vertex\Tax\Model\FlexField\Extractor\EavValueExtractor;
@@ -83,9 +82,6 @@ class ShippingAddressGetterProcessor implements
     /** @var EavValueExtractor */
     private $valueExtractor;
 
-    /** @var IsVirtualLineItemDeterminer */
-    private $isVirtualLineItemDeterminer;
-
     /**
      * @param AttributeExtractor $attributeExtractor
      * @param EavAttributeExtractor $eavAttributeExtractor
@@ -95,7 +91,6 @@ class ShippingAddressGetterProcessor implements
      * @param OrderItemRepositoryInterface $orderItemRepository
      * @param ShippingAddressRetriever $shippingAddressRetriever
      * @param AttributeRenamer $attributeRenamer
-     * @param IsVirtualLineItemDeterminer $isVirtualLineItemDeterminer
      */
     public function __construct(
         AttributeExtractor $attributeExtractor,
@@ -105,8 +100,7 @@ class ShippingAddressGetterProcessor implements
         OrderRepositoryInterface $orderRepository,
         OrderItemRepositoryInterface $orderItemRepository,
         ShippingAddressRetriever $shippingAddressRetriever,
-        AttributeRenamer $attributeRenamer,
-        IsVirtualLineItemDeterminer $isVirtualLineItemDeterminer
+        AttributeRenamer $attributeRenamer
     ) {
         $this->attributeExtractor = $attributeExtractor;
         $this->eavAttributeExtractor = $eavAttributeExtractor;
@@ -116,7 +110,6 @@ class ShippingAddressGetterProcessor implements
         $this->orderRepository = $orderRepository;
         $this->shippingAddressRetriever = $shippingAddressRetriever;
         $this->attributeRenamer = $attributeRenamer;
-        $this->isVirtualLineItemDeterminer = $isVirtualLineItemDeterminer;
     }
 
     /**
@@ -160,16 +153,13 @@ class ShippingAddressGetterProcessor implements
         $fieldType = null,
         $fieldId = null
     ) {
-        if ($this->isVirtualLineItemDeterminer->isCreditMemoItemVirtual($item)) {
-            return null;
-        }
-
         try {
             $orderItem = $this->orderItemRepository->get($item->getOrderItemId());
-            return $this->getValueFromOrderId($orderItem->getOrderId(), $attributeCode);
         } catch (NoSuchEntityException $e) {
             return null;
         }
+
+        return $this->getValueFromOrderId($orderItem->getOrderId(), $attributeCode);
     }
 
     /**
@@ -177,16 +167,13 @@ class ShippingAddressGetterProcessor implements
      */
     public function getValueFromInvoice(InvoiceItemInterface $item, $attributeCode, $fieldType = null, $fieldId = null)
     {
-        if ($this->isVirtualLineItemDeterminer->isInvoiceItemVirtual($item)) {
-            return null;
-        }
-
         try {
             $orderItem = $this->orderItemRepository->get($item->getOrderItemId());
-            return $this->getValueFromOrderId($orderItem->getOrderId(), $attributeCode);
         } catch (NoSuchEntityException $e) {
             return null;
         }
+
+        return $this->getValueFromOrderId($orderItem->getOrderId(), $attributeCode);
     }
 
     /**
@@ -194,9 +181,6 @@ class ShippingAddressGetterProcessor implements
      */
     public function getValueFromOrder(OrderItemInterface $item, $attributeCode, $fieldType = null, $fieldId = null)
     {
-        if ($this->isVirtualLineItemDeterminer->isOrderItemVirtual($item)) {
-            return null;
-        }
         return $this->getValueFromOrderId($item->getOrderId(), $attributeCode);
     }
 
@@ -210,10 +194,7 @@ class ShippingAddressGetterProcessor implements
         $fieldId = null
     ) {
         $extAttributes = $item->getExtensionAttributes();
-        if (!$extAttributes
-            || !$extAttributes->getQuoteId()
-            || $this->isVirtualLineItemDeterminer->isQuoteDetailsItemVirtual($item)
-        ) {
+        if (!$extAttributes || !$extAttributes->getQuoteId()) {
             return null;
         }
 

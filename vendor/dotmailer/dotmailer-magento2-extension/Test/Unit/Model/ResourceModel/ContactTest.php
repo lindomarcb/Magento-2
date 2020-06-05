@@ -19,9 +19,7 @@ class ContactTest extends TestCase
     {
         $this->makeMocks();
 
-        $this->resourceConnectionMock = $this->getMockBuilder(\Magento\Framework\App\ResourceConnection::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->resourceConnectionMock = $this->getMockBuilder(\Magento\Framework\App\ResourceConnection::class)->disableOriginalConstructor()->getMock();
 
         $this->constructorMocks[\Magento\Framework\Model\ResourceModel\Db\Context::class]
             ->expects($this->any())
@@ -41,24 +39,18 @@ class ContactTest extends TestCase
             ->expects($this->once())
             ->method('create')
             ->willReturn(new class() {
-                public function addFieldToSelect()
-                {
+                public function addFieldToSelect() {
                     return $this;
                 }
-                public function addFieldToFilter($table, array $filter)
-                {
+                public function addFieldToFilter($table, array $filter) {
                     return $this;
                 }
-                public function getData()
-                {
+                public function getData() {
                     return [
                         ['email' => 'i@resubscribedrecently.com', 'last_subscribed_at' => '2019-05-02 11:00:00'],
                         ['email' => 'someone@example.com', 'last_subscribed_at' => null],
                         ['email' => 'someoneelse@example.com', 'last_subscribed_at' => '2019-05-02 10:00:00'],
-                        [
-                            'email' => 'ben@onboardingforlivechatforengagementcloudformagento.co.uk',
-                            'last_subscribed_at' => '2019-04-25 10:00:00'
-                        ],
+                        ['email' => 'ben@onboardingforlivechatforengagementcloudformagento.co.uk', 'last_subscribed_at' => '2019-04-25 10:00:00'],
                     ];
                 }
             });
@@ -66,8 +58,7 @@ class ContactTest extends TestCase
         // anonymous class which will pretend to be the resource connection and steal it's warez
         $connection = new class() {
             public $wheres;
-            public function update($table, array $columns, array $wheres)
-            {
+            public function update($table, array $columns, array $wheres) {
                 $this->wheres = reset($wheres);
             }
         };

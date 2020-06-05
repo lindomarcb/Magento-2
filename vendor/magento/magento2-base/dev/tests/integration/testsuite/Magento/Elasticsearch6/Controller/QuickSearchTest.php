@@ -9,7 +9,6 @@ namespace Magento\Elasticsearch6\Controller;
 
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TestFramework\TestCase\AbstractController;
-use Magento\TestModuleCatalogSearch\Model\ElasticsearchVersionChecker;
 
 /**
  * Tests quick search on Storefront.
@@ -27,12 +26,6 @@ class QuickSearchTest extends AbstractController
     protected function setUp()
     {
         parent::setUp();
-        // phpstan:ignore "Class Magento\TestModuleCatalogSearch\Model\ElasticsearchVersionChecker not found."
-        $checker = $this->_objectManager->get(ElasticsearchVersionChecker::class);
-
-        if ($checker->getVersion() !== 6) {
-            $this->markTestSkipped('The installed elasticsearch version isn\'t supported by test');
-        }
         $this->storeManager = $this->_objectManager->get(StoreManagerInterface::class);
     }
 
@@ -49,7 +42,7 @@ class QuickSearchTest extends AbstractController
      * @magentoConfigFixture fixturestore_store catalog/search/elasticsearch6_index_prefix storefront_quick_search
      * @magentoDataFixture Magento/Catalog/_files/products_for_search.php
      * @magentoDataFixture Magento/Store/_files/core_fixturestore.php
-     * @magentoDataFixture Magento/Elasticsearch6/_files/full_reindex.php
+     * @magentoDataFixture Magento/CatalogSearch/_files/full_reindex.php
      */
     public function testQuickSearchWithImprovedPriceRangeCalculation()
     {

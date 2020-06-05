@@ -62,10 +62,7 @@
         <see selector="{{StorefrontCatalogSearchMainSection.relatedSearchTerm}}" userInput="{{term}}" stepKey="checkRelatedTermExists"/>
     </actionGroup>
 
-    <!--
-    NOTICE: StorefrontOpenProductFromQuickSearch is deprecated.
-            Please use StorefrontOpenProductFromQuickSearchActionGroup instead.
-    -->
+    <!-- Opens product from QuickSearch and performs assertions-->
     <actionGroup name="StorefrontOpenProductFromQuickSearch">
         <annotations>
             <description>Clicks on the provided Product Name from the Storefront Quick Search Results page.</description>
@@ -98,10 +95,6 @@
         <see selector="{{StorefrontQuickSearchResultsSection.messageSection}}" userInput="You added {{productName}} to your shopping cart." stepKey="seeAddedToCartMessage"/>
     </actionGroup>
 
-    <!--
-    NOTICE: StorefrontQuickSearchCheckProductNameInGrid is deprecated.
-            Please use StorefrontQuickSearchCheckProductNameInGridActionGroup instead.
-    -->
     <actionGroup name="StorefrontQuickSearchCheckProductNameInGrid">
         <annotations>
             <description>Validates that the provided Product Name appears at the correct index on the Storefront Quick Search page.</description>

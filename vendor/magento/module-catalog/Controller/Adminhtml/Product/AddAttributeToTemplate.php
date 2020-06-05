@@ -17,11 +17,9 @@ use Magento\Eav\Api\Data\AttributeGroupInterface;
 use Magento\Eav\Api\Data\AttributeGroupInterfaceFactory;
 use Magento\Eav\Api\Data\AttributeInterface;
 use Magento\Eav\Api\Data\AttributeSetInterface;
-use Magento\Eav\Model\Cache\Type as CacheType;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\CacheInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
@@ -31,7 +29,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 
 /**
- * Assign attribute to attribute set.
+ * Class AddAttributeToTemplate
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -83,11 +81,6 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
     protected $extensionAttributesFactory;
 
     /**
-     * @var CacheInterface
-     */
-    private $cache;
-
-    /**
      * Constructor
      *
      * @param Context $context
@@ -101,8 +94,8 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
      * @param AttributeManagementInterface $attributeManagement
      * @param LoggerInterface $logger
      * @param ExtensionAttributesFactory $extensionAttributesFactory
-     * @param CacheInterface|null $cache
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
@@ -116,8 +109,7 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
         SearchCriteriaBuilder $searchCriteriaBuilder = null,
         AttributeManagementInterface $attributeManagement = null,
         LoggerInterface $logger = null,
-        ExtensionAttributesFactory $extensionAttributesFactory = null,
-        CacheInterface $cache = null
+        ExtensionAttributesFactory $extensionAttributesFactory = null
     ) {
         parent::__construct($context, $productBuilder);
         $this->resultJsonFactory = $resultJsonFactory;
@@ -137,7 +129,6 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
             ->get(LoggerInterface::class);
         $this->extensionAttributesFactory = $extensionAttributesFactory ?: ObjectManager::getInstance()
             ->get(ExtensionAttributesFactory::class);
-        $this->cache = $cache ?? ObjectManager::getInstance()->get(CacheInterface::class);
     }
 
     /**
@@ -212,7 +203,6 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
                     );
                 }
             );
-            $this->cache->clean([CacheType::CACHE_TAG]);
         } catch (LocalizedException $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
@@ -233,7 +223,7 @@ class AddAttributeToTemplate extends Product implements HttpPostActionInterface
      */
     private function getBasicAttributeSearchCriteriaBuilder()
     {
-        $attributeIds = (array)$this->getRequest()->getParam('attributeIds', []);
+        $attributeIds = (array) $this->getRequest()->getParam('attributeIds', []);
 
         if (empty($attributeIds['selected'])) {
             throw new LocalizedException(__('Attributes were missing and must be specified.'));

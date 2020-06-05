@@ -151,12 +151,4 @@ class Gd2Test extends \PHPUnit\Framework\TestCase
 
         $this->assertNotEquals($type1, $type2);
     }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testOpenInvalidURL()
-    {
-        $this->adapter->open('bar://foo.bar');
-    }
 }

@@ -3,12 +3,12 @@
 namespace Dotdigitalgroup\Email\Plugin;
 
 use Dotdigitalgroup\Email\Helper\Transactional;
+use Dotdigitalgroup\Email\Model\Email\TemplateFactory;
 use Magento\Framework\Mail\MessageInterface;
 use Magento\Framework\Registry;
 use Zend\Mime\Mime;
 use Zend\Mime\Part;
 use Dotdigitalgroup\Email\Model\Mail\SmtpTransportZend2;
-use Dotdigitalgroup\Email\Model\Email\TemplateService;
 
 class MessagePlugin
 {
@@ -23,24 +23,24 @@ class MessagePlugin
     private $registry;
 
     /**
-     * @var TemplateService
+     * @var TemplateFactory
      */
-    private $templateService;
+    private $templateFactory;
 
     /**
      * MessagePlugin constructor.
      * @param Registry $registry
      * @param Transactional $transactionalHelper
-     * @param TemplateService $templateService
+     * @param TemplateFactory $templateFactory
      */
     public function __construct(
         Registry $registry,
         Transactional $transactionalHelper,
-        TemplateService $templateService
+        TemplateFactory $templateFactory
     ) {
         $this->registry = $registry;
         $this->transactionalHelper = $transactionalHelper;
-        $this->templateService = $templateService;
+        $this->templateFactory = $templateFactory;
     }
 
     /**
@@ -51,17 +51,10 @@ class MessagePlugin
      */
     public function beforeSetBody(MessageInterface $message, $body)
     {
-        if ($this->shouldIntercept()) {
-            if ($body instanceof \Zend\Mime\Message && $body->getParts()) {
-                foreach ($body->getParts() as $bodyPart) {
-                    if ($bodyPart instanceof Part) {
-                        $bodyPart->setEncoding(Mime::ENCODING_QUOTEDPRINTABLE);
-                    }
-                }
-                return [$body];
-            }
-            $templateId = $this->templateService->getTemplateId();
-            if ($templateId && is_string($body) && !$message instanceof \Zend_Mail) {
+        $dotTemplate = $this->templateFactory->create();
+        $templateId = $dotTemplate->loadTemplateIdFromRegistry();
+        if ($templateId && $this->shouldIntercept()) {
+            if (is_string($body) && ! $message instanceof \Zend_Mail) {
                 return [self::createMimeFromString($body)];
             }
         }

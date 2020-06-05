@@ -2,12 +2,10 @@
 
 namespace Dotdigitalgroup\Email\Model\Customer;
 
-use Dotdigitalgroup\Email\Model\Sync\SyncInterface;
-
 /**
  * Guest sync cronjob.
  */
-class Guest implements SyncInterface
+class Guest
 {
     /**
      * @var \Dotdigitalgroup\Email\Model\ResourceModel\Contact
@@ -69,11 +67,9 @@ class Guest implements SyncInterface
     /**
      * GUEST SYNC.
      *
-     * @param \DateTime|null $from
      * @return null
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function sync(\DateTime $from = null)
+    public function sync()
     {
         $this->start = microtime(true);
         $websites    = $this->helper->getWebsites();

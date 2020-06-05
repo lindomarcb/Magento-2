@@ -44,10 +44,10 @@ class ImportDataCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $start = microtime(true);
-        $output->writeln(__('Starting data import')->getText());
+        $output->writeln('Starting data import');
 
         $this->migrateData->setOutputInterface($output)->run();
 
-        $output->writeln(__(sprintf('Import complete in %s', round(microtime(true) - $start, 2)))->getText());
+        $output->writeln(sprintf('Import complete in %s', round(microtime(true) - $start, 2)));
     }
 }

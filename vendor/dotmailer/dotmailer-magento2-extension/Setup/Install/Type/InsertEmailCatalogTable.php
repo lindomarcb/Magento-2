@@ -2,7 +2,7 @@
 
 namespace Dotdigitalgroup\Email\Setup\Install\Type;
 
-use Dotdigitalgroup\Email\Setup\SchemaInterface as Schema;
+use Dotdigitalgroup\Email\Setup\Schema;
 
 class InsertEmailCatalogTable extends AbstractDataMigration implements InsertTypeInterface
 {
@@ -52,4 +52,5 @@ class InsertEmailCatalogTable extends AbstractDataMigration implements InsertTyp
             'created_at',
         ];
     }
+
 }

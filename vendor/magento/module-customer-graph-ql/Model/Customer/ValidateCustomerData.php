@@ -8,10 +8,9 @@ declare(strict_types=1);
 namespace Magento\CustomerGraphQl\Model\Customer;
 
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\Validator\EmailAddress as EmailAddressValidator;
 
 /**
- * Customer data validation used during customer account creation and updating
+ * Class ValidateCustomerData
  */
 class ValidateCustomerData
 {
@@ -23,22 +22,13 @@ class ValidateCustomerData
     private $getAllowedCustomerAttributes;
 
     /**
-     * @var EmailAddressValidator
-     */
-    private $emailAddressValidator;
-
-    /**
      * ValidateCustomerData constructor.
      *
      * @param GetAllowedCustomerAttributes $getAllowedCustomerAttributes
-     * @param EmailAddressValidator $emailAddressValidator
      */
-    public function __construct(
-        GetAllowedCustomerAttributes $getAllowedCustomerAttributes,
-        EmailAddressValidator $emailAddressValidator
-    ) {
+    public function __construct(GetAllowedCustomerAttributes $getAllowedCustomerAttributes)
+    {
         $this->getAllowedCustomerAttributes = $getAllowedCustomerAttributes;
-        $this->emailAddressValidator = $emailAddressValidator;
     }
 
     /**
@@ -67,12 +57,6 @@ class ValidateCustomerData
         if ($errorInput) {
             throw new GraphQlInputException(
                 __('Required parameters are missing: %1', [implode(', ', $errorInput)])
-            );
-        }
-
-        if (isset($customerData['email']) && !$this->emailAddressValidator->isValid($customerData['email'])) {
-            throw new GraphQlInputException(
-                __('"%1" is not a valid email address.', $customerData['email'])
             );
         }
     }

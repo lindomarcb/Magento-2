@@ -16,6 +16,11 @@ use Klarna\Kp\Api\Data\ResponseInterface;
 use Klarna\Kp\Model\Payment\Kp;
 use Magento\Checkout\Model\ConfigProviderInterface;
 
+/**
+ * Class KpConfigProvider
+ *
+ * @package Klarna\Kp\Model
+ */
 class KpConfigProvider implements ConfigProviderInterface
 {
     /**
@@ -29,6 +34,8 @@ class KpConfigProvider implements ConfigProviderInterface
     private $session;
 
     /**
+     * Constructor
+     *
      * @param ConfigHelper $config
      * @param Session      $session
      */

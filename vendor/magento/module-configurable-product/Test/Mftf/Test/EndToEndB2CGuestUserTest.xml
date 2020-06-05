@@ -73,9 +73,6 @@
             <!--<deleteData createDataKey="createConfigProductImage" stepKey="deleteConfigProductImage"/>-->
             <deleteData createDataKey="createConfigProduct" stepKey="deleteConfigProduct"/>
             <deleteData createDataKey="createConfigProductAttribute" stepKey="deleteConfigProductAttribute"/>
-
-            <!-- Reindex invalidated indices after product attribute has been created/deleted -->
-            <actionGroup ref="CliRunReindexUsingCronJobsActionGroup" stepKey="reindexInvalidatedIndices"/>
         </after>
 
         <!-- Verify Configurable Product in checkout cart items -->
@@ -285,9 +282,6 @@
             <!--<deleteData createDataKey="createConfigProductImage" stepKey="deleteConfigProductImage"/>-->
             <deleteData createDataKey="createConfigProduct" stepKey="deleteConfigProduct"/>
             <deleteData createDataKey="createConfigProductAttribute" stepKey="deleteConfigProductAttribute"/>
-
-            <!-- Reindex invalidated indices after product attribute has been created/deleted -->
-            <actionGroup ref="CliRunReindexUsingCronJobsActionGroup" stepKey="reindexInvalidatedIndices"/>
         </after>
 
         <!-- Verify Configurable Product in checkout cart items -->

@@ -182,7 +182,6 @@ define([
                     if (license || isLicensed) {
                         record['is_licensed'] = 1;
                         record['is_licensed_locally'] = 1;
-                        this.login().getUserQuota();
                     }
                     this.preview().displayedRecord(record);
                     this.source().reload({
@@ -303,6 +302,8 @@ define([
                             canPurchase = response.result.canLicense,
                             buyCreditsUrl = this.preview().buyCreditsUrl,
                             displayFieldName = !this.isDownloaded() ? '<b>' + $.mage.__('File Name') + '</b>' : '',
+                            filePathArray = record.path.split('/'),
+                            imageIndex = filePathArray.length - 1,
                             title = $.mage.__('License Adobe Stock Images?'),
                             cancelText = $.mage.__('Cancel'),
                             baseContent = '<p>' + confirmationContent + '</p><p><b>' + quotaMessage + '</b></p><br>';
@@ -319,7 +320,8 @@ define([
                                          */
                                         confirm: function (fileName) {
                                             if (typeof fileName === 'undefined') {
-                                                fileName = this.getImageNameFromPath(record.path);
+                                                fileName = filePathArray[imageIndex]
+                                                 .substring(0, filePathArray[imageIndex].lastIndexOf('.'));
                                             }
 
                                             this.licenseAndSave(record, fileName);
@@ -376,14 +378,7 @@ define([
                      * On error
                      */
                     error: function (response) {
-                        var defaultMessage = 'Failed to fetch licensing information.',
-                            errorMessage = response.JSON ? response.JSON.meassage : defaultMessage;
-
-                        if (response.status === 403) {
-                            errorMessage = $.mage.__('Your admin role does not have permissions to license an image');
-                        }
-
-                        messages.add('error', errorMessage);
+                        messages.add('error', response.responseJSON.message);
                         messages.scheduleCleanup(this.messageDelay);
                     }
                 }
@@ -443,8 +438,6 @@ define([
          * Save licensed
          */
         saveLicensed: function () {
-            var imageName = '';
-
             if (!this.login().user().isAuthorized) {
                 return;
             }
@@ -453,15 +446,6 @@ define([
                 return;
             }
 
-            // If there's a copy of the image (preview), get the filename from the copy
-            if (this.preview().displayedRecord().path !== '') {
-                imageName = this.getImageNameFromPath(this.preview().displayedRecord().path);
-                this.save(this.preview().displayedRecord(), imageName, false, true);
-
-                return;
-            }
-
-            // Ask user for the image name otherwise
             this.getPrompt(
                 {
                     'title': $.mage.__('Save'),
@@ -500,19 +484,6 @@ define([
          */
         getLicenseButtonTitle: function () {
             return this.isDownloaded() ?  $.mage.__('License') : $.mage.__('License and Save');
-        },
-
-        /**
-         * Extracts image name from its path
-         *
-         * @param {String} path
-         * @returns {String}
-         */
-        getImageNameFromPath: function (path) {
-            var filePathArray = path.split('/'),
-                imageIndex = filePathArray.length - 1;
-
-            return filePathArray[imageIndex].substring(0, filePathArray[imageIndex].lastIndexOf('.'));
         }
     });
 });

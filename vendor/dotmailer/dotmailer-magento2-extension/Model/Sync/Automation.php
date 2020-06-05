@@ -2,8 +2,6 @@
 
 namespace Dotdigitalgroup\Email\Model\Sync;
 
-use Magento\Framework\Serialize\SerializerInterface;
-
 /**
  * Sync automation by type.
  *
@@ -127,11 +125,6 @@ class Automation implements SyncInterface
     private $updateAbandoned;
 
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * Automation constructor.
      *
      * @param \Dotdigitalgroup\Email\Model\ResourceModel\Automation\CollectionFactory $automationFactory
@@ -143,7 +136,6 @@ class Automation implements SyncInterface
      * @param \Dotdigitalgroup\Email\Model\DateIntervalFactory $dateIntervalFactory,
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timeZone,
      * @param \Magento\Quote\Model\QuoteFactory $quoteFactory
-     * @param SerializerInterface $serializer
      */
     public function __construct(
         \Dotdigitalgroup\Email\Model\ResourceModel\Automation\CollectionFactory $automationFactory,
@@ -154,8 +146,7 @@ class Automation implements SyncInterface
         \Dotdigitalgroup\Email\Model\ResourceModel\Automation $automationResource,
         \Dotdigitalgroup\Email\Model\DateIntervalFactory $dateIntervalFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timeZone,
-        \Dotdigitalgroup\Email\Model\Automation\UpdateFields\Update $updateAbandoned,
-        SerializerInterface $serializer
+        \Dotdigitalgroup\Email\Model\Automation\UpdateFields\Update $updateAbandoned
     ) {
         $this->automationFactory = $automationFactory;
         $this->helper            = $helper;
@@ -166,7 +157,6 @@ class Automation implements SyncInterface
         $this->dateIntervalFactory = $dateIntervalFactory;
         $this->timeZone = $timeZone;
         $this->updateAbandoned = $updateAbandoned;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -341,12 +331,7 @@ class Automation implements SyncInterface
                 $this->updateNewOrderDatafields($websiteId);
                 break;
             case self::AUTOMATION_TYPE_ABANDONED_CART_PROGRAM_ENROLMENT:
-                $updated = $this->updateAbandoned->updateAbandonedCartDatafields(
-                    $email,
-                    $websiteId,
-                    $this->typeId,
-                    $this->storeName
-                );
+                $updated = $this->updateAbandoned->updateAbandonedCartDatafields($email, $websiteId, $this->typeId, $this->storeName);
                 break;
             default:
                 $this->updateDefaultDatafields($email, $websiteId);
@@ -530,19 +515,17 @@ class Automation implements SyncInterface
         $websites = $this->helper->getWebsites(true);
         foreach ($websites as $website) {
             if (strpos($type, self::ORDER_STATUS_AUTOMATION) !== false) {
-                try {
-                    $configValue = $this->serializer->unserialize(
-                        $this->helper->getWebsiteConfig($config, $website)
-                    );
+                $configValue = $this->helper->serializer->unserialize(
+                    $this->helper->getWebsiteConfig($config, $website)
+                );
 
+                if (is_array($configValue) && !empty($configValue)) {
                     foreach ($configValue as $one) {
                         if (strpos($type, $one['status']) !== false) {
                             $contacts[$website->getId()]['programId']
                                 = $one['automation'];
                         }
                     }
-                } catch (\InvalidArgumentException $e) {
-                    continue;
                 }
             } else {
                 $contacts[$website->getId()]['programId']

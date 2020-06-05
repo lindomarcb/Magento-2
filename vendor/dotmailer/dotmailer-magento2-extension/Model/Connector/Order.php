@@ -175,7 +175,7 @@ class Order
         $this->id = $orderData->getIncrementId();
         $this->email = $orderData->getCustomerEmail();
         $this->quoteId = $orderData->getQuoteId();
-        $this->storeName = $this->storeManager->getStore($orderData->getStoreId())->getName();
+        $this->storeName = $orderData->getStoreName();
         $this->purchaseDate = $orderData->getCreatedAt();
         $this->deliveryMethod = $orderData->getShippingDescription();
         $this->deliveryTotal = (float)number_format(
@@ -330,48 +330,16 @@ class Order
     private function processOrderItems($orderData, $syncCustomOption)
     {
         foreach ($orderData->getAllItems() as $productItem) {
-            if ($productItem->getProduct() === null) {
-                continue;
-            }
-            if (in_array($productItem->getProduct()->getTypeId(), ['configurable', 'bundle'])) {
-                // We store data for configurable and bundle products, to be output alongside their children
-                unset($parentProductModel, $parentLineItem);
-                $parentProductModel = $productItem->getProduct();
-                $parentLineItem = $productItem;
-
-                // Custom options stored against parent order items
-                $customOptions = ($syncCustomOption) ? $this->_getOrderItemOptions($productItem) : [];
-
-                continue;
+            //product custom options
+            $customOptions = [];
+            if ($syncCustomOption) {
+                $customOptions = $this->_getOrderItemOptions($productItem);
             }
 
-            if (empty($customOptions)) {
-                $customOptions = ($syncCustomOption) ? $this->_getOrderItemOptions($productItem) : [];
-            }
-
-            if (isset($parentProductModel) &&
-                isset($parentLineItem) &&
-                $parentLineItem->getId() === $productItem->getParentItemId()) {
-                $productModel = $parentProductModel;
-                $childProductModel = $productItem->getProduct();
-            } else {
-                $productModel = $productItem->getProduct();
-                $childProductModel = null;
-            }
-
-            /**
-             * Price
-             */
-            if (isset($parentLineItem) && $parentLineItem->getProduct()->getTypeId() === 'configurable') {
-                $price = $parentLineItem->getPrice();
-            } else {
-                $price = $productItem->getPrice();
-            }
+            $productModel = $productItem->getProduct();
 
             if ($productModel) {
-                /**
-                 * Categories
-                 */
+                // category names
                 $categoryCollection = $productModel->getCategoryCollection()
                     ->addAttributeToSelect('name');
                 $productCat = [];
@@ -385,30 +353,39 @@ class Order
                     );
                 }
 
-                /**
-                 * Product attributes
-                 */
-                $configAttributes = $this->getProductAttributesToSync($orderData->getStore()->getWebsite());
+                $attributeModel = $this->attributeHandler->create();
+                $attributes = null;
 
-                $attributeSetName = $this->attributeHandler->create()
-                    ->getAttributeSetName($productModel);
+                //selected attributes from config
+                $configAttributes = $attributeModel->getConfigAttributesForSync(
+                    $orderData->getStore()->getWebsite()
+                );
 
-                $attributes = $this->processProductAttributes($configAttributes, $productModel);
-                $childAttributes = $this->processProductAttributes($configAttributes, $childProductModel);
+                if ($configAttributes) {
+                    $configAttributes = explode(',', $configAttributes);
+                    //attributes from attribute set
+                    $attributesFromAttributeSet = $attributeModel->getAttributesArray(
+                        $productModel->getAttributeSetId()
+                    );
 
-                /**
-                 * Output
-                 */
+                    $attributes = $attributeModel->processConfigAttributes(
+                        $configAttributes,
+                        $attributesFromAttributeSet,
+                        $productModel
+                    );
+                }
+
+                $attributeSetName = $attributeModel->getAttributeSetName($productModel);
+
                 $productData = [
                     'name' => $productItem->getName(),
-                    'parent_name' => $productModel->getName(),
                     'sku' => $productItem->getSku(),
                     'qty' => (int)number_format(
                         $productItem->getData('qty_ordered'),
                         2
                     ),
                     'price' => (float)number_format(
-                        $price,
+                        $productItem->getPrice(),
                         2,
                         '.',
                         ''
@@ -416,11 +393,8 @@ class Order
                     'attribute-set' => $attributeSetName,
                     'categories' => $productCat
                 ];
-                if ($configAttributes && $attributes && $attributes->hasValues()) {
+                if ($configAttributes && $attributes->hasValues()) {
                     $productData['product_attributes'] = $attributes;
-                }
-                if ($configAttributes && $childAttributes && $childAttributes->hasValues()) {
-                    $productData['child_product_attributes'] = $childAttributes;
                 }
                 if ($customOptions) {
                     $productData['custom-options'] = $customOptions;
@@ -436,21 +410,20 @@ class Order
                         2
                     ),
                     'price' => (float)number_format(
-                        $price,
+                        $productItem->getPrice(),
                         2,
                         '.',
                         ''
                     ),
                     'attribute-set' => '',
                     'categories' => [],
+                    'custom-options' => $customOptions,
                 ];
-                if ($customOptions) {
-                    $productData['custom-options'] = $customOptions;
+                if (!$customOptions) {
+                    unset($productData['custom-options']);
                 }
                 $this->products[] = $productData;
             }
-
-            unset($customOptions);
         }
     }
 
@@ -600,7 +573,6 @@ class Order
                 $label = $this->validator->cleanLabel(
                     $orderItemOption['label'],
                     '-',
-                    '-',
                     $orderItemOption['option_id']
                 );
                 if (empty($label)) {
@@ -611,43 +583,5 @@ class Order
         }
 
         return $options;
-    }
-
-    /**
-     * @param \Magento\Store\Model\Website $website
-     * @return array|bool
-     */
-    private function getProductAttributesToSync($website)
-    {
-        $configAttributes = $this->attributeHandler->create()
-            ->getConfigAttributesForSync($website);
-
-        if (!$configAttributes) {
-            return false;
-        }
-
-        return explode(',', $configAttributes);
-    }
-
-    /**
-     * @param array $configAttributes
-     * @param \Magento\Catalog\Model\Product $product
-     * @return \Dotdigitalgroup\Email\Model\Product\Attribute|null
-     */
-    private function processProductAttributes($configAttributes, $product)
-    {
-        if (!$configAttributes || !$product) {
-            return null;
-        }
-        $attributeModel = $this->attributeHandler->create();
-        $attributesFromAttributeSet = $attributeModel->getAttributesArray(
-            $product->getAttributeSetId()
-        );
-
-        return $attributeModel->processConfigAttributes(
-            $configAttributes,
-            $attributesFromAttributeSet,
-            $product
-        );
     }
 }

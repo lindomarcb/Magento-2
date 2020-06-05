@@ -65,9 +65,7 @@ class BackOrderNotifyCustomerCondition implements IsProductSalableForRequestedQt
     {
         $stockItemConfiguration = $this->getStockItemConfiguration->execute($sku, $stockId);
 
-        if ($stockItemConfiguration->isManageStock()
-            && $stockItemConfiguration->getBackorders() === StockItemConfigurationInterface::BACKORDERS_YES_NOTIFY
-        ) {
+        if ($stockItemConfiguration->getBackorders() === StockItemConfigurationInterface::BACKORDERS_YES_NOTIFY) {
             $stockItemData = $this->getStockItemData->execute($sku, $stockId);
             if (null === $stockItemData) {
                 return $this->productSalableResultFactory->create(['errors' => []]);

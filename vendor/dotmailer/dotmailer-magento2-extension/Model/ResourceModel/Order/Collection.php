@@ -2,6 +2,11 @@
 
 namespace Dotdigitalgroup\Email\Model\ResourceModel\Order;
 
+/**
+ * Class Collection
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
@@ -138,7 +143,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         $collection = $this->addFieldToFilter('store_id', ['in' => $storeIds])
             ->addFieldToFilter('order_status', ['in' => $orderStatuses])
-            ->addFieldToFilter('email_imported', 0);
+            ->addFieldToFilter('email_imported', ['null' => true]);
 
         $collection->getSelect()->limit($limit);
 

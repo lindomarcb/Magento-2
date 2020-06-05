@@ -19,8 +19,7 @@ use Magento\Quote\Model\Quote\Payment;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 
 /**
- * Process PayPal transaction response.
- *
+ * Class Transaction
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Transaction
@@ -91,7 +90,7 @@ class Transaction
         $response = $this->transparent->mapGatewayResponse((array) $gatewayTransactionResponse, $response);
 
         $this->logger->debug(
-            ['PayPal PayflowPro response:' => (array)$gatewayTransactionResponse],
+            (array) $gatewayTransactionResponse,
             (array) $this->transparent->getDebugReplacePrivateDataKeys(),
             (bool) $this->transparent->getDebugFlag()
         );

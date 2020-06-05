@@ -10,8 +10,6 @@ use Magento\AdvancedSearch\Model\Client\ClientInterface;
 
 /**
  * Elasticsearch client
- *
- * @deprecated 100.3.5 the Elasticsearch 5 doesn't supported due to EOL
  */
 class Elasticsearch implements ClientInterface
 {

@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Magento\Checkout\Test\Unit\Model;
 
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address;
 use Magento\Quote\Model\QuoteIdMask;
@@ -51,6 +53,11 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
      */
     private $loggerMock;
 
+    /**
+     * @var ResourceConnection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceConnectionMock;
+
     protected function setUp()
     {
         $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
@@ -68,6 +75,10 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
             ['create']
         );
         $this->loggerMock = $this->createMock(\Psr\Log\LoggerInterface::class);
+        $this->resourceConnectionMock = $this->getMockBuilder(ResourceConnection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->model = $objectManager->getObject(
             \Magento\Checkout\Model\GuestPaymentInformationManagement::class,
             [
@@ -75,7 +86,8 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
                 'paymentMethodManagement' => $this->paymentMethodManagementMock,
                 'cartManagement' => $this->cartManagementMock,
                 'cartRepository' => $this->cartRepositoryMock,
-                'quoteIdMaskFactory' => $this->quoteIdMaskFactoryMock
+                'quoteIdMaskFactory' => $this->quoteIdMaskFactoryMock,
+                'connectionPool' => $this->resourceConnectionMock,
             ]
         );
         $objectManager->setBackwardCompatibleProperty($this->model, 'logger', $this->loggerMock);
@@ -92,6 +104,26 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
 
         $billingAddressMock->expects($this->once())->method('setEmail')->with($email)->willReturnSelf();
 
+        $adapterMockForSales = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $adapterMockForCheckout = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $this->resourceConnectionMock->expects($this->at(0))
+            ->method('getConnection')
+            ->with('sales')
+            ->willReturn($adapterMockForSales);
+        $adapterMockForSales->expects($this->once())->method('beginTransaction');
+        $adapterMockForSales->expects($this->once())->method('commit');
+
+        $this->resourceConnectionMock->expects($this->at(1))
+            ->method('getConnection')
+            ->with('checkout')
+            ->willReturn($adapterMockForCheckout);
+        $adapterMockForCheckout->expects($this->once())->method('beginTransaction');
+        $adapterMockForCheckout->expects($this->once())->method('commit');
         $this->paymentMethodManagementMock->expects($this->once())->method('set')->with($cartId, $paymentMock);
         $this->cartManagementMock->expects($this->once())->method('placeOrder')->with($cartId)->willReturn($orderId);
 
@@ -113,6 +145,27 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
 
         $this->getMockForAssignBillingAddress($cartId, $billingAddressMock);
         $billingAddressMock->expects($this->once())->method('setEmail')->with($email)->willReturnSelf();
+
+        $adapterMockForSales = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $adapterMockForCheckout = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $this->resourceConnectionMock->expects($this->at(0))
+            ->method('getConnection')
+            ->with('sales')
+            ->willReturn($adapterMockForSales);
+        $adapterMockForSales->expects($this->once())->method('beginTransaction');
+        $adapterMockForSales->expects($this->once())->method('rollback');
+
+        $this->resourceConnectionMock->expects($this->at(1))
+            ->method('getConnection')
+            ->with('checkout')
+            ->willReturn($adapterMockForCheckout);
+        $adapterMockForCheckout->expects($this->once())->method('beginTransaction');
+        $adapterMockForCheckout->expects($this->once())->method('rollback');
 
         $this->paymentMethodManagementMock->expects($this->once())->method('set')->with($cartId, $paymentMock);
         $exception = new \Magento\Framework\Exception\CouldNotSaveException(__('DB exception'));
@@ -183,9 +236,31 @@ class GuestPaymentInformationManagementTest extends \PHPUnit\Framework\TestCase
 
         $billingAddressMock->expects($this->once())->method('setEmail')->with($email)->willReturnSelf();
 
+        $adapterMockForSales = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $adapterMockForCheckout = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $this->resourceConnectionMock->expects($this->at(0))
+            ->method('getConnection')
+            ->with('sales')
+            ->willReturn($adapterMockForSales);
+        $adapterMockForSales->expects($this->once())->method('beginTransaction');
+        $adapterMockForSales->expects($this->once())->method('rollback');
+
+        $this->resourceConnectionMock->expects($this->at(1))
+            ->method('getConnection')
+            ->with('checkout')
+            ->willReturn($adapterMockForCheckout);
+        $adapterMockForCheckout->expects($this->once())->method('beginTransaction');
+        $adapterMockForCheckout->expects($this->once())->method('rollback');
+
         $this->paymentMethodManagementMock->expects($this->once())->method('set')->with($cartId, $paymentMock);
         $phrase = new \Magento\Framework\Phrase(__('DB exception'));
         $exception = new \Magento\Framework\Exception\LocalizedException($phrase);
+        $this->loggerMock->expects($this->never())->method('critical');
         $this->cartManagementMock->expects($this->once())->method('placeOrder')->willThrowException($exception);
 
         $this->model->savePaymentInformationAndPlaceOrder($cartId, $email, $paymentMock, $billingAddressMock);

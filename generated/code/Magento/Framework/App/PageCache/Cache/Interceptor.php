@@ -8,10 +8,10 @@ class Interceptor extends \Magento\Framework\App\PageCache\Cache implements \Mag
 {
     use \Magento\Framework\Interception\Interceptor;
 
-    public function __construct(\Magento\Framework\App\Cache\Frontend\Pool $frontendPool, $cacheIdentifier = null)
+    public function __construct(\Magento\Framework\App\Cache\Frontend\Pool $frontendPool)
     {
         $this->___init();
-        parent::__construct($frontendPool, $cacheIdentifier);
+        parent::__construct($frontendPool);
     }
 
     /**

@@ -6,12 +6,8 @@
 
 namespace Magento\Wishlist\Test\Unit\Controller\Index;
 
-use Magento\Store\Model\ScopeInterface;
-
 /**
  * Test for wishlist plugin before dispatch
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class PluginTest extends \PHPUnit\Framework\TestCase
 {
@@ -179,7 +175,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $this->config
             ->expects($this->once())
             ->method('isSetFlag')
-            ->with('wishlist/general/active', ScopeInterface::SCOPE_STORES)
+            ->with('wishlist/general/active')
             ->willReturn(false);
 
         $this->getPlugin()->beforeDispatch($indexController, $this->request);

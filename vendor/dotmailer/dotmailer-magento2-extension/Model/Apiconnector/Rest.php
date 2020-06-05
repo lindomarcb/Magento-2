@@ -5,7 +5,6 @@ namespace Dotdigitalgroup\Email\Model\Apiconnector;
 use Dotdigitalgroup\Email\Logger\Logger;
 use Dotdigitalgroup\Email\Helper\File;
 use Dotdigitalgroup\Email\Helper\Data;
-use Magento\Framework\Filesystem\DriverInterface;
 
 /**
  * Rest class to make cURL requests.
@@ -88,17 +87,11 @@ class Rest
     private $logger;
 
     /**
-     * @var DriverInterface
-     */
-    private $driver;
-
-    /**
      * Rest constructor.
      * @param Data $data
      * @param Logger $logger
      * @param File $fileHelper
      * @param int $website
-     * @param DriverInterface $driver
      *
      * @return null
      */
@@ -106,7 +99,6 @@ class Rest
         Data $data,
         Logger $logger,
         File $fileHelper,
-        DriverInterface $driver,
         $website = 0
     ) {
         $this->helper        = $data;
@@ -121,7 +113,6 @@ class Rest
         $this->responseInfo  = null;
         $this->logger = $logger;
         $this->fileHelper = $fileHelper;
-        $this->driver = $driver;
 
         if ($this->requestBody !== null) {
             $this->buildPostBody();
@@ -387,8 +378,8 @@ class Rest
         }
 
         $this->requestLength = strlen($this->requestBody);
-        $fh = $this->driver->fileOpen('php://memory', 'rw');
-        $this->driver->fileWrite($fh, $this->requestBody);
+        $fh = fopen('php://memory', 'rw');
+        fwrite($fh, $this->requestBody);
         rewind($fh);
 
         curl_setopt($ch, CURLOPT_INFILE, $fh);
@@ -397,7 +388,7 @@ class Rest
 
         $this->doExecute($ch);
 
-        $this->driver->fileClose($fh);
+        fclose($fh);
     }
 
     /**
@@ -666,19 +657,19 @@ class Rest
         }
 
         switch ($level) {
-            case Logger::ERROR:
+            case Logger::ERROR :
                 $this->logger->addError($logTitle, $extra);
                 break;
 
-            case Logger::WARNING:
+            case Logger::WARNING :
                 $this->logger->addWarning($logTitle, $extra);
                 break;
 
-            case Logger::DEBUG:
+            case Logger::DEBUG :
                 $this->logger->addDebug($logTitle, $extra);
                 break;
 
-            default:
+            default :
                 $this->logger->addInfo($logTitle, $extra);
         }
 

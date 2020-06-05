@@ -8,8 +8,7 @@ use Dotdigitalgroup\Email\Model\CatalogFactory;
 use Dotdigitalgroup\Email\Model\Catalog\UpdateCatalog as Update;
 use Dotdigitalgroup\Email\Model\Catalog as ModelCatalog;
 
-class UpdateCatalogTest extends TestCase
-{
+class UpdateCatalogTest extends TestCase {
 
     /**
      * @var Catalog

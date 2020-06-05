@@ -21,7 +21,7 @@ require __DIR__ . '/configurable_attribute.php';
 
 /** @var ProductRepositoryInterface $productRepository */
 $productRepository = Bootstrap::getObjectManager()
-    ->get(ProductRepositoryInterface::class);
+    ->create(ProductRepositoryInterface::class);
 
 /** @var $installer CategorySetup */
 $installer = Bootstrap::getObjectManager()->create(CategorySetup::class);
@@ -105,7 +105,7 @@ $registry = Bootstrap::getObjectManager()->get(\Magento\Framework\Registry::clas
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', true);
 try {
-    $productToDelete = $productRepository->getById(111);
+    $productToDelete = $productRepository->getById(11);
     $productRepository->delete($productToDelete);
 
     /** @var \Magento\Quote\Model\ResourceModel\Quote\Item $itemResource */

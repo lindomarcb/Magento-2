@@ -2,9 +2,6 @@
 
 namespace Dotdigitalgroup\Email\Model\AbandonedCart\ProgramEnrolment;
 
-use Magento\Quote\Model\ResourceModel\Quote\Collection as QuoteCollection;
-use Magento\Sales\Model\ResourceModel\Order\Collection as OrderCollection;
-
 class Rules
 {
     /**
@@ -34,10 +31,10 @@ class Rules
     /**
      * Apply rules to sales collection
      *
-     * @param QuoteCollection|OrderCollection $collection
+     * @param \Magento\Quote\Model\ResourceModel\Quote\Collection|\Magento\Sales\Model\ResourceModel\Order\Collection $collection
      * @param int $storeId
      *
-     * @return QuoteCollection|OrderCollection
+     * @return \Magento\Quote\Model\ResourceModel\Quote\Collection|\Magento\Sales\Model\ResourceModel\Order\Collection
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function apply($collection, $storeId)

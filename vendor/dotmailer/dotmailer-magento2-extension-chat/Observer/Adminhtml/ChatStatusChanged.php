@@ -67,7 +67,7 @@ class ChatStatusChanged implements \Magento\Framework\Event\ObserverInterface
         if (!$enabled) {
             $this->config->deleteChatApiCredentials();
             return;
-        } elseif ($this->config->getApiSpaceId() !== null) {
+        } elseif (!is_null($this->config->getApiSpaceId())) {
             // if an API space ID is already set for this scope/website, we don't need to do anything more
             return;
         }

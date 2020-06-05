@@ -17,6 +17,11 @@ use Magento\Framework\App\Request\Http;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
+/**
+ * Class Onboarding
+ *
+ * @package Klarna\Core\Model\System
+ */
 class Onboarding
 {
 

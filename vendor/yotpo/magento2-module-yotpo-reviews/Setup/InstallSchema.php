@@ -22,10 +22,8 @@ class InstallSchema implements InstallSchemaInterface
     {
         $installer = $setup;
         $installer->startSetup();
-        $salesConnection = $installer->getConnection('sales');
 
-        // Install table: yotpo_rich_snippets
-        $yotpoRichSnippetsTable = $installer->getConnection()->newTable(
+        $table = $installer->getConnection()->newTable(
             $installer->getTable('yotpo_rich_snippets')
         )->addColumn(
             'rich_snippet_id',
@@ -47,8 +45,8 @@ class InstallSchema implements InstallSchemaInterface
             'Store Id'
         )->addColumn(
             'average_score',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
-            '10,2',
+            \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
+            null,
             ['nullable' => false],
             'Average Score'
         )->addColumn(
@@ -64,49 +62,7 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => false],
             'Expiry Time'
         );
-        $installer->getConnection()->createTable($yotpoRichSnippetsTable);
-
-        // Install table: yotpo_order_status_history
-        $yotpoOrderStatusHistoryTable = $salesConnection->newTable(
-            $installer->getTable('yotpo_order_status_history')
-        )->addColumn(
-            'id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Id'
-        )->addColumn(
-            'order_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            ['unsigned' => true, 'nullable' => true],
-            'Order Id'
-        )->addColumn(
-            'store_id',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            ['unsigned' => true, 'nullable' => true],
-            'Store Id'
-        )->addColumn(
-            'old_status',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            32,
-            ['nullable' => true],
-            'Old Status'
-        )->addColumn(
-            'new_status',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            32,
-            ['nullable' => true],
-            'New Status'
-        )->addColumn(
-            'created_at',
-            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
-            null,
-            ['nullable' => true],
-            'Created At'
-        );
-        $salesConnection->createTable($yotpoOrderStatusHistoryTable);
+        $installer->getConnection()->createTable($table);
 
         $installer->endSetup();
     }

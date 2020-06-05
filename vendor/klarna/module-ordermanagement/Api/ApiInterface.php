@@ -15,6 +15,11 @@ use Magento\Sales\Api\Data\InvoiceInterface as Invoice;
 use Magento\Sales\Api\Data\CreditmemoInterface as CreditMemo;
 use Magento\Store\Api\Data\StoreInterface;
 
+/**
+ * Interface ApiInterface
+ *
+ * @package Klarna\Ordermanagement\Api
+ */
 interface ApiInterface
 {
     /**

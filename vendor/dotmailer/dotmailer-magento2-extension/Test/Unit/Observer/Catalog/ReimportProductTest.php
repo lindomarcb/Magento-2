@@ -1,7 +1,6 @@
 <?php
 
 namespace Dotdigitalgroup\Email\Test\Unit\Observer\Catalog;
-
 use Dotdigitalgroup\Email\Model\Catalog\UpdateCatalog;
 use Dotdigitalgroup\Email\Observer\Catalog\ReimportProduct;
 use Magento\Framework\Event\Observer;

@@ -30,30 +30,22 @@ class DotdigitalSenderResolver extends SenderResolver
     private $transactionalHelper;
 
     /**
-     * @var TemplateService
-     */
-    private $templateService;
-
-    /**
      * SenderResolver constructor.
      *
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Registry $registry
      * @param TemplateFactory $templateFactory
      * @param Transactional $transactionalHelper
-     * @param TemplateService $templateService
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Registry $registry,
         TemplateFactory $templateFactory,
-        Transactional $transactionalHelper,
-        TemplateService $templateService
+        Transactional $transactionalHelper
     ) {
         $this->registry = $registry;
         $this->templateFactory = $templateFactory;
         $this->transactionalHelper = $transactionalHelper;
-        $this->templateService = $templateService;
         parent::__construct(
             $scopeConfig
         );
@@ -69,11 +61,11 @@ class DotdigitalSenderResolver extends SenderResolver
      */
     public function resolve($sender, $scopeId = null)
     {
-        $templateId = $this->templateService->getTemplateId();
+        $dotTemplate = $this->templateFactory->create();
+        $templateId = $dotTemplate->loadTemplateIdFromRegistry();
 
         if ($templateId && $this->shouldIntercept()) {
-            $template = $this->templateFactory->create()
-                ->loadTemplate($templateId);
+            $template = $dotTemplate->loadTemplate($templateId);
             if ($this->isDotmailerTemplateCode($template->getTemplateCode())) {
                 return [
                     'email' => $template->getTemplateSenderEmail(),

@@ -15,13 +15,11 @@
         </arguments>
     </type>
 
-    <type name="Magento\Customer\Block\Address\Edit">
-        <plugin name="vertex_address_validation_message" type="Vertex\AddressValidation\Plugin\AddressMessagePlugin" />
-    </type>
-
-    <type name="Vertex\AddressValidation\Plugin\AddressMessagePlugin">
+    <type name="Vertex\AddressValidation\Model\Checkout\ConfigProvider">
         <arguments>
-            <argument name="prependMatch" xsi:type="string"><![CDATA[<div class="actions-toolbar">]]></argument>
+            <argument name="countryValidation" xsi:type="array">
+                <item name="0" xsi:type="string">US</item>
+            </argument>
         </arguments>
     </type>
 </config>

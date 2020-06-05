@@ -2,8 +2,6 @@
 
 namespace Dotdigitalgroup\Email\Model;
 
-use Magento\Framework\Serialize\SerializerInterface;
-
 class Importer extends \Magento\Framework\Model\AbstractModel
 {
     const NOT_IMPORTED = 0;
@@ -48,7 +46,7 @@ class Importer extends \Magento\Framework\Model\AbstractModel
     private $dateTime;
 
     /**
-     * @var SerializerInterface
+     * @var Config\Json
      */
     private $serializer;
 
@@ -65,7 +63,7 @@ class Importer extends \Magento\Framework\Model\AbstractModel
      * @param ResourceModel\Importer $importerResource
      * @param ResourceModel\Importer\CollectionFactory $importerCollection
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param SerializerInterface $serializer
+     * @param Config\Json $serializer
      * @param \Dotdigitalgroup\Email\Helper\Data $helper
      * @param array $data
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
@@ -77,7 +75,7 @@ class Importer extends \Magento\Framework\Model\AbstractModel
         ResourceModel\Importer $importerResource,
         ResourceModel\Importer\CollectionFactory $importerCollection,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        SerializerInterface $serializer,
+        Config\Json $serializer,
         \Dotdigitalgroup\Email\Helper\Data $helper,
         array $data = [],
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
@@ -134,7 +132,7 @@ class Importer extends \Magento\Framework\Model\AbstractModel
         $file = false
     ) {
         try {
-            if (!empty($importData)) {
+            if (! empty($importData)) {
                 $importData = $this->serializer->serialize($importData);
             }
 
@@ -152,12 +150,14 @@ class Importer extends \Magento\Framework\Model\AbstractModel
 
                 return true;
             }
-        } catch (\InvalidArgumentException $e) {
-            $message = "Json error for import type ($importType) / mode ($importMode) for website ($websiteId): "
-                . (string)$e;
-            $this->helper->error($message, []);
         } catch (\Exception $e) {
             $this->helper->debug((string)$e, []);
+        }
+
+        if ($this->serializer->jsonError) {
+            $jle = $this->serializer->jsonError;
+            $format = "Json error ($jle) for Import type ($importType) / mode ($importMode) for website ($websiteId)";
+            $this->helper->log($format);
         }
 
         return false;
@@ -175,22 +175,22 @@ class Importer extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get imports marked as importing for one or more websites.
+     * Get imports marked as importing.
      *
-     * @param array $websiteIds
+     * @param int $limit
      *
      * @return \Dotdigitalgroup\Email\Model\ResourceModel\Importer\Collection|bool
      */
-    public function _getImportingItems($websiteIds)
+    public function _getImportingItems($limit)
     {
         return $this->importerCollection->create()
-            ->getItemsWithImportingStatus($websiteIds);
+            ->getItemsWithImportingStatus($limit);
     }
 
     /**
      * Get the imports by type.
      *
-     * @param string|array $importType
+     * @param string $importType
      * @param string $importMode
      * @param int $limit
      * @param array $websiteIds

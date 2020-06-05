@@ -11,8 +11,6 @@ use Exception;
 use Magento\GraphQl\Quote\GetMaskedQuoteIdByReservedOrderId;
 use Magento\Integration\Api\CustomerTokenServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Quote\Model\ResourceModel\Quote\Collection;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\TestCase\GraphQlAbstract;
 
 /**
@@ -30,29 +28,11 @@ class GetCustomerCartTest extends GraphQlAbstract
      */
     private $customerTokenService;
 
-    /**
-     * @var ObjectManagerInterface
-     */
-    private $objectManager;
-
     protected function setUp()
     {
-        $this->objectManager = Bootstrap::getObjectManager();
-        $this->getMaskedQuoteIdByReservedOrderId = $this->objectManager->get(GetMaskedQuoteIdByReservedOrderId::class);
-        $this->customerTokenService = $this->objectManager->get(CustomerTokenServiceInterface::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function tearDown()
-    {
-        /** @var \Magento\Quote\Model\Quote $quote */
-        $quoteCollection = $this->objectManager->create(Collection::class);
-        foreach ($quoteCollection as $quote) {
-            $quote->delete();
-        }
-        parent::tearDown();
+        $objectManager = Bootstrap::getObjectManager();
+        $this->getMaskedQuoteIdByReservedOrderId = $objectManager->get(GetMaskedQuoteIdByReservedOrderId::class);
+        $this->customerTokenService = $objectManager->get(CustomerTokenServiceInterface::class);
     }
 
     /**
@@ -110,8 +90,10 @@ class GetCustomerCartTest extends GraphQlAbstract
      */
     public function testGetNewCustomerCart()
     {
+        $customerToken = $this->generateCustomerToken();
         $customerCartQuery = $this->getCustomerCartQuery();
-        $response = $this->graphQlQuery($customerCartQuery, [], '', $this->getHeaderMap());
+        $headers = ['Authorization' => 'Bearer ' . $customerToken];
+        $response = $this->graphQlQuery($customerCartQuery, [], '', $headers);
         $this->assertArrayHasKey('customerCart', $response);
         $this->assertArrayHasKey('id', $response['customerCart']);
         $this->assertNotNull($response['customerCart']['id']);
@@ -136,13 +118,12 @@ class GetCustomerCartTest extends GraphQlAbstract
      * Query for customer cart after customer token is revoked
      *
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Exception
-     * @expectedExceptionMessage The request is allowed for logged in customer
      */
     public function testGetCustomerCartAfterTokenRevoked()
     {
+        $customerToken = $this->generateCustomerToken();
+        $headers = ['Authorization' => 'Bearer ' . $customerToken];
         $customerCartQuery = $this->getCustomerCartQuery();
-        $headers = $this->getHeaderMap();
         $response = $this->graphQlMutation($customerCartQuery, [], '', $headers);
         $this->assertArrayHasKey('customerCart', $response);
         $this->assertArrayHasKey('id', $response['customerCart']);
@@ -150,6 +131,9 @@ class GetCustomerCartTest extends GraphQlAbstract
         $this->assertNotEmpty($response['customerCart']['id']);
         $this->revokeCustomerToken();
         $customerCartQuery = $this->getCustomerCartQuery();
+        $this->expectExceptionMessage(
+            'The request is allowed for logged in customer'
+        );
         $this->graphQlQuery($customerCartQuery, [], '', $headers);
     }
 
@@ -160,14 +144,16 @@ class GetCustomerCartTest extends GraphQlAbstract
      */
     public function testRequestCustomerCartTwice()
     {
+        $customerToken = $this->generateCustomerToken();
+        $headers = ['Authorization' => 'Bearer ' . $customerToken];
         $customerCartQuery = $this->getCustomerCartQuery();
-        $response = $this->graphQlMutation($customerCartQuery, [], '', $this->getHeaderMap());
+        $response = $this->graphQlMutation($customerCartQuery, [], '', $headers);
         $this->assertArrayHasKey('customerCart', $response);
         $this->assertArrayHasKey('id', $response['customerCart']);
         $this->assertNotNull($response['customerCart']['id']);
         $cartId = $response['customerCart']['id'];
         $customerCartQuery = $this->getCustomerCartQuery();
-        $response2 = $this->graphQlQuery($customerCartQuery, [], '', $this->getHeaderMap());
+        $response2 = $this->graphQlQuery($customerCartQuery, [], '', $headers);
         $this->assertEquals($cartId, $response2['customerCart']['id']);
     }
 
@@ -197,12 +183,38 @@ class GetCustomerCartTest extends GraphQlAbstract
      */
     public function testGetCustomerCartSecondStore()
     {
-        $customerCartQuery = $this->getCustomerCartQuery();
         $maskedQuoteIdSecondStore = $this->getMaskedQuoteIdByReservedOrderId->execute('test_order_1_not_default_store');
+        $customerCartQuery = $this->getCustomerCartQuery();
+
         $headerMap = $this->getHeaderMap();
         $headerMap['Store'] = 'fixture_second_store';
         $responseSecondStore = $this->graphQlQuery($customerCartQuery, [], '', $headerMap);
         $this->assertEquals($maskedQuoteIdSecondStore, $responseSecondStore['customerCart']['id']);
+    }
+
+    /**
+     * Query to generate customer token
+     *
+     * @return string
+     */
+    private function generateCustomerToken(): string
+    {
+        $query = <<<QUERY
+mutation {
+  generateCustomerToken(
+    email: "customer@example.com"
+    password: "password"
+  ) {
+    token
+  }
+}
+QUERY;
+        $response = $this->graphQlMutation($query);
+        self::assertArrayHasKey('generateCustomerToken', $response);
+        self::assertArrayHasKey('token', $response['generateCustomerToken']);
+        self::assertNotEmpty($response['generateCustomerToken']['token']);
+
+        return $response['generateCustomerToken']['token'];
     }
 
     /**
@@ -220,7 +232,8 @@ mutation{
 }
 QUERY;
 
-        $this->graphQlMutation($query, [], '', $this->getHeaderMap());
+        $response = $this->graphQlMutation($query, [], '', $this->getHeaderMap());
+        $this->assertTrue($response['revokeCustomerToken']['result']);
     }
 
     /**

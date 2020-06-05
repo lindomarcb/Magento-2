@@ -8,7 +8,6 @@ use Magento\Framework\Setup\ExternalFKSetup;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
-use Dotdigitalgroup\Email\Setup\Schema\Shared;
 
 /**
  * Catalog recurring setup
@@ -21,7 +20,7 @@ class Recurring implements InstallSchemaInterface
     protected $externalFKSetup;
 
     /**
-     * @var Shared
+     * @var Schema\Shared
      */
     private $shared;
 
@@ -32,12 +31,12 @@ class Recurring implements InstallSchemaInterface
 
     /**
      * @param ExternalFKSetup $externalFKSetup
-     * @param Shared $shared
+     * @param Schema\Shared $shared
      * @param IntegrationInsightsFactory $integrationInsightsFactory
      */
     public function __construct(
         ExternalFKSetup $externalFKSetup,
-        Shared $shared,
+        Schema\Shared $shared,
         IntegrationInsightsFactory $integrationInsightsFactory
     ) {
         $this->shared = $shared;
@@ -57,7 +56,7 @@ class Recurring implements InstallSchemaInterface
             $setup,
             'catalog_product_entity',
             'entity_id',
-            SchemaInterface::EMAIL_CATALOG_TABLE,
+            Schema::EMAIL_CATALOG_TABLE,
             'product_id'
         );
         $this->checkAndCreateAbandonedCart($setup, $context);
@@ -74,9 +73,7 @@ class Recurring implements InstallSchemaInterface
     {
         try {
             $this->integrationInsightsFactory->create()->sync();
-        } catch (LocalizedException $e) {
-
-        }
+        } catch (LocalizedException $e) {}
     }
 
     /**
@@ -88,7 +85,7 @@ class Recurring implements InstallSchemaInterface
     private function checkAndCreateAbandonedCart($setup, $context)
     {
         $connection = $setup->getConnection();
-        $abandonedCartTableName = $setup->getTable(SchemaInterface::EMAIL_ABANDONED_CART_TABLE);
+        $abandonedCartTableName = $setup->getTable(Schema::EMAIL_ABANDONED_CART_TABLE);
 
         if (version_compare($context->getVersion(), '2.3.8', '>') &&
             ! $connection->isTableExists($abandonedCartTableName)

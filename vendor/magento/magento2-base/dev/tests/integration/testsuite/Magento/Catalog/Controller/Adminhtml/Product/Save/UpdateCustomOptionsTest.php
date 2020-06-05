@@ -22,15 +22,9 @@ use Magento\TestFramework\TestCase\AbstractBackendController;
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
- * @magentoDataFixture Magento/Catalog/_files/product_without_options.php
  */
 class UpdateCustomOptionsTest extends AbstractBackendController
 {
-    /**
-     * @var string
-     */
-    protected $productSku = 'simple';
-
     /**
      * @var ProductRepositoryInterface
      */
@@ -61,6 +55,8 @@ class UpdateCustomOptionsTest extends AbstractBackendController
     /**
      * Test add to product custom option with type "field".
      *
+     * @magentoDataFixture Magento/Catalog/_files/product_without_options.php
+     *
      * @dataProvider \Magento\TestFramework\Catalog\Model\Product\Option\DataProvider\Type\Field::getDataForUpdateOptions
      *
      * @param array $optionData
@@ -69,7 +65,7 @@ class UpdateCustomOptionsTest extends AbstractBackendController
      */
     public function testUpdateCustomOptionWithTypeField(array $optionData, array $updateData): void
     {
-        $product = $this->productRepository->get($this->productSku);
+        $product = $this->productRepository->get('simple');
         /** @var ProductCustomOptionInterface|Option $option */
         $option = $this->optionRepositoryFactory->create(['data' => $optionData]);
         $option->setProductSku($product->getSku());

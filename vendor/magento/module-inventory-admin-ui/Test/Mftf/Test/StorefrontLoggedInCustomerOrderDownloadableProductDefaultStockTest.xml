@@ -56,7 +56,7 @@
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginAsCustomer">
             <argument name="Customer" value="$customer$" />
         </actionGroup>
-        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
+        <actionGroup ref="AddSimpleProductToCart" stepKey="addProductToCart">
             <argument name="product" value="$$product$$"/>
         </actionGroup>
         <!--Place order.-->
@@ -64,7 +64,7 @@
         <actionGroup ref="ClickPlaceOrderActionGroup" stepKey="clickOnPlaceOrder"/>
         <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
         <!--Verify reorder.-->
-        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
+        <actionGroup ref="OpenOrderById" stepKey="openOrder">
             <argument name="orderId" value="{$orderNumber}"/>
         </actionGroup>
         <waitForElementVisible selector="{{AdminOrderItemsOrderedSection.itemQty('1')}}" stepKey="waitForViewOrderedQuantity"/>

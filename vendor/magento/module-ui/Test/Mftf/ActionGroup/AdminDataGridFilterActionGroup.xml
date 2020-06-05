@@ -8,10 +8,7 @@
 
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
-    <!--
-    NOTICE: searchAdminDataGridByKeyword is deprecated.
-            Please use SearchAdminDataGridByKeywordActionGroup instead.
-    -->
+    <!--Search grid with keyword search-->
     <actionGroup name="searchAdminDataGridByKeyword">
         <annotations>
             <description>Fills 'Search by keyword' on an Admin Grid page. Clicks on Submit Search.</description>
@@ -36,10 +33,7 @@
         <see selector="{{AdminDataGridHeaderSection.bookmarkToggle}}" userInput="Default View" stepKey="seeDefaultViewSelected"/>
     </actionGroup>
 
-    <!--
-    NOTICE: clearFiltersAdminDataGrid is deprecated.
-            Please use ClearFiltersAdminDataGridActionGroup instead.
-    -->
+    <!--Clear all filters in grid-->
     <actionGroup name="clearFiltersAdminDataGrid">
         <annotations>
             <description>Clicks on 'Clear Filters' on an Admin Grid page.</description>

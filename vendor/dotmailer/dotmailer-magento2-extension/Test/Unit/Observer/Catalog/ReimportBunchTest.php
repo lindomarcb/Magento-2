@@ -1,7 +1,6 @@
 <?php
 
 namespace Dotdigitalgroup\Email\Test\Unit\Observer\Catalog;
-
 use Dotdigitalgroup\Email\Model\Catalog\UpdateCatalogBulk;
 use Dotdigitalgroup\Email\Observer\Catalog\ReimportBunch;
 use Magento\Framework\Event\Observer;
@@ -18,7 +17,7 @@ class ReimportBunchTest extends TestCase
      * @var Observer
      */
     private $observerMock;
-    
+
     /**
      * @var ReimportBunch
      */

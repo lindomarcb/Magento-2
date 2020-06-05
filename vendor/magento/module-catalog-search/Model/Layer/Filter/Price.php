@@ -141,7 +141,7 @@ class Price extends AbstractFilter
         list($from, $to) = $filter;
 
         $this->getLayer()->getProductCollection()->addFieldToFilter(
-            'price',
+            $this->getAttributeModel()->getAttributeCode(),
             ['from' => $from, 'to' =>  empty($to) || $from == $to ? $to : $to - self::PRICE_DELTA]
         );
 

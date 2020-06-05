@@ -58,7 +58,7 @@
         <click selector="{{AdminNewWebsiteActionsSection.saveWebsite}}" stepKey="clickSaveWebsite" />
         <!--Verify Default Stock still assigned to Main Website.-->
         <amOnPage url="{{AdminManageStockPage.url}}" stepKey="moveToStockGridStorePage"/>
-        <actionGroup ref="SearchAdminDataGridByKeywordActionGroup" stepKey="findDefaultStock">
+        <actionGroup ref="searchAdminDataGridByKeyword" stepKey="findDefaultStock">
             <argument name="keyword" value="_defaultStock.name"/>
         </actionGroup>
         <see userInput="Main Website Edited (base)" selector="{{AdminGridRow.rowOne}}" stepKey="VerifySalesChannelForDefaultStock"/>

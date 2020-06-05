@@ -8,7 +8,7 @@ use Yotpo\Yotpo\Model\Config as YotpoConfig;
 
 class AbstractApi
 {
-    const DEFAULT_TIMEOUT = 45;
+    const DEFAULT_TIMEOUT = 90;
 
     /**
      * @var int
@@ -142,7 +142,7 @@ class AbstractApi
                 );
             }
 
-            $this->curl->setTimeout($timeout);
+            $this->curl->setOption(CURLOPT_TIMEOUT, $timeout);
 
             $this->curl->{strtolower($method)}(
                 $this->_yotpoConfig->getYotpoApiUrl($path),

@@ -27,8 +27,7 @@ use Magento\Ups\Helper\Config;
 use Magento\Shipping\Model\Shipment\Request as Shipment;
 
 /**
- * UPS shipping implementation.
- *
+ * UPS shipping implementation
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -136,9 +135,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @inheritdoc
      */
     protected $_debugReplacePrivateDataKeys = [
-        'UserId',
-        'Password',
-        'AccessLicenseNumber',
+        'UserId', 'Password', 'AccessLicenseNumber'
     ];
 
     /**
@@ -355,10 +352,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $destCountry = self::USA_COUNTRY_ID;
         }
 
-        //for UPS, puerto rico state for US will assume as puerto rico country
-        if ($destCountry == self::USA_COUNTRY_ID
-            && ($request->getDestPostcode() == '00912'
-                || $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
+        //for UPS, puero rico state for US will assume as puerto rico country
+        if ($destCountry == self::USA_COUNTRY_ID && ($request->getDestPostcode() == '00912' ||
+            $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
         ) {
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
@@ -731,7 +727,7 @@ XMLRequest;
           <StateProvinceCode>{$shipperStateProvince}</StateProvinceCode>
       </Address>
     </Shipper>
-
+    
     <ShipTo>
       <Address>
           <PostalCode>{$params['19_destPostal']}</PostalCode>
@@ -747,7 +743,7 @@ XMLRequest;
         $xmlParams .= <<<XMLRequest
       </Address>
     </ShipTo>
-
+    
     <ShipFrom>
       <Address>
           <PostalCode>{$params['15_origPostal']}</PostalCode>
@@ -782,7 +778,7 @@ XMLRequest;
 XMLRequest;
 
         $xmlRequest .= $xmlParams;
-        $debugData = ['request' => $xmlParams];
+
         $httpResponse = $this->asyncHttpClient->request(
             new Request($url, Request::METHOD_POST, ['Content-Type' => 'application/xml'], $xmlRequest)
         );
@@ -790,18 +786,12 @@ XMLRequest;
         return $this->deferredProxyFactory->create(
             [
                 'deferred' => new CallbackDeferred(
-                    function () use ($httpResponse, $debugData) {
+                    function () use ($httpResponse) {
                         if ($httpResponse->get()->getStatusCode() >= 400) {
                             $xmlResponse = '';
-                            $debugData['result'] = [
-                                'error' => $httpResponse->get()->getBody(),
-                                'code' => $httpResponse->get()->getStatusCode()
-                            ];
                         } else {
                             $xmlResponse = $httpResponse->get()->getBody();
-                            $debugData['result'] = $xmlResponse;
                         }
-                        $this->_debug($debugData);
 
                         return $this->_parseXmlResponse($xmlResponse);
                     }
@@ -1104,7 +1094,6 @@ XMLAuth;
 
         /** @var HttpResponseDeferredInterface[] $trackingResponses */
         $trackingResponses = [];
-        $debugTrackingData = [];
         foreach ($trackings as $tracking) {
             /**
              * RequestOption==>'1' to request all activities
@@ -1122,7 +1111,6 @@ XMLAuth;
 </TrackRequest>
 XMLAuth;
 
-            $debugTrackingData[] = ['request' => $this->filterDebugData($this->_xmlAccessRequest) . $xmlRequest];
             $trackingResponses[] = $this->asyncHttpClient->request(
                 new Request(
                     $url,
@@ -1132,20 +1120,14 @@ XMLAuth;
                 )
             );
         }
-        foreach ($trackingResponses as $i => $response) {
+        foreach ($trackingResponses as $response) {
             $httpResponse = $response->get();
             if ($httpResponse->getStatusCode() >= 400) {
                 $xmlResponse = '';
-                $debugTrackingData[$i]['result'] = [
-                    'error' => $httpResponse->getBody(),
-                    'code' => $httpResponse->getStatusCode()
-                ];
             } else {
                 $xmlResponse = $httpResponse->getBody();
-                $debugTrackingData[$i]['result'] = $httpResponse->getBody();
             }
 
-            $this->_debug($debugTrackingData[$i]);
             $this->_parseXmlTrackingResponse($tracking, $xmlResponse);
         }
 
@@ -1320,28 +1302,20 @@ XMLAuth;
     }
 
     /**
-     * Get allowed shipping methods.
+     * Get allowed shipping methods
      *
      * @return array
      */
     public function getAllowedMethods()
     {
-        $allowedMethods = explode(',', (string)$this->getConfigData('allowed_methods'));
-        $isUpsXml = $this->getConfigData('type') === 'UPS_XML';
-        $origin = $this->getConfigData('origin_shipment');
-
-        $availableByTypeMethods = $isUpsXml
-            ? $this->configHelper->getCode('originShipment', $origin)
-            : $this->configHelper->getCode('method');
-
-        $methods = [];
-        foreach ($availableByTypeMethods as $methodCode => $methodData) {
-            if (in_array($methodCode, $allowedMethods)) {
-                $methods[$methodCode] = $methodData->getText();
-            }
+        $allowed = explode(',', $this->getConfigData('allowed_methods'));
+        $arr = [];
+        $isByCode = $this->getConfigData('type') == 'UPS_XML';
+        foreach ($allowed as $code) {
+            $arr[$code] = $isByCode ? $this->getShipmentByCode($code) : $this->configHelper->getCode('method', $code);
         }
 
-        return $methods;
+        return $arr;
     }
 
     /**
@@ -1902,18 +1876,20 @@ XMLAuth;
                     ];
                 }
                 $containerTypes = $containerTypes + [
-                        '03' => __('UPS Tube'),
-                        '04' => __('PAK'),
-                        '2a' => __('Small Express Box'),
-                        '2b' => __('Medium Express Box'),
-                        '2c' => __('Large Express Box'),
-                    ];
+                    '03' => __('UPS Tube'),
+                    '04' => __('PAK'),
+                    '2a' => __('Small Express Box'),
+                    '2b' => __('Medium Express Box'),
+                    '2c' => __('Large Express Box'),
+                ];
             }
 
             return ['00' => __('Customer Packaging')] + $containerTypes;
-        } elseif ($countryShipper == self::USA_COUNTRY_ID
-            && $countryRecipient == self::PUERTORICO_COUNTRY_ID
-            && in_array($method, ['01', '02', '03'])
+        } elseif ($countryShipper == self::USA_COUNTRY_ID &&
+            $countryRecipient == self::PUERTORICO_COUNTRY_ID &&
+            ($method == '03' ||
+            $method == '02' ||
+            $method == '01')
         ) {
             // Container types should be the same as for domestic
             $params->setCountryRecipient(self::USA_COUNTRY_ID);

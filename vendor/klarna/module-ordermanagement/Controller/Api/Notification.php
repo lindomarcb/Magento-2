@@ -31,6 +31,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Order update from pending status
  *
+ * @package Klarna\Ordermanagement\Controller\Api
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Notification extends Action implements CsrfAwareActionInterface
@@ -65,6 +66,8 @@ class Notification extends Action implements CsrfAwareActionInterface
     private $dataObjectFactory;
 
     /**
+     * Notification constructor.
+     *
      * @param Context             $context
      * @param LoggerInterface     $logger
      * @param JsonFactory         $resultJsonFactory

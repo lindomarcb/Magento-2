@@ -2320,9 +2320,6 @@ fieldset[disabled] .admin__scope-old .control ._has-datepicker + .ui-datepicker-
 .admin__scope-old .x-tree-node .system-leaf .x-tree-node-icon {
   background-image: url(../images/fam_application_form_delete.png);
 }
-.admin__scope-old .x-tree-node .x-tree-node-el input[type=checkbox] {
-  margin-left: 3px;
-}
 .admin__scope-old .tipsy {
   padding: 11px;
 }

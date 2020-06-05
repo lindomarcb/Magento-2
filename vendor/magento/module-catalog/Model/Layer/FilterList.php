@@ -110,9 +110,9 @@ class FilterList
     {
         $filterClassName = $this->filterTypes[self::ATTRIBUTE_FILTER];
 
-        if ($attribute->getAttributeCode() == 'price') {
+        if ($attribute->getFrontendInput() === 'price') {
             $filterClassName = $this->filterTypes[self::PRICE_FILTER];
-        } elseif ($attribute->getBackendType() == 'decimal') {
+        } elseif ($attribute->getBackendType() === 'decimal') {
             $filterClassName = $this->filterTypes[self::DECIMAL_FILTER];
         }
 

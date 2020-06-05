@@ -98,7 +98,7 @@ class ProgramEnrolmentEnrollerTest extends TestCase
         );
     }
 
-    public function testAutomationIsSavedIfACProgramIdSet()
+    public function testAutomation_IsSaved_IfACProgramIdSet()
     {
         $storeId = 1;
         $programId = "123456";
@@ -108,8 +108,7 @@ class ProgramEnrolmentEnrollerTest extends TestCase
             'date' => true
         ];
 
-        // foreach ($this->helper->getStores() as $store) expects an array,
-        // but it need only contain one mock for simplicity
+        // foreach ($this->helper->getStores() as $store) expects an array, but it need only contain one mock for simplicity
         $storesArray = [
             $this->createMock(\Magento\Store\Model\Store::class)
         ];

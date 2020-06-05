@@ -102,7 +102,6 @@ class Quote extends AbstractDb
 
         if ($data) {
             $quote->setData($data);
-            $quote->setOrigData();
         }
 
         $this->_afterLoad($quote);
@@ -125,7 +124,6 @@ class Quote extends AbstractDb
         $data = $connection->fetchRow($select);
         if ($data) {
             $quote->setData($data);
-            $quote->setOrigData();
         }
 
         $this->_afterLoad($quote);
@@ -150,7 +148,6 @@ class Quote extends AbstractDb
 
             if ($data) {
                 $quote->setData($data);
-                $quote->setOrigData();
             }
         }
 
@@ -306,7 +303,5 @@ class Quote extends AbstractDb
         if (!$object->isPreventSaving()) {
             return parent::save($object);
         }
-
-        return $this;
     }
 }

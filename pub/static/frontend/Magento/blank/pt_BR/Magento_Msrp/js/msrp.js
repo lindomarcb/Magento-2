@@ -352,11 +352,8 @@ define([
             $(this.options.mapInfoLinks).show();
 
             if (useDefaultPrice || !this.wasOpened) {
-                if (this.$popup) {
-                    this.$popup.find(this.options.msrpLabelId).html(options.msrpPrice);
-                    this.$popup.find(this.options.priceLabelId).html(options.realPrice);
-                }
-
+                this.$popup.find(this.options.msrpLabelId).html(options.msrpPrice);
+                this.$popup.find(this.options.priceLabelId).html(options.realPrice);
                 $(this.options.displayPriceElement).html(msrpPrice);
                 this.wasOpened = true;
             }

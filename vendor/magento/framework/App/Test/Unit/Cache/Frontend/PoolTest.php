@@ -208,8 +208,12 @@ class PoolTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testFallbackOnDefault()
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cache frontend 'unknown' is not recognized
+     */
+    public function testGetUnknownFrontendId()
     {
-        $this->assertSame($this->_frontendInstances[Pool::DEFAULT_FRONTEND_ID], $this->_model->get('unknown'));
+        $this->_model->get('unknown');
     }
 }

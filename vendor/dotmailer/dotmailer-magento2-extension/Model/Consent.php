@@ -23,7 +23,7 @@ class Consent extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    public static $bulkFields = [
+    static public $bulkFields = [
         'CONSENTTEXT',
         'CONSENTURL',
         'CONSENTDATETIME',

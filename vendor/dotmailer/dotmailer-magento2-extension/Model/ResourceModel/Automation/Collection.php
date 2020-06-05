@@ -4,7 +4,8 @@ namespace Dotdigitalgroup\Email\Model\ResourceModel\Automation;
 
 use Dotdigitalgroup\Email\Model\Sync\Automation;
 
-class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+class Collection extends
+ \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -113,19 +114,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         $collection = $this->addFieldToFilter('type_id', $quoteId)
             ->addFieldToFilter('automation_type', Automation::AUTOMATION_TYPE_ABANDONED_CART_PROGRAM_ENROLMENT);
-
-        return $collection;
-    }
-
-    /**
-     * @param string $email
-     *
-     * @return Collection
-     */
-    public function getSubscriberAutomationByEmail($email)
-    {
-        $collection = $this->addFieldToFilter('email', $email)
-            ->addFieldToFilter('automation_type', Automation::AUTOMATION_TYPE_NEW_SUBSCRIBER);
 
         return $collection;
     }

@@ -239,7 +239,7 @@ define([
         handleKeyDown: function (e) {
             var key = keyCodes[e.keyCode];
 
-            if (this.visibleRecord() !== null && document.activeElement.tagName !== 'INPUT') {
+            if (this.visibleRecord() !== null) {
                 if (key === 'pageLeftKey') {
                     this.prev(this.displayedRecord());
                 } else if (key === 'pageRightKey') {

@@ -163,12 +163,7 @@ class UpdateAbandonedCartFieldsTest extends TestCase
                 }
             ));
 
-        $this->class->updateAbandonedCartDatafields(
-            $expectedEmail,
-            $this->websiteId,
-            $this->quoteid,
-            $this->parentStoreName
-        );
+        $this->class->updateAbandonedCartDatafields($expectedEmail, $this->websiteId, $this->quoteid, $this->parentStoreName);
         $this->assertEquals($expectedEmail, $actualEmail);
         $this->assertEquals($expectedECDataFieldname, $actualData[0]["Key"]);
         $this->assertEquals($this->quoteid, $actualData[0]["Value"]);
@@ -188,12 +183,7 @@ class UpdateAbandonedCartFieldsTest extends TestCase
                 }
             ));
 
-        $this->class->updateAbandonedCartDatafields(
-            $expectedEmail,
-            $this->websiteId,
-            $this->quoteid,
-            $this->parentStoreName
-        );
+        $this->class->updateAbandonedCartDatafields($expectedEmail, $this->websiteId, $this->quoteid, $this->parentStoreName);
         $this->assertEquals($expectedEmail, $actualEmail);
         $this->assertEquals($expectedECDataFieldname, $actualData[0]["Key"]);
         $this->assertEquals($this->quoteid, $actualData[0]["Value"]);
@@ -213,12 +203,7 @@ class UpdateAbandonedCartFieldsTest extends TestCase
                 }
             ));
 
-        $this->class->updateAbandonedCartDatafields(
-            $expectedEmail,
-            $this->websiteId,
-            $this->quoteid,
-            $this->parentStoreName
-        );
+        $this->class->updateAbandonedCartDatafields($expectedEmail, $this->websiteId, $this->quoteid, $this->parentStoreName);
         $this->assertEquals($expectedEmail, $actualEmail);
         $this->assertEquals($expectedECDataFieldname, $actualData[0]["Key"]);
         $this->assertEquals($this->quoteid, $actualData[0]["Value"]);
@@ -234,12 +219,7 @@ class UpdateAbandonedCartFieldsTest extends TestCase
             ->expects($this->never())
             ->method("updateContactDatafieldsByEmail");
 
-        $this->class->updateAbandonedCartDatafields(
-            $expectedEmail,
-            $this->websiteId,
-            $this->quoteid,
-            $this->parentStoreName
-        );
+        $this->class->updateAbandonedCartDatafields($expectedEmail, $this->websiteId, $this->quoteid, $this->parentStoreName);
     }
 
     public function testIfDataIsEmptyApiClientDontCall()
@@ -252,12 +232,7 @@ class UpdateAbandonedCartFieldsTest extends TestCase
             ->expects($this->never())
             ->method("getWebsiteApiClient");
 
-        $this->class->updateAbandonedCartDatafields(
-            $expectedEmail,
-            $this->websiteId,
-            $this->quoteid,
-            $this->parentStoreName
-        );
+        $this->class->updateAbandonedCartDatafields($expectedEmail, $this->websiteId, $this->quoteid, $this->parentStoreName);
     }
 
     /**
@@ -266,12 +241,8 @@ class UpdateAbandonedCartFieldsTest extends TestCase
      * @param $expectedECDataFieldname3
      * @param $expectedECDataFieldname4
      */
-    private function mockWebsite(
-        $expectedECDataFieldname1,
-        $expectedECDataFieldname2,
-        $expectedECDataFieldname3,
-        $expectedECDataFieldname4
-    ) {
+    private function mockWebsite($expectedECDataFieldname1, $expectedECDataFieldname2, $expectedECDataFieldname3, $expectedECDataFieldname4)
+    {
         $this->websiteMock
             ->method("getConfig")
             ->withConsecutive(

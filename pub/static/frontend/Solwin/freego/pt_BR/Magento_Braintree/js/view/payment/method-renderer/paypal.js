@@ -269,7 +269,6 @@ define([
                  */
                 onError: function () {
                     self.showError($t('Payment ' + self.getTitle() + ' can\'t be initialized'));
-                    self.reInitPayPal();
                 }
             }, self.paypalButtonSelector);
         },

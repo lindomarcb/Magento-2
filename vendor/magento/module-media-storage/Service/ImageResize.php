@@ -311,10 +311,6 @@ class ImageResize
             ]
         );
 
-        if ($imageParams['image_width'] !== null && $imageParams['image_height'] !== null) {
-            $image->resize($imageParams['image_width'], $imageParams['image_height']);
-        }
-
         if (isset($imageParams['watermark_file'])) {
             if ($imageParams['watermark_height'] !== null) {
                 $image->setWatermarkHeight($imageParams['watermark_height']);
@@ -335,6 +331,9 @@ class ImageResize
             $image->watermark($this->getWatermarkFilePath($imageParams['watermark_file']));
         }
 
+        if ($imageParams['image_width'] !== null && $imageParams['image_height'] !== null) {
+            $image->resize($imageParams['image_width'], $imageParams['image_height']);
+        }
         $image->save($imageAsset->getPath());
 
         if ($this->fileStorageDatabase->checkDbUsage()) {

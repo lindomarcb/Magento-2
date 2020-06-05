@@ -10,6 +10,11 @@
 
 namespace Klarna\Core\Helper;
 
+/**
+ * Class ArrayCleaner
+ *
+ * @package Klarna\Core\Helper
+ */
 class ArrayCleaner
 {
     /**

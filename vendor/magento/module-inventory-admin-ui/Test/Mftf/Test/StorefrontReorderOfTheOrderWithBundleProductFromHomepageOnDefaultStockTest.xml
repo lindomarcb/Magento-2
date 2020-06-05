@@ -79,10 +79,11 @@
         </actionGroup>
 
         <actionGroup ref="AdminFillSourceQtyOnProductEditPageActionGroup" stepKey="fillProductQtyPerSource">
-            <argument name="qty" value="{{twentyPiecesAddToCart.value}}" />
+            <argument name="sourceCode" value="_defaultSource.source_code"/>
+            <argument name="qty" value="20" />
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct"/>
 
         <actionGroup ref="AdminGoToProductGridFilterResultsByInputEditProduct" stepKey="goToProductGridFilterResultsByInputEditProduct2">
             <argument name="filter_selector" value="AdminProductGridFilterSection.skuFilter"/>
@@ -90,10 +91,11 @@
         </actionGroup>
 
         <actionGroup ref="AdminFillSourceQtyOnProductEditPageActionGroup" stepKey="fillProductQtyPerSource2">
-            <argument name="qty" value="{{twentyPiecesAddToCart.value}}" />
+            <argument name="sourceCode" value="_defaultSource.source_code"/>
+            <argument name="qty" value="20" />
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct2"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct2"/>
 
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginToStorefront">
             <argument name="Customer" value="$$customer$$"/>

@@ -8,9 +8,6 @@ use Dotdigitalgroup\Email\Test\Integration\MocksApiResponses;
 use Magento\Framework\App\Config\MutableScopeConfigInterface;
 use Magento\Framework\App\ObjectManager;
 
-/**
- * @magentoDbIsolation enabled
- */
 class IntegrationInsightsTest extends \PHPUnit\Framework\TestCase
 {
     use MocksApiResponses;
@@ -62,7 +59,7 @@ class IntegrationInsightsTest extends \PHPUnit\Framework\TestCase
     public function testClientDataSent()
     {
         $this->setApiConfigFlags([], 0);
-        $this->mockClient->expects($this->any())
+        $this->mockClient->expects($this->once())
             ->method('postIntegrationInsightData');
 
         $this->mutableScopeConfig->setValue(Config::XML_PATH_CONNECTOR_INTEGRATION_INSIGHTS_ENABLED, 1, 'default');

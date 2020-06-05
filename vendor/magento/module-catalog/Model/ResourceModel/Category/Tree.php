@@ -104,11 +104,6 @@ class Tree extends Dbp
     protected $metadataPool;
 
     /**
-     * @var array
-     */
-    private $_inactiveItems = [];
-
-    /**
      * Tree constructor.
      * @param \Magento\Catalog\Model\ResourceModel\Category $catalogCategory
      * @param \Magento\Framework\App\CacheInterface $cache

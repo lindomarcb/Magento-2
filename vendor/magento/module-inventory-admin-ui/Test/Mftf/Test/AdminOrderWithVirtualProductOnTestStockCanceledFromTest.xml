@@ -59,19 +59,19 @@
             <argument name="sourceCode" value="$$customSource.source[source_code]$$"/>
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct"/>
 
-        <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="navigateToNewOrderWithExistingCustomer">
+        <actionGroup ref="navigateToNewOrderPageExistingCustomer" stepKey="navigateToNewOrderWithExistingCustomer">
             <argument name="customer" value="$$customer$$"/>
         </actionGroup>
 
-        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addVirtualProductToTheOrder">
+        <actionGroup ref="addSimpleProductToOrder" stepKey="addVirtualProductToTheOrder">
             <argument name="product" value="$$virtualProduct$$"/>
         </actionGroup>
 
         <actionGroup ref="AdminSubmitOrderActionGroup" stepKey="submitOrder"/>
 
-        <actionGroup ref="CancelPendingOrderActionGroup" stepKey="cancelOrder"/>
+        <actionGroup ref="cancelPendingOrder" stepKey="cancelOrder"/>
 
         <actionGroup ref="AdminOpenProductIndexPageActionGroup" stepKey="openProductGrid"/>
         <actionGroup ref="AdminGridFilterSearchResultsByInput" stepKey="findVirtualProductBySkuToCheckQtyAfterPlaceOrder">

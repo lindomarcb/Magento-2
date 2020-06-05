@@ -3,14 +3,14 @@
 namespace Dotdigitalgroup\Email\Test\Integration;
 
 use Dotdigitalgroup\Email\Helper\Config;
-use Dotdigitalgroup\Email\Helper\Data;
 use Dotdigitalgroup\Email\Model\Apiconnector\Client;
 use Dotdigitalgroup\Email\Model\Apiconnector\ClientFactory;
 use Magento\Framework\App\Config\MutableScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\TestFramework\Helper\Bootstrap;
 use ReflectionClass;
 use ReflectionParameter;
+use Dotdigitalgroup\Email\Helper\Data;
+use Magento\TestFramework\Helper\Bootstrap;
 
 trait MocksApiResponses
 {
@@ -30,23 +30,16 @@ trait MocksApiResponses
     private $mockClientFactory;
 
     /**
-     * @var MutableScopeConfigInterface
-     */
-    private $mutableScopeConfig;
-
-    /**
      * The magentoConfigFixture annotation cannot set config at website level
      * Recommend never using docblock annotations in PHP for this, and many other, reasons
      *
      * @param array $configFlags    Overridable config flags
      * @param int $scopeCode        Scope code to set values against
-     * @param string $scopeType     Scope type
      */
-    private function setApiConfigFlags(
-        array $configFlags = [],
-        $scopeCode = null,
-        $scopeType = ScopeInterface::SCOPE_WEBSITE
-    ) {
+    private function setApiConfigFlags(array $configFlags = [], $scopeCode = null)
+    {
+        /** @var MutableScopeConfigInterface $mutableScopeConfig */
+        $mutableScopeConfig = Bootstrap::getObjectManager()->get(MutableScopeConfigInterface::class);
         foreach ($configFlags + [
             Config::XML_PATH_CONNECTOR_API_ENABLED => 1,
             Config::XML_PATH_CONNECTOR_API_USERNAME => 'test',
@@ -58,17 +51,8 @@ trait MocksApiResponses
                 \Magento\Sales\Model\Order::STATE_COMPLETE,
             ]),
         ] as $path => $value) {
-            $this->getMutableScopeConfig()->setValue($path, $value, $scopeType, $scopeCode);
+            $mutableScopeConfig->setValue($path, $value, ScopeInterface::SCOPE_WEBSITE, $scopeCode);
         }
-    }
-
-    /**
-     * @return MutableScopeConfigInterface
-     */
-    private function getMutableScopeConfig()
-    {
-        return $this->mutableScopeConfig
-            ?: $this->mutableScopeConfig = Bootstrap::getObjectManager()->get(MutableScopeConfigInterface::class);
     }
 
     /**
@@ -121,9 +105,7 @@ trait MocksApiResponses
             ->getMock();
         $this->mockClient->method('setApiUsername')
             ->willReturn(new class() {
-                public function setApiPassword($password)
-                {
-                }
+                public function setApiPassword($password) {}
             });
 
         $this->mockClientFactory = $this->getMockBuilder(self::$clientFactoryClass)

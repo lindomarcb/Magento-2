@@ -6,6 +6,62 @@
  */
 
 var config = {
+    map: {
+        '*': {
+            'rowBuilder':             'Magento_Theme/js/row-builder',
+            'toggleAdvanced':         'mage/toggle',
+            'translateInline':        'mage/translate-inline',
+            'sticky':                 'mage/sticky',
+            'tabs':                   'mage/tabs',
+            'zoom':                   'mage/zoom',
+            'collapsible':            'mage/collapsible',
+            'dropdownDialog':         'mage/dropdown',
+            'dropdown':               'mage/dropdowns',
+            'accordion':              'mage/accordion',
+            'loader':                 'mage/loader',
+            'tooltip':                'mage/tooltip',
+            'deletableItem':          'mage/deletable-item',
+            'itemTable':              'mage/item-table',
+            'fieldsetControls':       'mage/fieldset-controls',
+            'fieldsetResetControl':   'mage/fieldset-controls',
+            'redirectUrl':            'mage/redirect-url',
+            'loaderAjax':             'mage/loader',
+            'menu':                   'mage/menu',
+            'popupWindow':            'mage/popup-window',
+            'validation':             'mage/validation/validation',
+            'welcome':                'Magento_Theme/js/view/welcome',
+            'breadcrumbs':            'Magento_Theme/js/view/breadcrumbs',
+            'criticalCssLoader':      'Magento_Theme/js/view/critical-css-loader',
+            'jquery/ui':              'jquery/compat'
+        }
+    },
+    deps: [
+        'jquery/jquery.mobile.custom',
+        'mage/common',
+        'mage/dataPost',
+        'mage/bootstrap'
+    ],
+    config: {
+        mixins: {
+            'Magento_Theme/js/view/breadcrumbs': {
+                'Magento_Theme/js/view/add-home-breadcrumb': true
+            },
+            'jquery/ui-modules/dialog': {
+                'jquery/patches/jquery-ui': true
+            }
+        }
+    }
+};
+
+require.config(config);
+})();
+(function() {
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+var config = {
     'waitSeconds': 0,
     'map': {
         '*': {
@@ -67,62 +123,6 @@ require(['jquery'], function ($) {
 
     $.noConflict();
 });
-
-require.config(config);
-})();
-(function() {
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-var config = {
-    map: {
-        '*': {
-            'rowBuilder':             'Magento_Theme/js/row-builder',
-            'toggleAdvanced':         'mage/toggle',
-            'translateInline':        'mage/translate-inline',
-            'sticky':                 'mage/sticky',
-            'tabs':                   'mage/tabs',
-            'zoom':                   'mage/zoom',
-            'collapsible':            'mage/collapsible',
-            'dropdownDialog':         'mage/dropdown',
-            'dropdown':               'mage/dropdowns',
-            'accordion':              'mage/accordion',
-            'loader':                 'mage/loader',
-            'tooltip':                'mage/tooltip',
-            'deletableItem':          'mage/deletable-item',
-            'itemTable':              'mage/item-table',
-            'fieldsetControls':       'mage/fieldset-controls',
-            'fieldsetResetControl':   'mage/fieldset-controls',
-            'redirectUrl':            'mage/redirect-url',
-            'loaderAjax':             'mage/loader',
-            'menu':                   'mage/menu',
-            'popupWindow':            'mage/popup-window',
-            'validation':             'mage/validation/validation',
-            'welcome':                'Magento_Theme/js/view/welcome',
-            'breadcrumbs':            'Magento_Theme/js/view/breadcrumbs',
-            'criticalCssLoader':      'Magento_Theme/js/view/critical-css-loader',
-            'jquery/ui':              'jquery/compat'
-        }
-    },
-    deps: [
-        'jquery/jquery.mobile.custom',
-        'mage/common',
-        'mage/dataPost',
-        'mage/bootstrap'
-    ],
-    config: {
-        mixins: {
-            'Magento_Theme/js/view/breadcrumbs': {
-                'Magento_Theme/js/view/add-home-breadcrumb': true
-            },
-            'jquery/ui-modules/dialog': {
-                'jquery/patches/jquery-ui': true
-            }
-        }
-    }
-};
 
 require.config(config);
 })();
@@ -223,22 +223,6 @@ require.config(config);
 var config = {
     map: {
         '*': {
-            escaper: 'Magento_Security/js/escaper'
-        }
-    }
-};
-
-require.config(config);
-})();
-(function() {
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-var config = {
-    map: {
-        '*': {
             addToCart: 'Magento_Msrp/js/msrp'
         }
     }
@@ -313,8 +297,7 @@ var config = {
             sidebar:                'Magento_Checkout/js/sidebar',
             checkoutLoader:         'Magento_Checkout/js/checkout-loader',
             checkoutData:           'Magento_Checkout/js/checkout-data',
-            proceedToCheckout:      'Magento_Checkout/js/proceed-to-checkout',
-            catalogAddToCart:       'Magento_Catalog/js/catalog-add-to-cart'
+            proceedToCheckout:      'Magento_Checkout/js/proceed-to-checkout'
         }
     }
 };
@@ -557,11 +540,10 @@ require.config(config);
  */
 
 var config = {
-    config: {
-        mixins: {
-            'Magento_Checkout/js/action/select-payment-method': {
-                'Magento_SalesRule/js/action/select-payment-method-mixin': true
-            }
+    map: {
+        '*': {
+            transparent: 'Magento_Payment/js/transparent',
+            'Magento_Payment/transparent': 'Magento_Payment/js/transparent'
         }
     }
 };
@@ -605,23 +587,6 @@ var config = {
     shim: {
         paypalInContextExpressCheckout: {
             exports: 'paypal'
-        }
-    }
-};
-
-require.config(config);
-})();
-(function() {
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-var config = {
-    map: {
-        '*': {
-            transparent: 'Magento_Payment/js/transparent',
-            'Magento_Payment/transparent': 'Magento_Payment/js/transparent'
         }
     }
 };
@@ -1026,6 +991,18 @@ var config = {
 require.config(config);
 })();
 (function() {
+var config = {
+    paths: {
+        temandoCheckoutFieldsDefinition: 'Temando_Shipping/js/model/fields-definition',
+        temandoDeliveryOptions: 'Temando_Shipping/js/model/delivery-options',
+        temandoShippingRatesValidator: 'Temando_Shipping/js/model/shipping-rates-validator/temando',
+        temandoShippingRatesValidationRules: 'Temando_Shipping/js/model/shipping-rates-validation-rules/temando'
+    }
+};
+
+require.config(config);
+})();
+(function() {
 /**
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
@@ -1069,16 +1046,10 @@ var config = {
     config: {
         mixins: {
             'Magento_Checkout/js/view/billing-address': {
-                'Vertex_AddressValidation/js/billing-validation-mixin': true
+                'Vertex_AddressValidation/js/view/billing-validation-mixin': true
             },
             'Magento_Checkout/js/view/shipping': {
-                'Vertex_AddressValidation/js/shipping-validation-mixin': true
-            },
-            'Magento_Checkout/js/checkout-data': {
-                'Vertex_AddressValidation/js/shipping-invalidate-mixin': true
-            },
-            'Magento_Customer/js/addressValidation': {
-                'Vertex_AddressValidation/js/customer-validation-mixin': true
+                'Vertex_AddressValidation/js/view/shipping-validation-mixin': true
             }
         }
     }

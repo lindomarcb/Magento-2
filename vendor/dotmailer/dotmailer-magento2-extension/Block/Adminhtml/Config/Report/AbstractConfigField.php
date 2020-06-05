@@ -57,8 +57,7 @@ abstract class AbstractConfigField extends \Magento\Config\Block\System\Config\F
      *
      * @return string
      */
-    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
-    {
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element) {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
 
         return parent::render($element);
@@ -73,8 +72,7 @@ abstract class AbstractConfigField extends \Magento\Config\Block\System\Config\F
      *
      * @return string
      */
-    public function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
-    {
+    public function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element) {
         $originalData = $element->getOriginalData();
 
         $buttonLabel = !empty($originalData['button_label'])

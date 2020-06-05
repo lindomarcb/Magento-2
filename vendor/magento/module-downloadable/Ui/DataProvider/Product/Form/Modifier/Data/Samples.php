@@ -16,7 +16,7 @@ use Magento\Framework\UrlInterface;
 use Magento\Downloadable\Api\Data\SampleInterface;
 
 /**
- * Class to add samples
+ * Class Samples
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Samples
@@ -143,7 +143,7 @@ class Samples
                     'name' => $this->downloadableFile->getFileFromPathFile($sampleFile),
                     'size' => $this->downloadableFile->getFileSize($file),
                     'status' => 'old',
-                    'url' => $this->urlBuilder->getUrl(
+                    'url' => $this->urlBuilder->addSessionParam()->getUrl(
                         'adminhtml/downloadable_product_edit/sample',
                         ['id' => $sample->getId(), '_secure' => true]
                     ),

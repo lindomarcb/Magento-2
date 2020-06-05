@@ -37,10 +37,16 @@ class PriceTest extends \PHPUnit\Framework\TestCase
         $category->load(4);
         $layer = $this->objectManager->get(\Magento\Catalog\Model\Layer\Category::class);
         $layer->setCurrentCategory($category);
+        /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            \Magento\Catalog\Model\Entity\Attribute::class
+        );
+        $attribute->loadByCode('catalog_product', 'price');
         $this->_model = $this->objectManager->create(
             \Magento\CatalogSearch\Model\Layer\Filter\Price::class,
             ['layer' => $layer]
         );
+        $this->_model->setAttributeModel($attribute);
     }
 
     public function testApplyNothing()
@@ -85,9 +91,9 @@ class PriceTest extends \PHPUnit\Framework\TestCase
 
         $request->setParam('price', '10-20');
         $this->_model->setCurrencyRate(10);
-
+        
         $this->_model->apply($request);
-
+        
         $filters = $this->_model->getLayer()->getState()->getFilters();
         $this->assertArrayHasKey(0, $filters);
         $this->assertEquals(

@@ -1081,6 +1081,7 @@ class Category extends AbstractResource
      */
     public function load($object, $entityId, $attributes = [])
     {
+        $this->_attributes = [];
         $select = $this->_getLoadRowSelect($object, $entityId);
         $row = $this->getConnection()->fetchRow($select);
 

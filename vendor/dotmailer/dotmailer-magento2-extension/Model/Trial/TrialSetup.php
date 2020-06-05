@@ -5,7 +5,6 @@ namespace Dotdigitalgroup\Email\Model\Trial;
 use Dotdigitalgroup\Email\Helper\Config;
 use Dotdigitalgroup\Email\Helper\Config as EmailConfig;
 use Dotdigitalgroup\Email\Model\SetsTimezoneAndCultureTrait as SetsTimezoneAndCulture;
-use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\UrlInterface;
@@ -23,13 +22,6 @@ class TrialSetup
      */
     const SOURCE_ENGAGEMENT_CLOUD = 'ec';
     const SOURCE_CHAT = 'chat';
-
-    /*
-     * Magento editions recognised by microsite
-     */
-    const EDITION_EE = 'Magento EE';
-    const EDITION_EE_B2B = 'Magento EE B2B';
-    const EDITION_CE = 'Magento CE';
 
     /**
      * Map of address books to config paths
@@ -90,11 +82,6 @@ class TrialSetup
     private $encryptor;
 
     /**
-     * @var ProductMetadataInterface
-     */
-    private $productMetadata;
-
-    /**
      * TrialSetup constructor.
      * @param \Dotdigitalgroup\Email\Helper\Data $helper
      * @param \Magento\Framework\Math\Random $randomMath
@@ -104,7 +91,6 @@ class TrialSetup
      * @param \Dotdigitalgroup\Email\Model\DateIntervalFactory $dateIntervalFactory
      * @param \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param EncryptorInterface $encryptor
-     * @param ProductMetadataInterface $productMetadata
      */
     public function __construct(
         \Dotdigitalgroup\Email\Helper\Data $helper,
@@ -114,8 +100,7 @@ class TrialSetup
         \Magento\Framework\Stdlib\DateTime\Timezone $timezone,
         \Dotdigitalgroup\Email\Model\DateIntervalFactory $dateIntervalFactory,
         \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress,
-        EncryptorInterface $encryptor,
-        ProductMetadataInterface $productMetadata
+        EncryptorInterface $encryptor
     ) {
         $this->dateIntervalFactory = $dateIntervalFactory;
         $this->timezone = $timezone;
@@ -125,7 +110,6 @@ class TrialSetup
         $this->config = $config;
         $this->serverAddress = $serverAddress;
         $this->encryptor = $encryptor;
-        $this->productMetadata = $productMetadata;
     }
 
     /**
@@ -173,7 +157,8 @@ class TrialSetup
      */
     public function setupDataFields()
     {
-        if (!$this->helper->isEnabled()
+        if (
+            !$this->helper->isEnabled()
             || !$apiModel = $this->helper->getWebsiteApiClient()
         ) {
             $this->helper->log('setupDataFields client is not enabled');
@@ -217,7 +202,8 @@ class TrialSetup
             ];
         }, self::$addressBookMap, array_keys(self::$addressBookMap));
 
-        if (!$this->helper->isEnabled()
+        if (
+            !$this->helper->isEnabled()
             || !$client = $this->helper->getWebsiteApiClient()
         ) {
             $this->helper->log('createAddressBooks client is not enabled');
@@ -258,9 +244,7 @@ class TrialSetup
     public function isCodeValid($code)
     {
         $now = $this->timezone->date()->format(\DateTime::ATOM);
-        $expiryDateString = $this->helper->getWebsiteConfig(
-            EmailConfig::XML_PATH_CONNECTOR_API_TRIAL_TEMPORARY_PASSCODE_EXPIRY
-        );
+        $expiryDateString = $this->helper->getWebsiteConfig(EmailConfig::XML_PATH_CONNECTOR_API_TRIAL_TEMPORARY_PASSCODE_EXPIRY);
         if ($now >= $expiryDateString) {
             return false;
         }
@@ -336,13 +320,12 @@ class TrialSetup
                 } else {
                     //Need to fetch addressbook id to map. Addressbook already exist.
                     $response = $client->getAddressBooks();
-                    if (isset($response->message)) {
-                        continue;
-                    }
-                    foreach ($response as $book) {
-                        if ($book->name == $addressBookName) {
-                            $this->mapAddressBook($addressBookName, $book->id);
-                            break;
+                    if (!isset($response->message)) {
+                        foreach ($response as $book) {
+                            if ($book->name == $addressBookName) {
+                                $this->mapAddressBook($addressBookName, $book->id);
+                                break;
+                            }
                         }
                     }
                 }
@@ -421,20 +404,6 @@ class TrialSetup
             isset($magentoHost['port']) ? ':' . $baseUrlParsed['port'] : ''
         );
 
-        // get the magento edition
-        switch ($this->productMetadata->getEdition()) {
-            case 'B2B' :
-                $magentoEdition = self::EDITION_EE_B2B;
-                break;
-
-            case 'Enterprise' :
-                $magentoEdition = self::EDITION_EE;
-                break;
-
-            default :
-                $magentoEdition = self::EDITION_CE;
-        }
-
         return sprintf(
             '%s?%s',
             $trialSignupBaseUrl,
@@ -445,7 +414,6 @@ class TrialSetup
                 'timezone' => $this->getTimeZoneId(),
                 'code' => $this->generateTemporaryPasscode(),
                 'magentohost' => $magentoHost,
-                'magentoedition' => $magentoEdition,
                 'ip' => $ipAddress,
                 'source' => $source,
             ])

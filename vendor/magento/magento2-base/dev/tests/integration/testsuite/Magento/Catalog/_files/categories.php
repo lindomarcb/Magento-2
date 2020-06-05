@@ -20,7 +20,7 @@ $categoryLinkRepository = $objectManager->create(
     ]
 );
 
-/** @var Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagement */
+/** @var Magento\Catalog\Api\CategoryLinkManagementInterface $linkManagement */
 $categoryLinkManagement = $objectManager->create(\Magento\Catalog\Api\CategoryLinkManagementInterface::class);
 $reflectionClass = new \ReflectionClass(get_class($categoryLinkManagement));
 $properties = [
@@ -115,7 +115,6 @@ $category->setId(8)
     ->setName('Inactive')
     ->setParentId(2)
     ->setPath('1/2/8')
-    ->setLevel(2)
     ->setAvailableSortBy('name')
     ->setDefaultSortBy('name')
     ->setIsActive(false)

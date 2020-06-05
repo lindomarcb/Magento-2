@@ -65,6 +65,9 @@ abstract class AbstractDataMigration
             $this->update($this->getSelectStatement());
         }
 
+        // run any post-install operations
+        $this->afterInstall();
+
         return $this;
     }
 
@@ -92,6 +95,15 @@ abstract class AbstractDataMigration
      * @return Select
      */
     abstract protected function getSelectStatement();
+
+    /**
+     * Actions to be performed after queries have run
+     * Override as necessary
+     * @return void
+     */
+    protected function afterInstall()
+    {
+    }
 
     /**
      * Run an update statement

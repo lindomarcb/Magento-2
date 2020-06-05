@@ -44,7 +44,7 @@
     <actionGroup name="VertexAddressValidationDefaultErrorOrInvalidSystemMessage">
 
         <waitForLoadingMaskToDisappear stepKey="waitForLoadingMask"/>
-        <waitForElementVisible selector="{{CheckoutShippingSection.addressMessageWarning}}" time="30" stepKey="waitForAddressMessage"/>
+        <waitForElement selector="{{CheckoutShippingSection.next}}" time="30" stepKey="waitForNextButton"/>
 
         <see stepKey="warningMessage"
              selector="{{CheckoutShippingSection.addressMessageWarning}}"

@@ -262,7 +262,7 @@ class Price
 
         $tierPrice = $product->getTierPrice($qty);
         if (is_numeric($tierPrice)) {
-            $finalPrice = min($finalPrice, (float) $tierPrice);
+            $finalPrice = min($finalPrice, $tierPrice);
         }
         return $finalPrice;
     }
@@ -647,7 +647,7 @@ class Price
     ) {
         if ($specialPrice !== null && $specialPrice != false) {
             if ($this->_localeDate->isScopeDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
-                $finalPrice = min($finalPrice, (float) $specialPrice);
+                $finalPrice = min($finalPrice, $specialPrice);
             }
         }
         return $finalPrice;

@@ -78,13 +78,6 @@ class ProductDataMapper implements BatchDataMapperInterface
     ];
 
     /**
-     * @var string[]
-     */
-    private $sortableAttributesValuesToImplode = [
-        'name'
-    ];
-
-    /**
      * Construction for DocumentDataMapper
      *
      * @param Builder $builder
@@ -93,7 +86,6 @@ class ProductDataMapper implements BatchDataMapperInterface
      * @param AdditionalFieldsProviderInterface $additionalFieldsProvider
      * @param DataProvider $dataProvider
      * @param array $excludedAttributes
-     * @param array $sortableAttributesValuesToImplode
      */
     public function __construct(
         Builder $builder,
@@ -101,17 +93,12 @@ class ProductDataMapper implements BatchDataMapperInterface
         DateFieldType $dateFieldType,
         AdditionalFieldsProviderInterface $additionalFieldsProvider,
         DataProvider $dataProvider,
-        array $excludedAttributes = [],
-        array $sortableAttributesValuesToImplode = []
+        array $excludedAttributes = []
     ) {
         $this->builder = $builder;
         $this->fieldMapper = $fieldMapper;
         $this->dateFieldType = $dateFieldType;
         $this->excludedAttributes = array_merge($this->defaultExcludedAttributes, $excludedAttributes);
-        $this->sortableAttributesValuesToImplode = array_merge(
-            $this->sortableAttributesValuesToImplode,
-            $sortableAttributesValuesToImplode
-        );
         $this->additionalFieldsProvider = $additionalFieldsProvider;
         $this->dataProvider = $dataProvider;
         $this->attributeOptionsCache = [];
@@ -252,13 +239,6 @@ class ProductDataMapper implements BatchDataMapperInterface
             foreach ($attributeValues as $key => $attributeValue) {
                 $attributeValues[$key] = $this->dateFieldType->formatDate($storeId, $attributeValue);
             }
-        }
-
-        if ($attribute->getUsedForSortBy()
-            && in_array($attribute->getAttributeCode(), $this->sortableAttributesValuesToImplode)
-            && count($attributeValues) > 1
-        ) {
-            $attributeValues = [$productId => implode(' ', $attributeValues)];
         }
 
         return $attributeValues;

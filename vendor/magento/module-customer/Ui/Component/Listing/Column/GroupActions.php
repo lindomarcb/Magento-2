@@ -97,10 +97,10 @@ class GroupActions extends Column
                         ),
                         'label' => __('Delete'),
                         'confirm' => [
-                            'title' => __('Delete %1', $this->escaper->escapeHtml($title)),
+                            'title' => __('Delete %1', $this->escaper->escapeJs($title)),
                             'message' => __(
                                 'Are you sure you want to delete a %1 record?',
-                                $this->escaper->escapeHtml($title)
+                                $this->escaper->escapeJs($title)
                             )
                         ],
                         'post' => true,

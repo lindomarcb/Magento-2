@@ -54,7 +54,8 @@ class UpdateChatProfile
         }
 
         // patch profile if email or first/last names are available
-        if ((isset($data['customer']['email']) || $emailAddress)
+        if (
+            (isset($data['customer']['email']) || $emailAddress)
             || isset($data['customer']['firstName'], $data['customer']['lastName'])
         ) {
             $this->updateProfile->send($profileId, array_filter([

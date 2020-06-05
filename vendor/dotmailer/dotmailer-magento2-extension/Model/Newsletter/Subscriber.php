@@ -2,8 +2,8 @@
 
 namespace Dotdigitalgroup\Email\Model\Newsletter;
 
-use Dotdigitalgroup\Email\Model\Sync\SyncInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Dotdigitalgroup\Email\Model\Sync\SyncInterface;
 
 /**
  * Sync subscribers.
@@ -113,10 +113,9 @@ class Subscriber implements SyncInterface
      */
     public function runExport()
     {
-        $response    = ['success' => true, 'message' => '----------- Subscribers sync ----------- : '];
-        $storesSummary = '';
+        $response    = ['success' => true, 'message' => ''];
         $this->start = microtime(true);
-        $stores = $this->helper->getStores(true);
+        $stores    = $this->helper->getStores(true);
 
         foreach ($stores as $store) {
             $websiteId = $store->getWebsiteId();
@@ -132,16 +131,15 @@ class Subscriber implements SyncInterface
 
                 // show message for any number of customers
                 if ($numUpdated) {
-                    $storesSummary .= $store->getName() . ' (' . $numUpdated . ') --';
+                    $response['message'] .= $store->getName() . ',  count = ' . $numUpdated;
                 }
             }
         }
+        //sync processed
 
-        $response['message'] .= gmdate('H:i:s', microtime(true) - $this->start) . ', ';
-        $response['message'] .= $storesSummary;
-        $response['message'] .= ' Total synced = ' . $this->countSubscribers;
+        $response['message'] .= '----------- Subscribers sync ----------- : ' . gmdate('H:i:s', microtime(true) - $this->start) . ', updated = ' . $this->countSubscribers;
 
-        if ($this->countSubscribers) {
+        if($this->countSubscribers) {
             $this->helper->log($response['message']);
         }
 
@@ -265,8 +263,7 @@ class Subscriber implements SyncInterface
 
         //Mark suppressed contacts
         if (! empty($suppressedEmails)) {
-            $result['customers'] = $this->emailContactResource
-                ->unsubscribeWithResubscriptionCheck(array_values($suppressedEmails));
+            $result['customers'] = $this->emailContactResource->unsubscribeWithResubscriptionCheck(array_values($suppressedEmails));
         }
         return $result;
     }

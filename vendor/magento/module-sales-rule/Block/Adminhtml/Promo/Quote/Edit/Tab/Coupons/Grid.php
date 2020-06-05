@@ -100,7 +100,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn(
             'used',
             [
-                'header' => __('Used'),
+                'header' => __('Uses'),
                 'index' => 'times_used',
                 'width' => '100',
                 'type' => 'options',

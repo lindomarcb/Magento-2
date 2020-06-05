@@ -42,12 +42,7 @@ class Escaper
     /**
      * @var string[]
      */
-    private $allowedAttributes = ['id', 'class', 'href', 'title', 'style'];
-
-    /**
-     * @var array
-     */
-    private $notAllowedAttributes = ['a' => ['style']];
+    private $allowedAttributes = ['id', 'class', 'href', 'target', 'title', 'style'];
 
     /**
      * @var string
@@ -173,16 +168,6 @@ class Escaper
         );
         foreach ($nodes as $node) {
             $node->parentNode->removeAttribute($node->nodeName);
-        }
-
-        foreach ($this->notAllowedAttributes as $tag => $attributes) {
-            $nodes = $xpath->query(
-                '//@*[name() =\'' . implode('\' or name() = \'', $attributes) . '\']'
-                . '[parent::node()[name() = \'' . $tag . '\']]'
-            );
-            foreach ($nodes as $node) {
-                $node->parentNode->removeAttribute($node->nodeName);
-            }
         }
     }
 

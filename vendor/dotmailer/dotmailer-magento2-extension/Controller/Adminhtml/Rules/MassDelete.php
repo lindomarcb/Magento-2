@@ -5,6 +5,7 @@ namespace Dotdigitalgroup\Email\Controller\Adminhtml\Rules;
 use Dotdigitalgroup\Email\Helper\MassDeleteCsrf;
 use Magento\Ui\Component\MassAction\Filter;
 
+
 class MassDelete extends MassDeleteCsrf
 {
     /**

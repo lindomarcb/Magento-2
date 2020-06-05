@@ -1,7 +1,5 @@
 <?php
 
-namespace Dotdigitalgroup\Email\Test\Unit\Model\Sync\Catalog;
-
 use Dotdigitalgroup\Email\Helper\Data;
 use Dotdigitalgroup\Email\Model\ResourceModel\Catalog;
 use Dotdigitalgroup\Email\Model\ResourceModel\CatalogFactory;
@@ -110,7 +108,7 @@ class StoreLevelCatalogSyncerTest extends TestCase
 
         $this->webSiteInterfaceMock->expects($this->exactly(2))
             ->method('getCode')
-            ->willReturn(hash("sha256", rand()));
+            ->willReturn(md5(rand()));
 
         $result = $this->storeLevelCatalogSyncer->sync($products);
         $this->assertEquals(count($result), $expected);
@@ -158,7 +156,7 @@ class StoreLevelCatalogSyncerTest extends TestCase
 
         $this->webSiteInterfaceMock->expects($this->at(0))
             ->method('getCode')
-            ->willReturn(hash("sha256", rand()));
+            ->willReturn(md5(rand()));
 
         $result = $this->storeLevelCatalogSyncer->sync($products);
 
@@ -231,7 +229,7 @@ class StoreLevelCatalogSyncerTest extends TestCase
 
         $this->webSiteInterfaceMock->expects($this->never())
             ->method('getCode')
-            ->willReturn(hash("sha256", rand()));
+            ->willReturn(md5(rand()));
 
         $result = $this->storeLevelCatalogSyncer->sync($products);
         $this->assertEquals(count($result), $expected);
@@ -326,7 +324,7 @@ class StoreLevelCatalogSyncerTest extends TestCase
         return [
           'websiteId' => rand(1, 10),
           'storeId' => rand(1, 10),
-          'code' => hash("sha256", rand())
+          'code' => md5(rand())
         ];
     }
 

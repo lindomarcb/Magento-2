@@ -4,8 +4,8 @@ namespace Dotdigitalgroup\Email\Block;
 
 use Dotdigitalgroup\Email\Helper\Config;
 use Dotdigitalgroup\Email\Helper\Data;
-use Dotdigitalgroup\Email\Model\SalesRule\DotdigitalCouponRequestProcessor;
-use Dotdigitalgroup\Email\Model\SalesRule\DotdigitalCouponRequestProcessorFactory;
+use Dotdigitalgroup\Email\Model\DateIntervalFactory;
+use Dotdigitalgroup\Email\Model\SalesRule\DotmailerCouponGenerator;
 use Magento\Framework\View\Element\Template\Context;
 use Dotdigitalgroup\Email\Block\Helper\Font;
 
@@ -22,14 +22,14 @@ class Coupon extends \Magento\Framework\View\Element\Template
     public $helper;
 
     /**
-     * @var DotdigitalCouponRequestProcessorFactory
+     * @var DotmailerCouponGenerator
      */
-    private $dotdigitalCouponRequestProcessorFactory;
+    private $dotmailerCouponGenerator;
 
     /**
-     * @var DotdigitalCouponRequestProcessor
+     * @var DateIntervalFactory
      */
-    private $dotdigitalCouponRequestProcessor;
+    private $dateIntervalFactory;
 
     /**
      * @var Font
@@ -41,19 +41,22 @@ class Coupon extends \Magento\Framework\View\Element\Template
      *
      * @param Context $context
      * @param Data $helper
-     * @param DotdigitalCouponGeneratorFactory $dotdigitalCouponGeneratorFactory
+     * @param DotmailerCouponGenerator $dotmailerCouponGenerator
+     * @param DateIntervalFactory $dateIntervalFactory
      * @param Font $font
      * @param array $data
      */
     public function __construct(
         Context $context,
         Data $helper,
-        DotdigitalCouponRequestProcessorFactory $dotdigitalCouponRequestProcessorFactory,
+        DotmailerCouponGenerator $dotmailerCouponGenerator,
+        DateIntervalFactory $dateIntervalFactory,
         Font $font,
         array $data = []
     ) {
+        $this->dateIntervalFactory = $dateIntervalFactory;
         $this->helper = $helper;
-        $this->dotdigitalCouponRequestProcessorFactory = $dotdigitalCouponRequestProcessorFactory;
+        $this->dotmailerCouponGenerator = $dotmailerCouponGenerator;
         $this->font = $font;
         parent::__construct($context, $data);
     }
@@ -61,30 +64,29 @@ class Coupon extends \Magento\Framework\View\Element\Template
     /**
      * Generates the coupon code based on the code id.
      *
-     * @return string|null
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function generateCoupon()
     {
-        try {
-            return $this->getCouponRequestProcessor()
-                ->processCouponRequest($this->getRequest()->getParams())
-                ->getCouponCode();
-        } catch (\ErrorException $e) {
-            $this->helper->debug('Problem generating coupon', [
-                'message' => $e->getMessage(),
-            ]);
+        $params = $this->getRequest()->getParams();
+        //check for param code and id
+        if (! isset($params['code']) ||
+            ! $this->helper->isCodeValid($params['code'])
+        ) {
+            return false;
         }
 
-        return null;
-    }
+        $priceRuleId = (int) $params['id'];
+        $expireDate = false;
 
-    /**
-     * @return DotdigitalCouponRequestProcessor
-     */
-    public function getCouponRequestProcessor()
-    {
-        return $this->dotdigitalCouponRequestProcessor
-            ?: $this->dotdigitalCouponRequestProcessor = $this->dotdigitalCouponRequestProcessorFactory->create();
+        if (isset($params['expire_days']) && is_numeric($params['expire_days']) && $params['expire_days'] > 0) {
+            $days = (int) $params['expire_days'];
+            $expireDate = $this->_localeDate->date()
+                ->add($this->dateIntervalFactory->create(['interval_spec' => sprintf('P%sD', $days)]));
+        }
+
+        return $this->dotmailerCouponGenerator->generateCoupon($priceRuleId, $expireDate);
     }
 
     /**

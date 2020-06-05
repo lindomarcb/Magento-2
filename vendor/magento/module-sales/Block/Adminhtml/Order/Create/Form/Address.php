@@ -14,7 +14,6 @@ use Magento\Eav\Model\AttributeDataFactory;
 
 /**
  * Order create address form
- *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
@@ -217,12 +216,15 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * Prepare Form and add elements to form
      *
      * @return $this
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _prepareForm()
     {
-        $storeId = $this->getAddressStoreId();
+        $storeId = $this->getCreateOrderModel()
+            ->getSession()
+            ->getStoreId();
         $this->_storeManager->setCurrentStore($storeId);
 
         $fieldset = $this->_form->addFieldset('main', ['no_container' => true]);

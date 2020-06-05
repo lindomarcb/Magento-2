@@ -10,7 +10,6 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\RedirectInterface;
-use Magento\Store\Model\ScopeInterface;
 
 /**
  * Wishlist plugin before dispatch
@@ -90,7 +89,7 @@ class Plugin
                 $this->messageManager->addErrorMessage(__('You must login or register to add items to your wishlist.'));
             }
         }
-        if (!$this->config->isSetFlag('wishlist/general/active', ScopeInterface::SCOPE_STORES)) {
+        if (!$this->config->isSetFlag('wishlist/general/active')) {
             throw new NotFoundException(__('Page not found.'));
         }
     }

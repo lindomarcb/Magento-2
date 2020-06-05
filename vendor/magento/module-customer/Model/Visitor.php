@@ -10,10 +10,9 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\RequestSafetyInterface;
 
 /**
- * Class Visitor responsible for initializing visitor's.
+ * Class Visitor
  *
- *  Used to track sessions of the logged in customers
- *
+ * @package Magento\Customer\Model
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
@@ -174,7 +173,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         if ($this->requestSafety->isSafeMethod()) {
             return $this;
         }
-
+        
         if (!$this->getId()) {
             $this->setSessionId($this->session->getSessionId());
             $this->save();
@@ -195,16 +194,11 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     public function saveByRequest($observer)
     {
         // prevent saving Visitor for safe methods, e.g. GET request
-        if (($this->skipRequestLogging || $this->requestSafety->isSafeMethod() || $this->isModuleIgnored($observer))
-            && !$this->sessionIdHasChanged()
-        ) {
+        if ($this->skipRequestLogging || $this->requestSafety->isSafeMethod() || $this->isModuleIgnored($observer)) {
             return $this;
         }
 
         try {
-            if ($this->session->getSessionId() && $this->getSessionId() != $this->session->getSessionId()) {
-                $this->setSessionId($this->session->getSessionId());
-            }
             $this->save();
             $this->_eventManager->dispatch('visitor_activity_save', ['visitor' => $this]);
             $this->session->setVisitorData($this->getData());
@@ -212,23 +206,6 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
             $this->_logger->critical($e);
         }
         return $this;
-    }
-
-    /**
-     * Check if visitor session id was changed.
-     *
-     * @return bool
-     */
-    private function sessionIdHasChanged(): bool
-    {
-        $visitorData = $this->session->getVisitorData();
-        $hasChanged = false;
-
-        if (isset($visitorData['session_id'])) {
-            $hasChanged = $this->session->getSessionId() !== $visitorData['session_id'];
-        }
-
-        return $hasChanged;
     }
 
     /**

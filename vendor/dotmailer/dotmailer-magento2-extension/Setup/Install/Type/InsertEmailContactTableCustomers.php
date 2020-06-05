@@ -2,7 +2,7 @@
 
 namespace Dotdigitalgroup\Email\Setup\Install\Type;
 
-use Dotdigitalgroup\Email\Setup\SchemaInterface as Schema;
+use Dotdigitalgroup\Email\Setup\Schema;
 
 class InsertEmailContactTableCustomers extends AbstractDataMigration implements InsertTypeInterface
 {

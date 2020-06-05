@@ -5,6 +5,8 @@ namespace Dotdigitalgroup\Email\Model\Sync\Catalog;
 use Magento\Store\Model\App\Emulation;
 
 /**
+ * StoreLevelCatalogSyncer
+ *
  * @implements CatalogSyncerInterface
  */
 class StoreLevelCatalogSyncer implements CatalogSyncerInterface

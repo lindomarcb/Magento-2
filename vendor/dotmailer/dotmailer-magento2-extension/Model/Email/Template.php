@@ -210,6 +210,11 @@ class Template extends \Magento\Framework\DataObject implements SyncInterface
     private $templateFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    private $registry;
+
+    /**
      * @var array
      */
     private $processedCampaigns = [];
@@ -222,6 +227,7 @@ class Template extends \Magento\Framework\DataObject implements SyncInterface
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Email\Model\ResourceModel\Template $templateResource
      * @param \Magento\Email\Model\ResourceModel\Template\CollectionFactory $templateCollectionFactory
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Dotdigitalgroup\Email\Helper\Data $helper,
@@ -229,7 +235,8 @@ class Template extends \Magento\Framework\DataObject implements SyncInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Email\Model\ResourceModel\Template $templateResource,
-        \Magento\Email\Model\ResourceModel\Template\CollectionFactory $templateCollectionFactory
+        \Magento\Email\Model\ResourceModel\Template\CollectionFactory $templateCollectionFactory,
+        \Magento\Framework\Registry $registry
     ) {
         $data = [];
         $this->helper = $helper;
@@ -238,6 +245,7 @@ class Template extends \Magento\Framework\DataObject implements SyncInterface
         $this->templateFactory = $templateFactory;
         $this->templateResource = $templateResource;
         $this->templateCollectionFactory  = $templateCollectionFactory;
+        $this->registry = $registry;
 
         parent::__construct($data);
     }
@@ -422,4 +430,24 @@ class Template extends \Magento\Framework\DataObject implements SyncInterface
 
         return $template;
     }
+
+    /**
+     * Store template id in registry to look up in SenderResolverPlugin.
+     * @param int $templateId
+     */
+    public function saveTemplateIdInRegistry($templateId)
+    {
+        if (!$this->registry->registry('dotmailer_current_template_id')) {
+            $this->registry->register('dotmailer_current_template_id', $templateId);
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function loadTemplateIdFromRegistry()
+    {
+        return $this->registry->registry('dotmailer_current_template_id');
+    }
+    
 }

@@ -11,7 +11,6 @@ use Yotpo\Yotpo\Model\Richsnippet;
 class Products extends AbstractApi
 {
     const PATH = 'products';
-    const TTL = 86400; // 60 * 60 * 24 seconds
 
     /**
      * @var Richsnippet
@@ -41,26 +40,23 @@ class Products extends AbstractApi
      */
     public function getRichSnippet($productId = null)
     {
-        $rich_snippet_data = [
-            "average_score" => 0.0,
-            "reviews_count" => 0
-        ];
-
         try {
             $storeId = $this->_yotpoConfig->getCurrentStoreId();
             $snippet = $this->richsnippet->getSnippetByProductIdAndStoreId($productId, $storeId);
 
-            if ($snippet && $snippet->isValid()) {
-                $rich_snippet_data["average_score"] = $snippet->getAverageScore();
-                $rich_snippet_data["reviews_count"] = $snippet->getReviewsCount();
-            } else {
+            if (!$snippet || !$snippet->isValid()) {
                 //no snippet for product or snippet isn't valid anymore. get valid snippet code from yotpo api
                 $res = $this->sendApiRequest(self::PATH . "/" . $this->_yotpoConfig->getAppKey() . '/' . $productId . "/bottomline/", [], "get", 2);
 
-                if ($res["status"] == 200) {
-                    $rich_snippet_data["average_score"] = round($res["body"]->response->bottomline->average_score, 2);
-                    $rich_snippet_data["reviews_count"] = $res["body"]->response->bottomline->total_reviews;
+                if ($res["status"] != 200) {
+                    //product not found or feature disabled.
+                    return [];
                 }
+
+                $body = $res["body"];
+                $averageScore = $body->response->bottomline->average_score;
+                $reviewsCount = $body->response->bottomline->total_reviews;
+                $ttl = 60 * 60 * 24; // seconds
 
                 if ($snippet == null) {
                     $snippet = $this->richsnippet;
@@ -68,15 +64,23 @@ class Products extends AbstractApi
                     $snippet->setStoreId($storeId);
                 }
 
-                $snippet->setAverageScore($rich_snippet_data["average_score"]);
-                $snippet->setReviewsCount($rich_snippet_data["reviews_count"]);
-                $snippet->setExpirationTime(date('Y-m-d H:i:s', time() + self::TTL));
+                $snippet->setAverageScore($averageScore);
+                $snippet->setReviewsCount($reviewsCount);
+                $snippet->setExpirationTime(date('Y-m-d H:i:s', time() + $ttl));
                 $snippet->save();
+
+                return [
+                    "average_score" => $averageScore,
+                    "reviews_count" => $reviewsCount
+                ];
             }
+            return [
+                "average_score" => $snippet->getAverageScore(),
+                "reviews_count" => $snippet->getReviewsCount()
+            ];
         } catch (\Exception $e) {
             $this->_yotpoConfig->log("Products::getRichSnippet() - exception: " . $e->getMessage() . "\n" . $e->getTraceAsString(), "error");
         }
-
-        return $rich_snippet_data;
+        return [];
     }
 }

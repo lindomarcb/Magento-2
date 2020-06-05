@@ -79,5 +79,4 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Magento\Cron\Model\DeadlockRetrierInterface" type="Magento\Cron\Model\DeadlockRetrier" />
 </config>

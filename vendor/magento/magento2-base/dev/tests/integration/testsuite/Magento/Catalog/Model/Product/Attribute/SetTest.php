@@ -16,15 +16,13 @@ use Magento\Eav\Model\Config;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Set as AttributeSetResource;
 use Magento\Framework\Api\AttributeInterface;
 use Magento\Framework\ObjectManagerInterface;
-use Magento\TestFramework\Eav\Model\GetAttributeGroupByName;
-use Magento\TestFramework\Eav\Model\ResourceModel\GetEntityIdByAttributeId;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\Eav\Model\GetAttributeGroupByName;
 
 /**
  * Provides tests for attribute set model saving.
  *
  * @magentoDbIsolation enabled
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class SetTest extends \PHPUnit\Framework\TestCase
 {
@@ -69,11 +67,6 @@ class SetTest extends \PHPUnit\Framework\TestCase
     private $attributeGroupByName;
 
     /**
-     * @var GetEntityIdByAttributeId
-     */
-    private $getEntityIdByAttributeId;
-
-    /**
      * @inheritdoc
      */
     protected function setUp()
@@ -87,7 +80,6 @@ class SetTest extends \PHPUnit\Framework\TestCase
         $this->attributeSetResource = $this->objectManager->get(AttributeSetResource::class);
         $this->attributeCollectionFactory = $this->objectManager->get(CollectionFactory ::class);
         $this->attributeGroupByName = $this->objectManager->get(GetAttributeGroupByName::class);
-        $this->getEntityIdByAttributeId = $this->objectManager->get(GetEntityIdByAttributeId::class);
     }
 
     /**
@@ -271,6 +263,11 @@ class SetTest extends \PHPUnit\Framework\TestCase
      */
     private function getEntityAttributeId(int $setId, int $attributeId): int
     {
-        return $this->getEntityIdByAttributeId->execute($setId, $attributeId);
+        $select = $this->attributeSetResource->getConnection()->select()
+            ->from($this->attributeSetResource->getTable('eav_entity_attribute'), ['entity_attribute_id'])
+            ->where('attribute_set_id = ?', $setId)
+            ->where('attribute_id = ?', $attributeId);
+
+        return (int)$this->attributeSetResource->getConnection()->fetchOne($select);
     }
 }

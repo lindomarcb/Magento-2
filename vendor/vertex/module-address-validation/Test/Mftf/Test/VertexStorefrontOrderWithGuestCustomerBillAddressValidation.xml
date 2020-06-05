@@ -51,11 +51,6 @@
                 <argument name="postCode" value="{{Vertex_Customer_BirminghamAlabama_Address.valid_postcode}}" />
             </actionGroup>
 
-            <conditionalClick selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
-                              dependentSelector="{{CheckoutShippingSection.editAddressButton}}"
-                              visible="true"
-                              stepKey="checkBillingAddressSameAsShippingIfAddressEdit"/>
-
             <uncheckOption selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
                            stepKey="uncheckBillingAddressSameAsShippingCheckCheckBox"/>
 
@@ -129,11 +124,6 @@
             <actionGroup ref="VertexAddressValidationUpdatedToValidSystemMessage" stepKey="messageWasUpdated">
                 <argument name="postCode" value="{{Vertex_Customer_BirminghamAlabama_Address.valid_postcode}}" />
             </actionGroup>
-
-            <conditionalClick selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
-                              dependentSelector="{{CheckoutShippingSection.editAddressButton}}"
-                              visible="true"
-                              stepKey="checkBillingAddressSameAsShippingIfAddressEdit"/>
 
             <uncheckOption selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
                            stepKey="uncheckBillingAddressSameAsShippingCheckCheckBox"/>
@@ -210,11 +200,6 @@
             <actionGroup ref="VertexAddressValidationUpdatedToValidSystemMessage" stepKey="messageWasUpdated">
                 <argument name="postCode" value="{{Vertex_Customer_BirminghamAlabama_Address.valid_postcode}}" />
             </actionGroup>
-
-            <conditionalClick selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
-                              dependentSelector="{{CheckoutShippingSection.editAddressButton}}"
-                              visible="true"
-                              stepKey="checkBillingAddressSameAsShippingIfAddressEdit"/>
 
             <uncheckOption selector="{{StorefrontCheckoutPaymentMethodSection.billingAddressSameAsShipping}}"
                            stepKey="uncheckBillingAddressSameAsShippingCheckCheckBox"/>

@@ -30,7 +30,6 @@ define(
 
         var isAmazonAccountLoggedIn = ko.observable(false),
             isAmazonEnabled = ko.observable(amazonPaymentConfig.getValue('isPwaEnabled')),
-            orderReferenceId = ko.observable(amazonPaymentConfig.getValue('orderReferenceId')),
             orderReference,
             addressConsentToken = amazonCore.accessToken,
             //eslint-disable-next-line no-use-before-define
@@ -99,7 +98,6 @@ define(
         return {
             isAmazonAccountLoggedIn: isAmazonAccountLoggedIn,
             isAmazonEnabled: isAmazonEnabled,
-            orderReferenceId: orderReferenceId,
             amazonDeclineCode: amazonDeclineCode,
             sandboxSimulationReference: sandboxSimulationReference,
             isPlaceOrderDisabled: isPlaceOrderDisabled,
@@ -122,7 +120,7 @@ define(
              * Get order reference
              */
             getOrderReference: function () {
-                return this.orderReferenceId() || orderReference;
+                return orderReference;
             },
 
             /**

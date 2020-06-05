@@ -47,7 +47,7 @@
             <click selector="{{AdminCreateProductConfigurationsPanel.applySingleQuantityToEachSkus}}" stepKey="clickOnApplySingleQuantityToEachSku"/>
             <click selector="{{AdminConfigurableProductAssignSourcesSlideOut.assignSources}}" stepKey="openSelectSourcesModalWindow"/>
             <conditionalClick selector="{{AdminDataGridHeaderSection.clearFilters}}" dependentSelector="{{AdminDataGridHeaderSection.clearFilters}}" visible="true" stepKey="clearSourcesFilter"/>
-            <actionGroup ref="SearchAdminDataGridByKeywordActionGroup" stepKey="searchAdditionalSourceByNameForAssignment">
+            <actionGroup ref="searchAdminDataGridByKeyword" stepKey="searchAdditionalSourceByNameForAssignment">
                 <argument name="keyword" value="$$additionalSource.source[name]$$"/>
             </actionGroup>
             <click selector="{{AdminGridRow.checkboxByValue($$additionalSource.source[name]$$)}}" stepKey="selectAdditionalSource"/>
@@ -96,12 +96,12 @@
         <click selector="{{CheckoutPaymentSection.placeOrder}}" stepKey="clickPlaceOrder"/>
         <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="grabOrderNumber"/>
         <!--Create full invoice.-->
-        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
+        <actionGroup ref="OpenOrderById" stepKey="openOrder">
             <argument name="orderId" value="{$grabOrderNumber}"/>
         </actionGroup>
         <click selector="{{AdminOrderDetailsMainActionsSection.invoice}}" stepKey="clickInvoice"/>
         <waitForPageLoad stepKey="waitPageToBeLoaded"/>
-        <actionGroup ref="SubmitInvoiceActionGroup" stepKey="submitInvoice"/>
+        <actionGroup ref="SubmitInvoice" stepKey="submitInvoice"/>
         <waitForPageLoad time="60" stepKey="waitForPageLoadSubmitInvoice"/>
         <scrollToTopOfPage stepKey="scrollToTopMessage"/>
         <waitForPageLoad stepKey="waitForPageLoadSuccessMessage"/>

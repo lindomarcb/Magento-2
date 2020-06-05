@@ -53,16 +53,17 @@
         </actionGroup>
 
         <actionGroup ref="AdminFillSourceQtyOnProductEditPageActionGroup" stepKey="fillProductQtyPerSource">
-            <argument name="qty" value="{{minimalProductQty.value}}" />
+            <argument name="sourceCode" value="_defaultSource.source_code"/>
+            <argument name="qty" value="1" />
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct"/>
 
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginToStorefront">
             <argument name="Customer" value="$$customer$$"/>
         </actionGroup>
 
-        <actionGroup ref="AddSimpleProductToCartActionGroup" stepKey="addProductToCart">
+        <actionGroup ref="AddSimpleProductToCart" stepKey="addProductToCart">
             <argument name="product" value="$$downloadableProduct$$"/>
             <argument name="productCount" value="1"/>
         </actionGroup>
@@ -72,12 +73,12 @@
         <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
 
         <!--Create Invoice-->
-        <actionGroup ref="FilterOrderGridByIdActionGroup" stepKey="filterByOrderId">
+        <actionGroup ref="filterOrderGridById" stepKey="filterByOrderId">
             <argument name="orderId" value="$orderNumber"/>
         </actionGroup>
         <click selector="{{AdminDataGridTableSection.firstRow}}" stepKey="clickOrderRow"/>
-        <actionGroup ref="StartCreateInvoiceFromOrderPageActionGroup" stepKey="startCreateInvoice"/>
-        <actionGroup ref="SubmitInvoiceActionGroup" stepKey="submitInvoice"/>
+        <actionGroup ref="StartCreateInvoiceFromOrderPage" stepKey="startCreateInvoice"/>
+        <actionGroup ref="SubmitInvoice" stepKey="submitInvoice"/>
 
         <!--Verify reorder button is not visible-->
         <amOnPage url="{{StorefrontCustomerDashboardPage.url}}" stepKey="goToCustomerDashboardPage"/>

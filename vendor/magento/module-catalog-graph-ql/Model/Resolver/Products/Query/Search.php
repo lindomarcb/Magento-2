@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\CatalogGraphQl\Model\Resolver\Products\Query;
 
-use Magento\CatalogGraphQl\DataProvider\Product\SearchCriteriaBuilder;
 use Magento\CatalogGraphQl\Model\Resolver\Products\DataProvider\ProductSearch;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\Api\Search\SearchCriteriaInterface;
@@ -15,12 +14,11 @@ use Magento\CatalogGraphQl\Model\Resolver\Products\SearchResult;
 use Magento\CatalogGraphQl\Model\Resolver\Products\SearchResultFactory;
 use Magento\Search\Api\SearchInterface;
 use Magento\Framework\Api\Search\SearchCriteriaInterfaceFactory;
-use Magento\Search\Model\Search\PageSizeProvider;
 
 /**
  * Full text search for catalog using given search criteria.
  */
-class Search implements ProductQueryInterface
+class Search
 {
     /**
      * @var SearchInterface
@@ -33,7 +31,7 @@ class Search implements ProductQueryInterface
     private $searchResultFactory;
 
     /**
-     * @var PageSizeProvider
+     * @var \Magento\Search\Model\Search\PageSizeProvider
      */
     private $pageSizeProvider;
 
@@ -53,27 +51,20 @@ class Search implements ProductQueryInterface
     private $productsProvider;
 
     /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-
-    /**
      * @param SearchInterface $search
      * @param SearchResultFactory $searchResultFactory
-     * @param PageSizeProvider $pageSize
+     * @param \Magento\Search\Model\Search\PageSizeProvider $pageSize
      * @param SearchCriteriaInterfaceFactory $searchCriteriaFactory
      * @param FieldSelection $fieldSelection
      * @param ProductSearch $productsProvider
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         SearchInterface $search,
         SearchResultFactory $searchResultFactory,
-        PageSizeProvider $pageSize,
+        \Magento\Search\Model\Search\PageSizeProvider $pageSize,
         SearchCriteriaInterfaceFactory $searchCriteriaFactory,
         FieldSelection $fieldSelection,
-        ProductSearch $productsProvider,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        ProductSearch $productsProvider
     ) {
         $this->search = $search;
         $this->searchResultFactory = $searchResultFactory;
@@ -81,23 +72,21 @@ class Search implements ProductQueryInterface
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->fieldSelection = $fieldSelection;
         $this->productsProvider = $productsProvider;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
-     * Return product search results using Search API
+     * Return results of full text catalog search of given term, and will return filtered results if filter is specified
      *
-     * @param array $args
+     * @param SearchCriteriaInterface $searchCriteria
      * @param ResolveInfo $info
      * @return SearchResult
      * @throws \Exception
      */
     public function getResult(
-        array $args,
+        SearchCriteriaInterface $searchCriteria,
         ResolveInfo $info
     ): SearchResult {
         $queryFields = $this->fieldSelection->getProductsFieldSelection($info);
-        $searchCriteria = $this->buildSearchCriteria($args, $info);
 
         $realPageSize = $searchCriteria->getPageSize();
         $realCurrentPage = $searchCriteria->getCurrentPage();
@@ -141,21 +130,5 @@ class Search implements ProductQueryInterface
                 'totalPages' => $maxPages,
             ]
         );
-    }
-
-    /**
-     * Build search criteria from query input args
-     *
-     * @param array $args
-     * @param ResolveInfo $info
-     * @return SearchCriteriaInterface
-     */
-    private function buildSearchCriteria(array $args, ResolveInfo $info): SearchCriteriaInterface
-    {
-        $productFields = (array)$info->getFieldSelection(1);
-        $includeAggregations = isset($productFields['filters']) || isset($productFields['aggregations']);
-        $searchCriteria = $this->searchCriteriaBuilder->build($args, $includeAggregations);
-
-        return $searchCriteria;
     }
 }

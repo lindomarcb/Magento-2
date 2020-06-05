@@ -86,7 +86,7 @@ class Attribute
     }
 
     /**
-     * @param array $configAttributes
+     * @param mixed $configAttributes
      * @param mixed $attributesFromAttributeSet
      * @param \Magento\Catalog\Model\Product $productModel
      *
@@ -156,12 +156,8 @@ class Attribute
      */
     public function getAttributeSetName($product)
     {
-        try {
-            $attributeSetRepository = $this->attributeSet->get($product->getAttributeSetId());
-            return $attributeSetRepository->getAttributeSetName();
-        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-            return __('Not available');
-        }
+        $attributeSetRepository = $this->attributeSet->get($product->getAttributeSetId());
+        return $attributeSetRepository->getAttributeSetName();
     }
 
     /**

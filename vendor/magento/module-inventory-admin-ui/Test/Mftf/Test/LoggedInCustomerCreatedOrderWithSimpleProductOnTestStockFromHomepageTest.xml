@@ -102,7 +102,7 @@
 
         <!-- Admin area check ordered quantity -->
         <comment userInput="Admin - Check ordered quantity" stepKey="AdminCheckOrderedQuantity"/>
-        <actionGroup ref="OpenOrderByIdActionGroup" stepKey="openOrder">
+        <actionGroup ref="OpenOrderById" stepKey="openOrder">
             <argument name="orderId" value="{$grabOrderNumber}"/>
         </actionGroup>
         <waitForElementVisible selector="{{AdminOrderItemsOrderedSection.itemQty('1')}}" stepKey="waitForViewOrderedQuantity"/>

@@ -59,8 +59,6 @@
                 <field key="qty">1</field>
             </createData>
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
-            <magentoCLI command="indexer:reindex" stepKey="reindex"/>
-            <magentoCLI command="cache:flush" stepKey="cleanCache"/>
         </before>
         <after>
             <!--Disable additional source.-->
@@ -81,10 +79,11 @@
         </actionGroup>
 
         <actionGroup ref="AdminFillSourceQtyOnProductEditPageActionGroup" stepKey="fillProductQtyPerSource">
-            <argument name="qty" value="{{minimalProductQty.value}}" />
+            <argument name="sourceCode" value="_defaultSource.source_code"/>
+            <argument name="qty" value="1" />
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct"/>
 
         <actionGroup ref="AdminGoToProductGridFilterResultsByInputEditProduct" stepKey="goToProductGridFilterResultsByInputEditProduct2">
             <argument name="filter_selector" value="AdminProductGridFilterSection.skuFilter"/>
@@ -92,10 +91,11 @@
         </actionGroup>
 
         <actionGroup ref="AdminFillSourceQtyOnProductEditPageActionGroup" stepKey="fillProductQtyPerSource2">
-            <argument name="qty" value="{{minimalProductQty.value}}" />
+            <argument name="sourceCode" value="_defaultSource.source_code"/>
+            <argument name="qty" value="1" />
         </actionGroup>
 
-        <actionGroup ref="SaveProductFormActionGroup" stepKey="saveProduct2"/>
+        <actionGroup ref="saveProductForm" stepKey="saveProduct2"/>
 
         <actionGroup ref="LoginToStorefrontActionGroup" stepKey="loginToStorefront">
             <argument name="Customer" value="$$customer$$"/>
@@ -106,7 +106,7 @@
             <argument name="phrase" value="$createBundleProduct.name$"/>
         </actionGroup>
 
-        <actionGroup ref="StorefrontOpenProductFromQuickSearchActionGroup" stepKey="openAndCheckProduct">
+        <actionGroup ref="StorefrontOpenProductFromQuickSearch" stepKey="openAndCheckProduct">
             <argument name="productName" value="$createBundleProduct.name$"/>
             <argument name="productUrlKey" value="$createBundleProduct.custom_attributes[url_key]$"/>
         </actionGroup>
@@ -123,7 +123,7 @@
         <grabTextFrom selector="{{CheckoutSuccessMainSection.orderNumber22}}" stepKey="orderNumber"/>
 
         <!--Create Shipment-->
-        <actionGroup ref="FilterOrderGridByIdActionGroup" stepKey="filterByOrderId">
+        <actionGroup ref="filterOrderGridById" stepKey="filterByOrderId">
             <argument name="orderId" value="$orderNumber"/>
         </actionGroup>
         <click selector="{{AdminDataGridTableSection.firstRow}}" stepKey="clickOrderRow"/>

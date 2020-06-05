@@ -3,6 +3,8 @@
 namespace Dotdigitalgroup\Email\Model\Sync\Catalog;
 
 /**
+ * DefaultLevelCatalogSyncer
+ *
  * @implements CatalogSyncerInterface
  */
 class DefaultLevelCatalogSyncer implements CatalogSyncerInterface

@@ -29,4 +29,5 @@ class Automapdatafields extends AbstractDeveloper
         $params = ['website' => $website];
         return $this->_urlBuilder->getUrl('dotdigitalgroup_email/run/automapdatafields', $params);
     }
+    
 }

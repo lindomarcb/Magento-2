@@ -66,12 +66,4 @@ class Tracking extends \Magento\Framework\View\Element\Template
     {
         return ! in_array('checkout_onepage_success', $this->getLayout()->getUpdate()->getHandles());
     }
-
-    /**
-     * @return string
-     */
-    public function getPageTrackingUrl()
-    {
-        return $this->helper->getPageTrackingUrl();
-    }
 }

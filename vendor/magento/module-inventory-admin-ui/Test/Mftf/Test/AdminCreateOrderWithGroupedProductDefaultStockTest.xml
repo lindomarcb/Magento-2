@@ -83,30 +83,30 @@
         <searchAndMultiSelectOption selector="{{AdminProductFormSection.categoriesDropdown}}" parameterArray="[$$category.name$$]" requiredAction="true" stepKey="searchAndSelectCategoryForSimpleProduct"/>
         <click selector="{{AdminProductFormGroupedProductsSection.addProductsToGroup}}" stepKey="clickAddProductsToGroup"/>
         <waitForPageLoad time="30" stepKey="waitForPageLoad1"/>
-        <actionGroup ref="FilterProductGridBySkuActionGroup" stepKey="filterGroupedProductOptionsBySimple">
+        <actionGroup ref="filterProductGridBySku" stepKey="filterGroupedProductOptionsBySimple">
             <argument name="product" value="$$simpleProduct$$"/>
         </actionGroup>
         <waitForPageLoad time="30" stepKey="waitForPageLoad12"/>
         <checkOption selector="{{AdminAddProductsToGroupPanel.firstCheckbox}}" stepKey="checkSimpleProductFilterResult"/>
-        <actionGroup ref="FilterProductGridBySkuActionGroup" stepKey="filterGroupedProductOptionsByVirtual">
+        <actionGroup ref="filterProductGridBySku" stepKey="filterGroupedProductOptionsByVirtual">
             <argument name="product" value="$$virtualProduct$$"/>
         </actionGroup>
         <checkOption selector="{{AdminAddProductsToGroupPanel.firstCheckbox}}" stepKey="checkVirtualProductFilterResult"/>
         <click selector="{{AdminAddProductsToGroupPanel.addSelectedProducts}}" stepKey="clickAddSelectedGroupProducts"/>
         <waitForPageLoad time="30" stepKey="waitForPageLoad2"/>
-        <actionGroup ref="FillDefaultQuantityForLinkedToGroupProductInGridActionGroup" stepKey="fillDefaultQtyForSimpleProduct">
+        <actionGroup ref="fillDefaultQuantityForLinkedToGroupProductInGrid" stepKey="fillDefaultQtyForSimpleProduct">
             <argument name="productName" value="$$simpleProduct.name$$"/>
             <argument name="qty" value="2"/>
         </actionGroup>
         <waitForPageLoad time="30" stepKey="waitForPageLoad13"/>
-        <actionGroup ref="FillDefaultQuantityForLinkedToGroupProductInGridActionGroup" stepKey="fillDefaultQtyForVirtualProduct">
+        <actionGroup ref="fillDefaultQuantityForLinkedToGroupProductInGrid" stepKey="fillDefaultQtyForVirtualProduct">
             <argument name="productName" value="$$virtualProduct.name$$"/>
             <argument name="qty" value="2"/>
         </actionGroup>
         <actionGroup ref="AdminFormSaveAndClose" stepKey="saveAndCloseCreatedGroupedProduct"/>
 
         <comment userInput="Create order with grouped product from admin area." stepKey="createOrderWithGroupedProductComment"/>
-        <actionGroup ref="NavigateToNewOrderPageExistingCustomerActionGroup" stepKey="createNewOrderForCustomer">
+        <actionGroup ref="navigateToNewOrderPageExistingCustomer" stepKey="createNewOrderForCustomer">
             <argument name="customer" value="$$customer$$"/>
         </actionGroup>
 
@@ -130,7 +130,7 @@
         </actionGroup>
         <waitForPageLoad time="30" stepKey="waitForPageLoad4"/>
         <comment userInput="Select shipping method and check grand total and shipping cost." stepKey="selectShippingMethodComment"/>
-        <actionGroup ref="OrderSelectFlatRateShippingActionGroup" stepKey="selectFlatRateShipping"/>
+        <actionGroup ref="orderSelectFlatRateShipping" stepKey="selectFlatRateShipping"/>
         <see selector="{{AdminOrderFormTotalSection.total('Subtotal')}}" userInput="$891.96" stepKey="seeOrderSubTotal"/>
         <see selector="{{AdminOrderFormTotalSection.total('Shipping')}}" userInput="$20.00" stepKey="seeOrderShipping"/>
         <see selector="{{AdminOrderFormTotalSection.grandTotal}}" userInput="$911.96" stepKey="seeCorrectGrandTotal"/>

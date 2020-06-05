@@ -7,7 +7,6 @@
 namespace Magento\Quote\Model;
 
 use Magento\Customer\Api\Data\AddressInterfaceFactory;
-use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
@@ -23,7 +22,6 @@ use Magento\Quote\Model\ResourceModel\Quote\Address as QuoteAddressResource;
  * Shipping method read service
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class ShippingMethodManagement implements
     \Magento\Quote\Api\ShippingMethodManagementInterface,
@@ -72,11 +70,6 @@ class ShippingMethodManagement implements
     private $quoteAddressResource;
 
     /**
-     * @var CustomerSession
-     */
-    private $customerSession;
-
-    /**
      * Constructor
      *
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
@@ -85,7 +78,6 @@ class ShippingMethodManagement implements
      * @param Quote\TotalsCollector $totalsCollector
      * @param AddressInterfaceFactory|null $addressFactory
      * @param QuoteAddressResource|null $quoteAddressResource
-     * @param CustomerSession|null $customerSession
      */
     public function __construct(
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
@@ -93,8 +85,7 @@ class ShippingMethodManagement implements
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Quote\Model\Quote\TotalsCollector $totalsCollector,
         AddressInterfaceFactory $addressFactory = null,
-        QuoteAddressResource $quoteAddressResource = null,
-        CustomerSession $customerSession = null
+        QuoteAddressResource $quoteAddressResource = null
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->converter = $converter;
@@ -104,11 +95,10 @@ class ShippingMethodManagement implements
             ->get(AddressInterfaceFactory::class);
         $this->quoteAddressResource = $quoteAddressResource ?: ObjectManager::getInstance()
             ->get(QuoteAddressResource::class);
-        $this->customerSession = $customerSession ?? ObjectManager::getInstance()->get(CustomerSession::class);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function get($cartId)
     {
@@ -136,7 +126,7 @@ class ShippingMethodManagement implements
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getList($cartId)
     {
@@ -165,7 +155,7 @@ class ShippingMethodManagement implements
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function set($cartId, $carrierCode, $methodCode)
     {
@@ -186,8 +176,6 @@ class ShippingMethodManagement implements
     }
 
     /**
-     * Apply carrier code.
-     *
      * @param int $cartId The shopping cart ID.
      * @param string $carrierCode The carrier code.
      * @param string $methodCode The shipping method code.
@@ -221,7 +209,7 @@ class ShippingMethodManagement implements
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function estimateByAddress($cartId, \Magento\Quote\Api\Data\EstimateAddressInterface $address)
     {
@@ -252,7 +240,7 @@ class ShippingMethodManagement implements
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function estimateByAddressId($cartId, $addressId)
     {
@@ -278,7 +266,6 @@ class ShippingMethodManagement implements
      * @param string $region
      * @param \Magento\Framework\Api\ExtensibleDataInterface|null $address
      * @return \Magento\Quote\Api\Data\ShippingMethodInterface[] An array of shipping methods.
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @deprecated 100.1.6
      */
     protected function getEstimatedRates(
@@ -290,10 +277,11 @@ class ShippingMethodManagement implements
         $address = null
     ) {
         if (!$address) {
-            $address = $this->addressFactory->create()
+            $address = $this->getAddressFactory()->create()
                 ->setCountryId($country)
                 ->setPostcode($postcode)
-                ->setRegionId($regionId);
+                ->setRegionId($regionId)
+                ->setRegion($region);
         }
         return $this->getShippingMethods($quote, $address);
     }
@@ -313,20 +301,11 @@ class ShippingMethodManagement implements
         $shippingAddress->setCollectShippingRates(true);
 
         $this->totalsCollector->collectAddressTotals($quote, $shippingAddress);
-        $quoteCustomerGroupId = $quote->getCustomerGroupId();
-        $customerGroupId = $this->customerSession->getCustomerGroupId();
-        $isCustomerGroupChanged = $quoteCustomerGroupId !== $customerGroupId;
-        if ($isCustomerGroupChanged) {
-            $quote->setCustomerGroupId($customerGroupId);
-        }
         $shippingRates = $shippingAddress->getGroupedAllShippingRates();
         foreach ($shippingRates as $carrierRates) {
             foreach ($carrierRates as $rate) {
                 $output[] = $this->converter->modelToDataObject($rate, $quote->getQuoteCurrencyCode());
             }
-        }
-        if ($isCustomerGroupChanged) {
-            $quote->setCustomerGroupId($quoteCustomerGroupId);
         }
         return $output;
     }

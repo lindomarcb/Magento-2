@@ -147,10 +147,10 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $urlMock->expects($this->once())
             ->method('getRebuiltUrl')
             ->willReturn('');
-        $this->urlFactoryMock->expects($this->exactly(3))
+        $this->urlFactoryMock->expects($this->exactly(4))
             ->method('create')
             ->willReturn($urlMock);
-        $urlMock->expects($this->never())
+        $urlMock->expects($this->once())
             ->method('getUseSession')
             ->willReturn(false);
 

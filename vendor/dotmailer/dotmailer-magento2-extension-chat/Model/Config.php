@@ -135,9 +135,7 @@ class Config
      */
     public function setScopeAndWebsiteId($website)
     {
-        $this->scopeInterface = $website->getId()
-            ? ScopeInterface::SCOPE_WEBSITES
-            : ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
+        $this->scopeInterface = $website->getId() ? ScopeInterface::SCOPE_WEBSITES : ScopeConfigInterface::SCOPE_TYPE_DEFAULT;
         $this->websiteId = $website->getId();
     }
 
@@ -146,11 +144,7 @@ class Config
      */
     public function getApiSpaceId()
     {
-        return $this->scopeConfig->getValue(
-            self::XML_PATH_LIVECHAT_API_SPACE_ID,
-            $this->scopeInterface,
-            (string) $this->websiteId
-        );
+        return $this->scopeConfig->getValue(self::XML_PATH_LIVECHAT_API_SPACE_ID, $this->scopeInterface, (string) $this->websiteId);
     }
     /**
      *
@@ -158,11 +152,7 @@ class Config
      */
     public function getApiToken()
     {
-        $value = $this->scopeConfig->getValue(
-            self::XML_PATH_LIVECHAT_API_TOKEN,
-            $this->scopeInterface,
-            (string) $this->websiteId
-        );
+        $value = $this->scopeConfig->getValue(self::XML_PATH_LIVECHAT_API_TOKEN, $this->scopeInterface, (string) $this->websiteId);
         return $this->encryptor->decrypt($value);
     }
 
@@ -216,18 +206,8 @@ class Config
      */
     public function saveChatApiSpaceIdAndToken(string $apiSpaceId, string $token)
     {
-        $this->configWriter->save(
-            self::XML_PATH_LIVECHAT_API_SPACE_ID,
-            $apiSpaceId,
-            $this->scopeInterface,
-            $this->websiteId
-        );
-        $this->configWriter->save(
-            self::XML_PATH_LIVECHAT_API_TOKEN,
-            $this->encryptor->encrypt($token),
-            $this->scopeInterface,
-            $this->websiteId
-        );
+        $this->configWriter->save(self::XML_PATH_LIVECHAT_API_SPACE_ID, $apiSpaceId, $this->scopeInterface, $this->websiteId);
+        $this->configWriter->save(self::XML_PATH_LIVECHAT_API_TOKEN, $this->encryptor->encrypt($token), $this->scopeInterface, $this->websiteId);
         return $this;
     }
 
@@ -249,12 +229,7 @@ class Config
      */
     public function enableEngagementCloud()
     {
-        $this->configWriter->save(
-            EmailConfig::XML_PATH_CONNECTOR_API_ENABLED,
-            true,
-            $this->scopeInterface,
-            $this->websiteId
-        );
+        $this->configWriter->save(EmailConfig::XML_PATH_CONNECTOR_API_ENABLED, true, $this->scopeInterface, $this->websiteId);
         return $this;
     }
 

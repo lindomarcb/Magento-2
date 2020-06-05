@@ -85,7 +85,6 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @param \Magento\Quote\Model\Quote\Address\Total $total
      * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function collect(
         \Magento\Quote\Model\Quote $quote,
@@ -96,11 +95,6 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
         $store = $this->storeManager->getStore($quote->getStoreId());
         $address = $shippingAssignment->getShipping()->getAddress();
-
-        if ($quote->currentPaymentWasSet()) {
-            $address->setPaymentMethod($quote->getPayment()->getMethod());
-        }
-
         $this->calculator->reset($address);
 
         $items = $shippingAssignment->getItems();

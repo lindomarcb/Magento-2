@@ -13,7 +13,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\GraphQlAbstract;
 
 /**
- * Test for create customer functionality
+ * Test for create customer functionallity
  */
 class CreateCustomerTest extends GraphQlAbstract
 {
@@ -27,7 +27,7 @@ class CreateCustomerTest extends GraphQlAbstract
      */
     private $customerRepository;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -172,25 +172,24 @@ QUERY;
     }
 
     /**
-     * @dataProvider invalidEmailAddressDataProvider
-     *
-     * @param string $email
-     * @throws \Exception
+     * @expectedException \Exception
+     * @expectedExceptionMessage "Email" is not a valid email address.
      */
-    public function testCreateCustomerIfEmailIsNotValid(string $email)
+    public function testCreateCustomerIfEmailIsNotValid()
     {
-        $firstname = 'Richard';
-        $lastname = 'Rowe';
-        $password = 'test123#';
+        $newFirstname = 'Richard';
+        $newLastname = 'Rowe';
+        $currentPassword = 'test123#';
+        $newEmail = 'email';
 
         $query = <<<QUERY
 mutation {
     createCustomer(
         input: {
-            firstname: "{$firstname}"
-            lastname: "{$lastname}"
-            email: "{$email}"
-            password: "{$password}"
+            firstname: "{$newFirstname}"
+            lastname: "{$newLastname}"
+            email: "{$newEmail}"
+            password: "{$currentPassword}"
             is_subscribed: true
         }
     ) {
@@ -204,27 +203,7 @@ mutation {
     }
 }
 QUERY;
-        $this->expectExceptionMessage('"' . $email . '" is not a valid email address.');
         $this->graphQlMutation($query);
-    }
-
-    /**
-     * @return array
-     */
-    public function invalidEmailAddressDataProvider(): array
-    {
-        return [
-            ['plainaddress'],
-            ['jØrgen@somedomain.com'],
-            ['#@%^%#$@#$@#.com'],
-            ['@example.com'],
-            ['Joe Smith <email@example.com>'],
-            ['email.example.com'],
-            ['email@example@example.com'],
-            ['email@example.com (Joe Smith)'],
-            ['email@example'],
-            ['“email”@example.com'],
-        ];
     }
 
     /**
@@ -329,40 +308,7 @@ QUERY;
         $this->assertEquals(false, $response['createCustomer']['customer']['is_subscribed']);
     }
 
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Exception
-     * @expectedExceptionMessage A customer with the same email address already exists in an associated website.
-     */
-    public function testCreateCustomerIfCustomerWithProvidedEmailAlreadyExists()
-    {
-        $existedEmail = 'customer@example.com';
-        $password = 'test123#';
-        $firstname = 'John';
-        $lastname = 'Smith';
-
-        $query = <<<QUERY
-mutation {
-    createCustomer(
-        input: {
-            email: "{$existedEmail}"
-            password: "{$password}"
-            firstname: "{$firstname}"
-            lastname: "{$lastname}"
-        }
-    ) {
-        customer {
-            firstname
-            lastname
-            email
-        }
-    }
-}
-QUERY;
-        $this->graphQlMutation($query);
-    }
-
-    public function tearDown(): void
+    public function tearDown()
     {
         $newEmail = 'new_customer@example.com';
         try {

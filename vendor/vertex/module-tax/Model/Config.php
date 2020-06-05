@@ -530,7 +530,7 @@ class Config
      *
      * @param string|null $store
      * @param string $scope
-     * @return string|null
+     * @return float|null
      */
     public function getVertexAddressHost($store = null, $scope = ScopeInterface::SCOPE_STORE)
     {
@@ -542,7 +542,7 @@ class Config
      *
      * @param string|null $store
      * @param string $scope
-     * @return string|null
+     * @return float|null
      */
     public function getVertexHost($store = null, $scope = ScopeInterface::SCOPE_STORE)
     {

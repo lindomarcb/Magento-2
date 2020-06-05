@@ -3,13 +3,19 @@
 namespace Dotdigitalgroup\Email\Plugin;
 
 use Dotdigitalgroup\Email\Helper\Transactional;
+use Dotdigitalgroup\Email\Model\Email\TemplateFactory;
 
+/**
+ * Class TemplatePlugin
+ *
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ */
 class TemplatePlugin
 {
     /**
      * @var Transactional
      */
-    private $transactionalHelper;
+    public $transactionalHelper;
 
     /**
      * @var
@@ -17,18 +23,29 @@ class TemplatePlugin
     private $templateCode;
 
     /**
-     * @var bool
+     * @var \Magento\Framework\Registry
      */
-    private $isSaving = false;
+    private $registry;
+
+    /**
+     * @var TemplateFactory
+     */
+    private $templateFactory;
 
     /**
      * TemplatePlugin constructor.
      * @param Transactional $transactionalHelper
+     * @param \Magento\Framework\Registry $registry
+     * @param TemplateFactory $templateFactory
      */
     public function __construct(
-        Transactional $transactionalHelper
+        \Dotdigitalgroup\Email\Helper\Transactional $transactionalHelper,
+        \Magento\Framework\Registry $registry,
+        TemplateFactory $templateFactory
     ) {
         $this->transactionalHelper = $transactionalHelper;
+        $this->registry = $registry;
+        $this->templateFactory = $templateFactory;
     }
 
     /**
@@ -46,10 +63,10 @@ class TemplatePlugin
             }
         }
 
-        if ($this->isSaving) {
-            $result = $this->processTemplateBeforeSave($result, $args);
+        if ($this->registry->registry('dotmailer_saving_data')) {
+            $result = $this->getProcessedTemplateBeforeSave($result);
         } else {
-            $result = $this->processTemplateOnLoadPreviewAndSend($result, $args);
+            $result = $this->getProcessedTemplatePreviewAndOther($result, $args);
         }
 
         return $result;
@@ -59,25 +76,27 @@ class TemplatePlugin
      * Get data before saving
      *
      * @param mixed $result
-     * @param array $args
+     *
      * @return mixed
      */
-    private function processTemplateBeforeSave($result, $args)
+    private function getProcessedTemplateBeforeSave($result)
     {
         //saving array values
         if (empty($args)) {
             $this->getResultIfArgsEmptyForBeforeSave($result);
         } else {
             //saving string value
-            if ($args[0] != 'template_text') {
-                return $result;
-            }
+            $field = $args[0];
 
             //compress the text body when is a dotmailer template
-            if (!$this->isStringCompressed($result) &&
+            if ($field == 'template_text' && ! $this->isStringCompressed($result) &&
                 $this->transactionalHelper->isDotmailerTemplate($this->templateCode)
             ) {
                 $result = $this->compressString($result);
+            }
+            if ($field == 'template_id') {
+                $dotTemplate = $this->templateFactory->create();
+                $dotTemplate->saveTemplateIdInRegistry($result);
             }
         }
 
@@ -91,8 +110,14 @@ class TemplatePlugin
      */
     private function getResultIfArgsEmptyForBeforeSave($result)
     {
+        //save template id for email sending to update the sender name and sender email saved on template level.
+        if (isset($result['template_id'])) {
+            $dotTemplate = $this->templateFactory->create();
+            $result = $dotTemplate->saveTemplateIdInRegistry($result['template_id']);
+        }
         if (isset($result['template_text'])) {
             $templateText = $result['template_text'];
+            //compress text
             if (!$this->isStringCompressed($templateText) &&
                 $this->transactionalHelper->isDotmailerTemplate($result['template_code'])) {
                 $result['template_text'] = $this->compressString($templateText);
@@ -110,17 +135,21 @@ class TemplatePlugin
      *
      * @return mixed
      */
-    private function processTemplateOnLoadPreviewAndSend($result, $args)
+    private function getProcessedTemplatePreviewAndOther($result, $args)
     {
         if (empty($args)) {
-            $result = $this->getResultIfArgsEmptyForLoadPreviewAndSend($result);
+            $result = $this->getResultIfArgsEmptyForPreviewAndOther($result);
         } else {
-            if ($args[0] != 'template_text') {
-                return $result;
-            }
-
-            if ($this->isStringCompressed($result)) {
-                $result = $this->decompressString($result);
+            if (isset($args[0])) {
+                $field = $args[0];
+                //check for correct field
+                if ($field == 'template_text' && $this->isStringCompressed($result)) {
+                    $result = $this->decompressString($result);
+                }
+                if ($field == 'template_id') {
+                    $dotTemplate = $this->templateFactory->create();
+                    $dotTemplate->saveTemplateIdInRegistry($result);
+                }
             }
         }
 
@@ -132,8 +161,17 @@ class TemplatePlugin
      *
      * @return mixed
      */
-    private function getResultIfArgsEmptyForLoadPreviewAndSend($result)
+    private function getResultIfArgsEmptyForPreviewAndOther($result)
     {
+        $dotTemplate = $this->templateFactory->create();
+
+        if (isset($result['template_id'])) {
+            $dotTemplate->saveTemplateIdInRegistry($result['template_id']);
+        } elseif (is_numeric($result)) {
+            // $result will be int for template id in 2.1.x
+            $dotTemplate->saveTemplateIdInRegistry($result);
+        }
+
         if (isset($result['template_text'])) {
             $templateText = $result['template_text'];
             if ($this->isStringCompressed($templateText)) {
@@ -146,22 +184,28 @@ class TemplatePlugin
 
     /**
      * @param \Magento\Email\Model\AbstractTemplate $subject
+     * @param array $result
      */
-    public function afterBeforeSave(\Magento\Email\Model\AbstractTemplate $subject)
+    public function afterBeforeSave(\Magento\Email\Model\AbstractTemplate $subject, $result)
     {
-        $this->isSaving = true;
+        //dotmailer key for saving compressed data
+        if (! $this->registry->registry('dotmailer_saving_data')) {
+            $this->registry->register('dotmailer_saving_data', 'saving');
+        }
     }
 
     /**
-     * Determine if the supplied string has been compressed,
-     * by testing to see if it can be uncompressed.
-     *
      * @param string $string
      * @return bool
      */
     private function isStringCompressed($string)
     {
-        return @gzuncompress(base64_decode($string)) !== false;
+        //check if the data is compressed
+        if (substr($string, 0, 1) == 'e' && substr_count($string, ' ') == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
