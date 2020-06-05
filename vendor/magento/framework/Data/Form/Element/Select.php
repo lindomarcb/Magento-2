@@ -51,9 +51,7 @@ class Select extends AbstractElement
                 $this->getBeforeElementHtml() .
                 '</label>';
         }
-		
-	
-		
+
         $html .= '<select id="' . $this->getHtmlId() . '" name="' . $this->getName() . '" ' . $this->serialize(
             $this->getHtmlAttributes()
         ) . $this->_getUiId() . '>' . "\n";
@@ -66,13 +64,10 @@ class Select extends AbstractElement
         if ($values = $this->getValues()) {
             foreach ($values as $key => $option) {
                 if (!is_array($option)) {
-					
-					 
-					
                     $html .= $this->_optionToHtml(['value' => $key, 'label' => $option], $value);
                 } elseif (is_array($option['value'])) {
                     $html .= '<optgroup label="' . $option['label'] . '">' . "\n";
-	                foreach ($option['value'] as $groupItem) {
+                    foreach ($option['value'] as $groupItem) {
                         $html .= $this->_optionToHtml($groupItem, $value);
                     }
                     $html .= '</optgroup>' . "\n";
@@ -83,9 +78,6 @@ class Select extends AbstractElement
         }
 
         $html .= '</select>' . "\n";
-		
-
-	
         if ($this->getAfterElementHtml()) {
             $html .= '<label class="addafter" for="' .
                 $this->getHtmlId() .

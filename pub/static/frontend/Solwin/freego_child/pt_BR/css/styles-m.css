@@ -1090,6 +1090,7 @@ fieldset[disabled] .form.send.friend .action.remove {
   line-height: 1.5rem;
   padding: 8px 15px;
 }
+.form-address-edit .actions-toolbar .action.vertex-secondary,
 .bundle-actions .action.primary,
 .bundle-options-container .block-bundle-summary .box-tocart .action.primary,
 .multicheckout .action.primary,
@@ -4335,18 +4336,6 @@ body._has-modal-custom .modal-custom-overlay {
   z-index: 899;
 }
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
-*/
-.contact-index-index .column:not(.sidebar-main) .form.contact {
-  float: none;
-  width: 50%;
-}
-.contact-index-index .column:not(.sidebar-additional) .form.contact {
-  float: none;
-  width: 50%;
-}
-/**
  * MageSpecialist
  *
  * NOTICE OF LICENSE
@@ -4475,6 +4464,17 @@ body._has-modal-custom .modal-custom-overlay {
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+.amazon-divider {
+  border-bottom: 1px solid #cccccc;
+  line-height: 0.1em;
+  margin: 18px 0 20px;
+  text-align: center;
+  max-width: 500px;
+}
+.amazon-divider span {
+  background: #fff;
+  padding: 0 5px;
+}
 /** mini cart styling **/
 .product-social-links,
 .amazon-minicart-container {
@@ -4485,7 +4485,7 @@ body._has-modal-custom .modal-custom-overlay {
 .product-social-links .amazon-button-container,
 .amazon-minicart-container .amazon-button-container {
   display: inline-block;
-  margin: 12px 0 4px 0;
+  margin: 0px;
 }
 .product-social-links .field-tooltip .field-tooltip-content,
 .amazon-minicart-container .field-tooltip .field-tooltip-content {
@@ -4509,6 +4509,15 @@ body._has-modal-custom .modal-custom-overlay {
   border-bottom: 10px solid #f4f4f4;
   top: -8px;
   left: 244px;
+}
+.product-social-links .amazon-button-container {
+  margin-bottom: 30px;
+  display: block;
+}
+.amazon-checkout-now {
+  border-top: 1px solid #c1c1c1;
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
 .amazon-addtoCart {
   display: block;
@@ -4539,6 +4548,9 @@ body._has-modal-custom .modal-custom-overlay {
 }
 .checkout-payment-method .amazon-sandbox-simulator .amazon-sandbox-simulator-scenario {
   margin-bottom: 10px;
+}
+.checkout-methods-items .amazon-minicart-container .amazon-divider {
+  display: none;
 }
 .checkout-methods-items .centered-button {
   margin-bottom: 0;
@@ -4596,6 +4608,9 @@ body._has-modal-custom .modal-custom-overlay {
 }
 .amazon-addresses .amazon-address {
   margin-bottom: 20px;
+}
+#checkout-step-shipping .amazon-divider {
+  margin: 40px 0;
 }
 .checkout-payment-method .amazon-payment-method .payment-method-title {
   visibility: hidden;
@@ -4893,114 +4908,6 @@ h2.first-title {
     margin-top: 30px;
   }
 }
-.multi-checkout-fields label {
-  display: block;
-  margin-bottom: 7px;
-}
-.multi-checkout-fields .field {
-  margin: 1.5em 0;
-}
-.multi-checkout-fields .field.checkbox label {
-  display: inline-block;
-  margin: 0 0 0 12px;
-}
-.collection-point-country,
-.collection-point-postalcode,
-.collection-point-button {
-  display: inline-block;
-  padding: 20px 10px 0 0;
-}
-.collection-point-postalcode {
-  max-width: 9em;
-  vertical-align: top;
-}
-.field-error {
-  color: #e02b27;
-  font-size: 1.2rem;
-  margin-top: 7px;
-}
-.box-order-shipping-address .box-subtitle {
-  font-weight: 600;
-}
-.box-order-shipping-address .order-shipping-secondary-address {
-  margin-top: 1rem;
-}
-#delivery-options-fields-block {
-  max-width: 100%;
-}
-.pickup-locations-headline {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 25px;
-}
-.delivery-locations-form .delivery-locations-list {
-  border: 1px solid #c2c2c2;
-  max-height: 500px;
-  overflow: auto;
-}
-.delivery-locations-form .delivery-locations-list table.location {
-  margin-top: 28px;
-}
-.delivery-locations-form .delivery-locations-list table.location .first-column {
-  padding: 0 14px;
-  width: 14px;
-}
-.delivery-locations-form .delivery-locations-list table.location .second-column {
-  padding: 0;
-}
-.opening-hour-wrapper {
-  font-size: 12px;
-}
-.opening-hour-wrapper table thead {
-  cursor: pointer;
-  font-weight: 700;
-}
-.opening-hour-wrapper table thead tr td {
-  padding: 10px 0 0;
-  display: inline-block;
-  text-decoration: none;
-}
-.opening-hour-wrapper table thead tr td:after {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 1.2rem;
-  line-height: 20px;
-  color: #222222;
-  content: '\e622';
-  font-family: 'luma-icons';
-  margin: 0 0 0 10px;
-  vertical-align: middle;
-  display: inline-block;
-  font-weight: normal;
-  overflow: hidden;
-  speak: none;
-  text-align: center;
-}
-.opening-hour-wrapper table thead tr td:hover:after {
-  color: #222222;
-}
-.opening-hour-wrapper table thead tr td:active:after {
-  color: #222222;
-}
-.opening-hour-wrapper table tbody {
-  display: none;
-}
-.opening-hour-wrapper table tbody.special-hours-heading {
-  padding-top: 10px;
-  font-weight: 700;
-}
-.opening-hour-wrapper table tbody tr td {
-  padding: 0 10px 0 0;
-}
-.opening-hour-wrapper table tbody tr td.time-span {
-  font-weight: 600;
-}
-.opening-hour-wrapper table._active thead tr td:after {
-  content: '\e621';
-}
-.opening-hour-wrapper table._active tbody {
-  display: block;
-}
 /**
  * @copyright  Vertex. All rights reserved.  https://www.vertexinc.com/
  * @author     Mediotype                     https://www.mediotype.com/
@@ -5009,6 +4916,13 @@ h2.first-title {
 .cart-summary .vertex-message td {
   padding: 0;
   border-top: none;
+}
+/**
+ * @copyright  Vertex. All rights reserved.  https://www.vertexinc.com/
+ * @author     Mediotype                     https://www.mediotype.com/
+ */
+.form-address-edit .actions-toolbar .vertex-update-address {
+  margin-top: 10px;
 }
 .extend_1,
 .owl-carousel.products .owl-controls .owl-nav .owl-prev,
@@ -6131,6 +6045,18 @@ fieldset[disabled] .action-braintree-paypal-logo {
   position: absolute;
   right: 15px;
   top: 0;
+}
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+*/
+.contact-index-index .column:not(.sidebar-main) .form.contact {
+  float: none;
+  width: 50%;
+}
+.contact-index-index .column:not(.sidebar-additional) .form.contact {
+  float: none;
+  width: 50%;
 }
 .downloadable.samples {
   margin-bottom: 20px;
@@ -12960,6 +12886,9 @@ fieldset[disabled] .block-event .slider-panel .slider .item .action.event {
   body._has-modal-custom .modal-custom-overlay {
     background-color: rgba(34, 34, 34, 0.55);
   }
+  .block-margin.row {
+    margin-right: -15px !important;
+  }
   .contact-index-index .column:not(.sidebar-main) .form.contact {
     float: none;
     width: 100%;
@@ -12967,9 +12896,6 @@ fieldset[disabled] .block-event .slider-panel .slider .item .action.event {
   .contact-index-index .column:not(.sidebar-additional) .form.contact {
     float: none;
     width: 100%;
-  }
-  .block-margin.row {
-    margin-right: -15px !important;
   }
   .gift-options .actions-toolbar .action-update {
     font-size: 2rem;

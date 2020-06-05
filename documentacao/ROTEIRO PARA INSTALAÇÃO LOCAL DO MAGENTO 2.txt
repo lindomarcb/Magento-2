@@ -1500,6 +1500,55 @@ C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardad
 composer require modulo --ignore-platform-reqs 			-- INSTALAR MÓDULOS VIA COMPOSER
 
  
+ #################################
+ ### ATUALIZAR A VERSÃO DA LOJA ##
+ #################################
+ 
+ ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2 E EXECUTAR OS SEGUINTES COMANDOS:
+ 
+ 1) php bin/magento maintenance:enable
+ 2) faça um backup dos arquivos: C:\xampp\htdocs\magento2\composer.json e C:\xampp\htdocs\magento2\composer.lock
+ 3) composer require magento/product-community-edition 2.3.5 --no-update
+ 4) composer update --ignore-platform-reqs
+ 5) php bin/magento setup:upgrade
+ 6) php bin/magento setup:di:compile
+ 7) php bin/magento deploy:mode:set developer
+ 8) php bin/magento setup:static-content:deploy pt_BR -f
+ 9) php bin/magento indexer:reindex
+ 10) php bin/magento cache:flush
+ 11) php bin/magento cache:clean
+ 12) php bin/magento maintenance:disable
+ 
+ ATENÇÃO: CORRIGIR BUGS ANTES DE EXECUTAR A LOJA
+ 
+ BUG 1 (NOVO)
+ ============
+ 
+ EDITE O ARQUIVO:
+ C:\xampp\htdocs\magento2\vendor\magento\framework\View\Element\Template\File\Validator.php
+ LOCALIZE O TRECHO:
+ foreach ($directories as $directory) {
+    if (0 === strpos($realPath, $directory)) {
+ TROQUE POR:
+    $isWin = 'WIN' === strtoupper(substr(PHP_OS, 0, 3)); /** @var bool $isWin */
+    foreach ($directories as $directory) {
+	     if (0 === strpos($realPath, !$isWin ? $directory : str_replace('/', DIRECTORY_SEPARATOR, $directory))) {
+  
+ REFERENCIA DA MANEIRA DE FAZER UPGRADE: https://www.magenteiro.com/blog/magento-2/como-atualizar-magento-2/
+ REFERENCIA PARA SOLUCIONAR O BUG: https://mage2.pro/t/topic/5774
+ 
+ BUG 2 (JÁ CORRIGIDO ANTERIOMENTE MAS SOBRESCRITO)
+ =================================================
+ 
+ EDITE O ARQUIVO: C:\xampp\htdocs\magento2\vendor\magento\module-payment\Helper\data.php
+ - ABRA O ARQUIVO E ENCONTRE A LINHA: 296 COM ESSE CONTEÚDO:
+   $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
+ - ABRA UMA LINHA NOVA ANTES DESSA INSTRUÇÃO E ADICIONE O CONTEÚDO ABAIXO:
+   $labelValues[$groupRelations[$code]]['label'] = $groupRelations[$code];
+
+   REFERENCIAS FORUM SOBRE O PROBLEMA: https://github.com/magento/magento2/issues/4145
+
+ PRONTO! PODE EXECUTAR A LOJA.
  
 ####################################
 ### ALGUMAS DICAS DE USABILIDADE ###
@@ -1515,7 +1564,6 @@ echo
         console.log('console log message');
     </script>
 </div>";
-
 
 MODELO SLIDER FREEGO
 ====================

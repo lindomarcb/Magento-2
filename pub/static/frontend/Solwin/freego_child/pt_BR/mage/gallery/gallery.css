@@ -2648,9 +2648,8 @@ Breadcrumbs less
   background-position: -160px -80px;
 }
 .fotorama__arr--disabled {
-  *display: none;
   cursor: default;
-  opacity: 0.1;
+  opacity: 0;
   pointer-events: none;
 }
 .fotorama__fullscreen-icon {
@@ -2937,6 +2936,7 @@ Breadcrumbs less
 .magnifier-preview img {
   left: 0;
   max-width: inherit;
+  max-height: inherit;
   position: absolute;
   top: 0;
   object-fit: scale-down;
