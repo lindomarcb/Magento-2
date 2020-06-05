@@ -11,10 +11,13 @@
         "sort-packages": true
     },
     "require": {
+        "boldcommerce/magento2-ordercomments": "^1.6",
         "magento/product-community-edition": "2.3.4",
         "magento2translations/language_pt_br": "dev-master",
+        "msp/shield": "^2.1",
         "pagseguro/magento2": "^1.12",
-        "pelago/emogrifier": "2.2.0"
+        "pelago/emogrifier": "2.2.0",
+        "staempfli/magento2-module-seo": "^1.7"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",

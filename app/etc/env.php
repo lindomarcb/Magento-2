@@ -63,7 +63,8 @@ return [
         'full_page' => 1,
         'config_webservice' => 1,
         'translate' => 1,
-        'vertex' => 1
+        'vertex' => 1,
+        'msp_shield' => 1
     ],
     'downloadable_domains' => [
         'local.tedolls.com.br'

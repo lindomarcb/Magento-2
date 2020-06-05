@@ -330,7 +330,7 @@ theme slider navigation buttons
 }
 .owl-theme .owl-controls .owl-buttons div.lft-btn:hover,
 .owl-theme .owl-controls .owl-buttons div.rgt-btn:hover {
-  background: #f48256 !important;
+  background: #d1839e !important;
 }
 /* set button position to top */
 .owl-theme .owl-controls .owl-page {
@@ -764,8 +764,8 @@ Home Page footer Newsletter Block
   box-sizing: border-box;
 }
 .cp-newsletter .newsletter-block .block-content .newsletter-input .input-group-btn button:hover {
-  background: none repeat scroll 0 0 #f48256;
-  border: 1px solid #f48256;
+  background: none repeat scroll 0 0 #d1839e;
+  border: 1px solid #d1839e;
 }
 @media only screen and (max-width: 767px) {
   .cp-newsletter .newsletter-block .block-content .newsletter-input {
@@ -1122,14 +1122,14 @@ top header block
   color: #ffffff;
 }
 .switcher:hover {
-  color: #ca708f;
+  color: #f2703e;
 }
 @media only screen and (max-width: 767px) {
   .switcher {
     color: #000000;
   }
   .switcher:hover {
-    color: #ca708f;
+    color: #f2703e;
   }
 }
 .page-header {
@@ -1203,7 +1203,7 @@ Slider navigation arrows (Prev and next)
 }
 .flex-direction-nav .flex-prev:hover,
 .flex-direction-nav .flex-next:hover {
-  background: #f48256;
+  background: #d1839e;
 }
 @media only screen and (max-width: 639px) {
   .flex-direction-nav .flex-prev,
@@ -1326,7 +1326,7 @@ Testimonial less Variables
   color: #ca708f;
 }
 .t-info .th-name > span > a:hover {
-  color: #f48256;
+  color: #d1839e;
 }
 .t-info .th-name .t-bottom {
   background: #dddddd;

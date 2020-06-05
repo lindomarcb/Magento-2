@@ -291,13 +291,17 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         '2451819c9c2b818eb9be5f36b51585ea' => __DIR__ . '/..' . '/magento/module-wishlist-graph-ql/registration.php',
         'd04d5084d3db908d3544ed506541866a' => __DIR__ . '/..' . '/magento/theme-adminhtml-backend/registration.php',
         '7102f9cf0d2c08bc731a7e185c1c8bfc' => __DIR__ . '/..' . '/magento/theme-frontend-luma/registration.php',
+        'c64572a49433f2723aabaa8a53627063' => __DIR__ . '/..' . '/msp/security-suite-common/registration.php',
         'aa99edf9b0e88f2dccf8ffaddff1ce2b' => __DIR__ . '/..' . '/msp/twofactorauth/registration.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'aa75ea0761a2f40c1f3b32ad314f86c4' => __DIR__ . '/..' . '/phpseclib/mcrypt_compat/lib/mcrypt.php',
+        'c0274a2622dd4dbb2a527563cb28e940' => __DIR__ . '/..' . '/boldcommerce/magento2-ordercomments/registration.php',
         'eda65932675b68b5aee4503e0762d64d' => __DIR__ . '/..' . '/magento/magento2-functional-testing-framework/src/Magento/FunctionalTestingFramework/_bootstrap.php',
         '94dd8aee7c44774105b92eb6195e7ee0' => __DIR__ . '/..' . '/magento2translations/language_pt_br/registration.php',
+        'c23fc53f04f271ef258f8ffdee3dec54' => __DIR__ . '/..' . '/msp/shield/registration.php',
         '4beb9924c69c20e87e9ee08062a697ff' => __DIR__ . '/..' . '/pagseguro/magento2/registration.php',
+        '718035bb19bc495df43a88a18dbec904' => __DIR__ . '/..' . '/staempfli/magento2-module-seo/registration.php',
         'b4cf39431a4b949eea8aa69ebb3d39da' => __DIR__ . '/../..' . '/app/etc/NonComposerComponentRegistration.php',
     );
 
@@ -406,6 +410,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Staempfli\\Seo\\' => 14,
             'SelfUpdate\\' => 11,
             'Seld\\PharUtils\\' => 15,
             'Seld\\JsonLint\\' => 14,
@@ -426,6 +431,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
             'Psr\\Cache\\' => 10,
             'Prophecy\\' => 9,
             'PhpOption\\' => 10,
+            'PhpMyAdmin\\SqlParser\\' => 21,
             'PhpCsFixer\\' => 11,
             'PhpAmqpLib\\' => 11,
             'Pelago\\' => 7,
@@ -685,6 +691,8 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
             'Magento\\AdminAnalytics\\' => 23,
             'Magento\\' => 8,
             'MSP\\TwoFactorAuth\\' => 18,
+            'MSP\\Shield\\' => 11,
+            'MSP\\SecuritySuiteCommon\\' => 24,
             'MSP\\ReCaptcha\\' => 14,
             'MFTF\\' => 5,
         ),
@@ -759,6 +767,7 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'B' => 
         array (
             'Braintree\\' => 10,
+            'Bold\\OrderComment\\' => 18,
             'Base32\\' => 7,
         ),
         'A' => 
@@ -1087,6 +1096,10 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
+        'Staempfli\\Seo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/staempfli/magento2-module-seo',
+        ),
         'SelfUpdate\\' => 
         array (
             0 => __DIR__ . '/..' . '/consolidation/self-update/src',
@@ -1142,6 +1155,10 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'PhpMyAdmin\\SqlParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmyadmin/sql-parser/src',
         ),
         'PhpCsFixer\\' => 
         array (
@@ -2156,6 +2173,14 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         array (
             0 => __DIR__ . '/..' . '/msp/twofactorauth',
         ),
+        'MSP\\Shield\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/msp/shield',
+        ),
+        'MSP\\SecuritySuiteCommon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/msp/security-suite-common',
+        ),
         'MSP\\ReCaptcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/msp/recaptcha',
@@ -2332,6 +2357,10 @@ class ComposerStaticInitf9e6dc210c984e50aad1a4373ec2e4c9
         'Braintree\\' => 
         array (
             0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
+        ),
+        'Bold\\OrderComment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/boldcommerce/magento2-ordercomments',
         ),
         'Base32\\' => 
         array (
