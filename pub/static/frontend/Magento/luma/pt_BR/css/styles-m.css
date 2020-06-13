@@ -1,5 +1,9 @@
 @import '../PHPCuong_Faq/css/faq-extension/style.css';
 @import '../PHPCuong_Faq/css/bootstrap.css';
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 body {
   margin: 0;
   padding: 0;

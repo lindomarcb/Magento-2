@@ -1166,6 +1166,36 @@ CORRIGINDO BUG DE CSS NOS E-MAILS
    REFERENCIA: VÍDEO YOUTUBE MESTRE MAGENTO: https://youtu.be/-oU2MuMGkrs
 
 ########################################
+## CORRIGIR SE O MENU PRINCIPAL SUMIR ##
+########################################
+
+1) ACESSAR O ARQUIVO: C:\xampp\htdocs\magento2/vendor/magento/module-theme/view/frontend/layout/default.xml
+2) RETIRAR A PROPRIEDADE ttl="3600"
+3) GRAVAR O ARQUIVO.
+4) EXECUTAR OS COMANDOS:
+   - php bin/magento cache:flush
+   - php bin/magento cache:clean
+   - php bin/magento setup:static-content:deploy pt_BR -f
+6) RECARREGAR A PÁGINA DA LOJA
+
+OUTRA OPÇÃO MAIS CORRETA SE TIVER MÓDULO FREGGO INSTALADO
+
+1) ACESSAR O ARQUIVO: C:\xampp\htdocs\magento2\vendor\magento\module-theme\view\frontend\layout\default.xml
+2) COPIAR O BLOCO  <referenceContainer name="page.top"></referenceContainer> 
+   LOGO ABAIXO DO BLOCO <referenceBlock name="logo"></referenceBlock> PARA O ARQUIVO:
+   C:\xampp\htdocs\magento2\app\design\frontend\Solwin\freego\Magento_Theme\layout\default.xml
+3) RETIRAR A PROPRIEDADE ttl="3600" DO ARQUIVO DO TEMA
+3) GRAVAR O ARQUIVO.
+4) EXECUTAR OS COMANDOS:
+   - php bin/magento cache:flush
+   - php bin/magento cache:clean
+   - php bin/magento setup:static-content:deploy pt_BR -f
+6) RECARREGAR A PÁGINA DA LOJA   
+
+REFERÊNCIA: https://support.weltpixel.com/hc/en-us/articles/360000022773-Navigation-Mega-menu-missing-when-Varnish-Cache-is-activated-with-Magento-2
+
+
+########################################
 ## INCLUIR ORDENAÇÃO DE PREÇO NA LOJA ##
 ########################################
 
