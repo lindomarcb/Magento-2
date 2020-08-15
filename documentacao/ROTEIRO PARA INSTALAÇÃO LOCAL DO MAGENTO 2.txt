@@ -85,7 +85,7 @@ CRIAR O VÍNCULO COM COMUNIDADE MAGENTO ATRAVÉS DO MARKETPLACE
    Clique no botão: Submit
    Observação: Provavelmente receberá uma confirmação no e-mail digitado. Verifique na caixa de lixo do e-mail.
    
-2) ENTRAR CONTA NA PLATAFORMA DE MARKETPLACE DO MAGENTO NO SITE: https://marketplace.magento.com/
+2) ENTRAR CONTA NA PLATAFORMA DE MARKETPLACE DO MAGENTO NO SITE: c
    OPÇÃO: Sing In no canto superior da tela da plataforma
  
    [SE POSUIR UMA CONTA CADASTRADA]
@@ -131,7 +131,7 @@ CRIAR O VÍNCULO COM COMUNIDADE MAGENTO ATRAVÉS DO MARKETPLACE
  3) JA DENTRO DA PASTA c:\xampp\htdocs, CRIE O PROJETO DA LOJA COM O SEGUINTE COMANDO:
      
      composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition <install-directory-name>
-     composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.4 magento2
+     php composer.phar create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.4 public_html
      
      
      
@@ -544,7 +544,7 @@ INSTALANDO O MÓDULO PAGSEGURO
 =============================
 
  1) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
- 2) EXECUTE O SEGUINTE COMANDO: composer require pagseguro/magento2 --ignore-platform-reqs
+ 2) EXECUTE O SEGUINTE COMANDO: php -d memory_limit=-1 composer.phar require pagseguro/magento2 --ignore-platform-reqs
     DOCUMETAÇÃO E ARQUIVOS EM: https://github.com/pagseguro/magento2
     ESSE PROCESSO DEMORA UM POUCO.
  3) AO FINALIZAR EXECUTE O SEGUINTE COMANDO: php bin/magento setup:upgrade 
@@ -1256,6 +1256,9 @@ REFERÊNCIA: https://support.weltpixel.com/hc/en-us/articles/360000022773-Navigat
 1) ABRIR O Shell NO Xampp NA PASTA RAIZ DA LOJA htdocs\magento2
 2) EXECUTAR OS SEGUINTES COMANDOS:
    - composer require boldcommerce/magento2-ordercomments --ignore-platform-reqs
+   
+   composer require boldcommerce/magento2-ordercomments --ignore-platform-reqs
+   
    - php bin/magento module:enable Bold_OrderComment
    - php bin/magento setup:upgrade
    - php bin/magento setup:di:compile
@@ -1495,28 +1498,79 @@ ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
     - A imagem do produto deve estar no formato JPEG. 
     Melhores extensões para otimizar imagens: https://www.mageplaza.com/review/magento-2-image-optimizer/
  
+    https://www.apptrian.com/image-optimizer-for-magento?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&a=bigvn&utm_content=Image%20Optimizer
+ 
+ 
  REFERENCIAS: https://www.mageplaza.com/magento-2-module-development/
  	      https://www.mageplaza.com/devdocs/speed-up-magento-2.html#step-1
+
+############################
+### INSTALAR MÓDULO SMTP ###
+############################
+
+ 1) CLICAR NO BOTÃO Shell DO  Control Panel do XAMPP
+ 2) A TELA DO shell SE ABRIRÁ NA PASRA c:\xampp. MUDE PARA A PASTA htdocs DIGITANDO: cd htdocs\magento2
+ 3) JA DENTRO DA PASTA c:\xampp\htdocs\nagento2, INSTALE O MÓDULO DE SMTP COM O SEGUINTE COMANDO:
+     php -d memory_limit=-1 composer.phar require mageplaza/module-smtp --ignore-platform-reqs
+ 4) APÓS A INSTALAÇÃO EXECUTAR OS SEGUINTES COMANDOS:
+  	   - php bin/magento setup:upgrade
+  	   - php bin/magento setup:static-content:deploy pt_BR -f
+	   - php bin/magento cache:flush
+
+==================================
+=== CONFIGURAR O SMTP - LOCAWEB ==
+==================================
+
+1) ACESSE A ÁREA DE ADMINISTRAÇÃO DA LOJA
+2) ACESSE A OPÇÃO LOJAS/SMTP/CONFIGURAÇÃO
+4) NA ABA MODULE INFORMATION (1A VEZ) INFORME O PRODUCT-KEY (COMPRADO NA LOJA MAGEPLAZA) E O E-MAIL DE USUÁRIO DO MAGEPLAZA
+5) EM SEGUIDA ATIVE O MÓDULO
+6) NA ABA GENERAL CONFIGURATION, 
+   - COLOQUE "SIM" PARA Enable Mageplaza SMTP
+   - COLOQUE "SIM" PARA Log Emails
+7) NA ABA SMTP CONFIGURATION OPTIONS PREENCHA OS SEGUINTES CAMPOS:
+   - SERVIDOR: smtp.sualoja.com.br
+   - PORTA: 587
+   - AUTHENTICATION: Login
+   - NOME DO USUÁRIO: contato@sualoja.com.br (geralmente um email principal)
+   - SENHA: a senha do e-mail.
+ 8) CLIQUE EM "GRAVAR CONFIGURAÇÃO"
+ 9) AINDA NA ABA SMTP CONFIGURATION OPTIONS, FAÇA O TESTE DE ENVIO
+    SEND FROM: Contato Geral
+    ENVIAR PARA: seuemailpessoal 
+ 10) CLIQUE EM TEST NOW
+ 11) VERIFIQUE SE RECEBEU O TESTE NO SEU E-MAIL
+    
+   
+   
+   
+   
+   
+   
+
+
+
+
 
 ####################################################
 ### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
 ####################################################
 
 
-php bin/magento setup:upgrade                           	-- USADO TODA VEZ QUE INSTALA ALGO NOVO NO MAGENTO
+php -d memory_limit=-1 bin/magento setup:upgrade                           	-- USADO TODA VEZ QUE INSTALA ALGO NOVO NO MAGENTO
 php bin/magento deploy:mode:set developer			-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE DESENVOLVEDOR (DEFAULT)
 php bin/magento deploy:mode:set production              	-- USADO PARA COLOCAR O MAGENTO ESTÁ EM MODO DE PRODUÇÃO
 php bin/magento deploy:mode:show				-- USADO PARA VERIFICAR EM QUE MODO O MAGENTO ESTÁ: DESENVOLVEDOR OU PRODUÇÃO
-php bin/magento setup:di:compile				-- USADO PARA COMPILAR A LOJA
-php bin/magento setup:static-content:deploy pt_BR -f		-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
-php bin/magento setup:static-content:deploy pt_BR -f -t Magento/Nome do tema -- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA 
+php -d memory_limit=-1 bin/magento setup:di:compile				-- USADO PARA COMPILAR A LOJA
+php -d memory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f		-- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA ESCOLHIDA, NESSE EXEMPLO PT_BR
+php -dmemory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f -t Magento/Nome do tema -- USADO PARA RECONSTRUIR OS PACOTES COM A LINGUA 
 										ESCOLHIDA, NESSE EXEMPLO PT_BR PARA UM TEMA ESPECÍFICO.
 php bin/magento cache:flush					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
 php bin/magento cache:clean					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
-php bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
+php -d memory_limit=-1  bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
 php bin/magento module:status                           	-- verifica o status dos módulos instalados
-php bin/magento module:enable <nome do módulo>			-- Habilita o módulo novo
-php bin/magento module:disable <nome do módulo>			-- Desabilita o módulo
+php bin/magento module:enable UOL_PagSeguro			-- Habilita o módulo novo
+php bin/magento module:disable Mageplaza_Smtp			-- Desabilita o módulo
 
 php bin/magento setup:backup -h					-- MOSTRA TODAS AS OPÇÕES DE BACKUP
 php bin/magento setup:backup --db				-- FAZ BACKUP DO BANCO DE DADOS E GRAVA NA PASTA var/backups
@@ -1529,6 +1583,7 @@ C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardad
  
 composer require modulo --ignore-platform-reqs 			-- INSTALAR MÓDULOS VIA COMPOSER
 
+ php -dmemory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f
  
  
 ####################################
@@ -1584,3 +1639,26 @@ https://youtu.be/w9iZ7JfrGIQ (Já estava instalado, precisa configurar) -- Captch
 https://youtu.be/NaUGjd2NyU0 (mais tarde) -- Integrando o Magento 2 e o Google Analytics, com Ecommerce Tracking Habilitado
 Otimizador de imagens abaixo: (mais tarde)
 https://github.com/mageplaza/magento-2-image-optimizer?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=Image%20Optimizer
+
+
+#######################
+## PASSOS NO LOCAWEB ##
+#######################
+
+1) CONTRATAR UM SERVIÇO DE HOSPEDAGEM VPS.
+2) ADICIONAR A LINHA DE CÓDIGO ABAIXO NO FINAL DO ARQUIVO php.ini
+   suhosin.executor.include.whitelist = phar
+3) COLOCAR O ARQUIVO php.ini NA PASTA public_html
+4) ACCESSAR O FTP ATRAVÉS DO PUTTY
+5) TROCAR A VERSÃO SO PHP COM O SEGUITE COMANDO:
+  locaweb-change-php 7.2
+6) EXECUTAR A INSTALAÇÃO DO COMPOSER COM O SEGUINTE COMANDO:
+   curl -sS https://getcomposer.org/installer | php7.3 -c /home/tedolls1/.user.ini
+7) VERIFICAR OS COMANDOS DO COMPOSER APÓS A INSTALAÇÃO
+   php7.2 -c /home/tedolls1/.user.ini composer.phar
+8) PROCESSO DE INSTALAÇÃO DA LOJA
+9) EXECUTAR OS COMANDOS DE PERMISSÃO DE PASTAS E ARQUIVOS:
+   find * -type d -print0 | xargs -0 chmod 0755
+   find . -type f -print0 | xargs -0 chmod 0644
+
+
