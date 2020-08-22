@@ -51,16 +51,16 @@ $newsletter_show = $helper->getShowfooternewsletter();
                             ?>
                             <ul class="cp-social">
                                 <?php if ($showfacebook) { ?>
-                                    <li><a href="<?php echo $helper->getFacebookurl(); ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                    <li ><a style="width:100px;height:100px;"  title="Facebook" href="<?php echo $helper->getFacebookurl(); ?>" target="_blank"><font size="80px"><i class="fa fa-facebook"></i></font></a></li>
                                 <?php } ?>
                                 <?php if ($showtwitter) { ?>
-                                    <li><a href="<?php echo $helper->getTwitterurl(); ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a title="Twitter" href="<?php echo $helper->getTwitterurl(); ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
                                 <?php } ?>
                                 <?php if ($showlinkedin) { ?>
-                                    <li><a href="<?php echo $helper->getLinkdnurl(); ?>" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a  style="width:100px;height:100px;"  title="Instagram" href="<?php echo $helper->getLinkdnurl(); ?>" target="_blank"><font size="80px"><i  class="fa fa-instagram"></i></font></a></li>
                                 <?php } ?>
                                 <?php if ($showpinterest) { ?>
-                                    <li><a href="<?php echo $helper->getPinteresturl(); ?>" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+                                    <li><a title="Pinterst" href="<?php echo $helper->getPinteresturl(); ?>" target="_blank"><i class="fa fa-pinterest"></i></a></li>
                                 <?php } ?>
                             </ul>
                         <?php } ?>

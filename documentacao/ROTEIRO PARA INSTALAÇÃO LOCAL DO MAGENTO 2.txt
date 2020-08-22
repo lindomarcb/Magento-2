@@ -508,8 +508,27 @@ OBSERVAÇÃO: QUANDO A LOJA UTILIZA O MÓDULO DE CÁLCULO DE FRETE, ELE UTILIZA UMA 
                         MEIA, VAI DEPENDER DO LINK DE INTERNET. ASSIM QUE FINALIZAR. 
                         CLIQUE EM Gerar Planilha NOVAMENTE E UMA PLANILHA EXCEL SERÁ 
                         GERADA NA PASTA DE DOWNLOAD DO SEU PC.
-                            
-            NÃO É NECESSÁRIO FAZER ISSO AGORA.
+           
+           =================================
+           == COMO DEVE SER FEITA A CARGA ==
+           =================================
+              
+              
+           CREATE TABLE `correios_cotacoes` (
+	     `id` int(10) UNSIGNED NOT NULL COMMENT 'ID',
+	     `servico` text NOT NULL COMMENT 'Serviço dos Correios',
+	     `prazo` int(11) NOT NULL COMMENT 'Prazo em dias para a entrega',
+	     `peso` DECIMAL(10,1) NOT NULL COMMENT 'Peso do pacote',
+	     `valor` DECIMAL(10,2) NOT NULL COMMENT 'Valor da entrega',
+	     `cep_inicio` bigint(20) NOT NULL COMMENT 'Primeiro CEP da Faixa',
+	     `cep_fim` bigint(20) NOT NULL COMMENT 'Último CEP da Faixa',
+	     `ultimo_update` datetime NOT NULL COMMENT 'Última atualização'
+	   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabela para cotação offline do módulo dos Correios da Imagination Media.';
+	   
+	   insert into correios_cotacoes (servico,prazo,peso,valor,cep_inicio,cep_fim,ultimo_update) values ('04014',5,7,142.34,72800000,72999999,SYSDATE());
+
+           
+           
 
 ################################################################
 ### INSTALANDO E CONFIGURANDO MEIOS DE PAGAMENTO - PAGSEGURO ###
@@ -1541,12 +1560,31 @@ ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
  10) CLIQUE EM TEST NOW
  11) VERIFIQUE SE RECEBEU O TESTE NO SEU E-MAIL
     
-   
-   
-   
-   
-   
-   
+ 
+ ###############################
+ ## INSTALAR MÓDULO ANTI-SPAM ##
+ ###############################
+ 
+ 1) ACESSSE O SITE:  https://github.com/magespecialist/m2-MSP_NoSpam E SIGA AS INSTRUÇÕES
+    https://www.projecthoneypot.org/httpbl_configure.php?act=test
+    http:BL Access Key : hepnqlfpzodz
+
+
+###############
+### CAPTCHA ###
+###############
+
+"tedolls.com.br" foi registrado.
+Use esta chave de site no código HTML que seu site fornece aos usuários.
+6LcDGsEZAAAAAC2PvfJeu1OleD4gvo0YUwnb59OR
+Use esta chave secreta para comunicação entre seu site e o reCAPTCHA.
+6LcDGsEZAAAAANCNWQYqe0R9q2XfpsF5Mol5uezc
+
+"lindomarcb" foi registrado.
+Use esta chave de site no código HTML que seu site fornece aos usuários.
+6Lc9GsEZAAAAACDWB28cXevANF9_6NW3jBlL5r10
+Use esta chave secreta para comunicação entre seu site e o reCAPTCHA.
+6Lc9GsEZAAAAANxpGlTVwk2LJ1DgRpL8wZmZc1wG
 
 
 
@@ -1579,12 +1617,34 @@ php bin/magento setup:backup --db				-- FAZ BACKUP DO BANCO DE DADOS E GRAVA NA 
 php bin/magento info:backup:list				-- MOSTRA TODOS OS BACKUPS JÁ FEITOS
 
 php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
+php bin/magento cron:run					-- força a execussão de jobs pendentes
+
+
+php bin/magento cron:install					-- Instalar o crontab do magento
+
+
 C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
  
 composer require modulo --ignore-platform-reqs 			-- INSTALAR MÓDULOS VIA COMPOSER
 
  php -dmemory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f
  
+ php -d memory_limit=-1 composer.phar require msp/nospam --ignore-platform-reqs
+
+Linux
+=====
+
+1) EXECUTAR OS COMANDOS DE PERMISSÃO DE PASTAS E ARQUIVOS:
+   find * -type d -print0 | xargs -0 chmod 0755
+   find . -type f -print0 | xargs -0 chmod 0644
+2) REMOVER ARQUIVOS DE UMA PASTA 
+   rm -Rf nome_da_pasta
+3) FAZER UMA CÓPIA DE UMA PASTA PARA OUTRA
+   cp -r pasta_origem/* pasta_destino
+4) CRIAR UMA PASTA
+   mkdir nome_da_pasta
+   
+
  
 ####################################
 ### ALGUMAS DICAS DE USABILIDADE ###
@@ -1631,13 +1691,13 @@ https://youtu.be/tUtKimDOkvE -- Notificação e Envio de Novos Pedidos por Email n
 
 https://youtu.be/IHFFugLilaU (mais tarde) -- Pop UP de Saída no Magento 2
 https://youtu.be/9WAP5iJ25LA (mais tarde) -- Reindexar Índices pelo Painel Administrativo (Sem SSH)
-https://youtu.be/w6jjzALue68 (mais tarde) -- Como Proteger sua Loja de Spam e Cadastros Falsos
+https://youtu.be/w6jjzALue68 (INSTALADO) -- Como Proteger sua Loja de Spam e Cadastros Falsos
 https://youtu.be/4seZx2PFptw (mais tarde) -- Login com Redes Sociais Magento 2 - Facebook, Google, Twitter entre outros!
-https://youtu.be/GIvuNfsGtNo (mais tarde) -- SMTP PRO Magento 2 - Disparo de E-mail Não Funciona?
+https://youtu.be/GIvuNfsGtNo (INSTALADO) -- SMTP PRO Magento 2 - Disparo de E-mail Não Funciona?
 https://youtu.be/-NnQCe-Pyw0 (mais tarde) -- Magento 2: Plugin de Comentários do Facebook no Produto de Graça! (API Facebook Comments)
 https://youtu.be/w9iZ7JfrGIQ (Já estava instalado, precisa configurar) -- Captcha nos Formulários, Login, Cadastro e Painel
-https://youtu.be/NaUGjd2NyU0 (mais tarde) -- Integrando o Magento 2 e o Google Analytics, com Ecommerce Tracking Habilitado
-Otimizador de imagens abaixo: (mais tarde)
+https://youtu.be/NaUGjd2NyU0 (INSTALADO) -- Integrando o Magento 2 e o Google Analytics, com Ecommerce Tracking Habilitado
+Otimizador de imagens abaixo: (INSTALADO)
 https://github.com/mageplaza/magento-2-image-optimizer?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=Image%20Optimizer
 
 
