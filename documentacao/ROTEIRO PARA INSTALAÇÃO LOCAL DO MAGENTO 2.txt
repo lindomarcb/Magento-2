@@ -28,6 +28,11 @@ INSTALAR O COMPOSER
 7) EXECUTAR O Control Painel do XAMMP (Procure no menu de programas do windows e DEIXE ELE ABERTO)
    ATENÇÃO: EXECUTAR O XAMPP COMO ADMINISTRADOR
 
+8) INSTALAR O COMPOSER PELO LOCAWEB:
+   curl -sS https://getcomposer.org/installer | php7.3 -c /home/tedolls1/.user.ini
+   php7.3 -c /home/tedolls1/.user.ini composer.phar
+
+
 
 ALTERAR OS ARQUIVOS DE CONFIGURAÇÃO DO XAMPP
 --------------------------------------------
@@ -42,6 +47,7 @@ ALTERAR OS ARQUIVOS DE CONFIGURAÇÃO DO XAMPP
    ;max_input_vars = 900 	--> max_input_vars = 200000
    ;max_input_time=60		--> max_input_time=600
    ;max_execution_time=1200	--> max_execution_time=3600
+   ;disable_functions=          --> disable_functions = exec,execl,system,passthru,shell_exec,set_time_limit,escapeshellarg,escapeshellcmd,proc_close,ini_alter,proc_open,dl,popen,show_source,posix_getpwuid,getpwuid,posix_geteuid,posix_getegid,posix_getgrgid,open_basedir,safe_mode_include_dir,pcntl_exec,pcntl_fork,putenv,proc_get_status,proc_nice,proc_terminate,pclose,virtual,openlog,popen,pclose,virtual,openlog,escapeshellcmd,escapeshellarg,dl,show_source,symlink,eval,mail
    
    
 2) ALTERAR O ARQUIVO httpd.conf NO BOTÃO Config DO SERVIDOR Apache no XAMPP.
@@ -61,8 +67,7 @@ CRIAR UM DOMINIO LOCAL PARA USO DA LOJA NA MÁQUINA
     Quando for executar a loja, será usado esse dominio. Ex: http://local.nomedaloja.com.br/magento2
  4) SALVE O ARQUIVO COMO ADMINISTRADOR.
  
- 
- 
+  
 INSTALAR A LOJA PADRÃO MAGENTO VERSÃO 2.3.4
 ===========================================
 
@@ -131,7 +136,7 @@ CRIAR O VÍNCULO COM COMUNIDADE MAGENTO ATRAVÉS DO MARKETPLACE
  3) JA DENTRO DA PASTA c:\xampp\htdocs, CRIE O PROJETO DA LOJA COM O SEGUINTE COMANDO:
      
      composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition <install-directory-name>
-     php composer.phar create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.4 public_html
+     php -d memory_limit=-1 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.6 loja --ignore-platform-reqs
      
      
      
@@ -305,7 +310,7 @@ MANEIRA 1 (COMPOSER) DE INSTALAR (MAIS FÁCIL)
     EXECUTE O SEGUINTE COMANDO: php bin/magento cache:flush 
     TUDO VOLTARÁ PARA O INGLÊS
  2) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
- 3) EXECUTE O SEGUINTE COMANDO: composer require magento2translations/language_pt_br:dev-master
+ 3) EXECUTE O SEGUINTE COMANDO: php composer.phar require magento2translations/language_pt_br:dev-master --ignore-platform-reqs
  4) AO TECLAR ENTER APÓS O COMANDO, A INSTALAÇÃO PEDIRÁ:
      UserName: - Vá até a tela do Marketplace já aberta no browser anteriormente e clique em Copy Public Key (Chave usada pela loja)
                  Volte para a tela do shell e clique com o botão direito do mouse. A chave será copiada para o campo Username. Tecle Enter.
@@ -563,7 +568,7 @@ INSTALANDO O MÓDULO PAGSEGURO
 =============================
 
  1) ACESSE O Shell NO WAMPP NA PASTA: htdocs\magento2
- 2) EXECUTE O SEGUINTE COMANDO: php -d memory_limit=-1 composer.phar require pagseguro/magento2 --ignore-platform-reqs
+ 2) EXECUTE O SEGUINTE COMANDO: php -d memory_limit=-1 composer.phar require pagseguro/magento2 --ignore-platform-reqs --no-plugins
     DOCUMETAÇÃO E ARQUIVOS EM: https://github.com/pagseguro/magento2
     ESSE PROCESSO DEMORA UM POUCO.
  3) AO FINALIZAR EXECUTE O SEGUINTE COMANDO: php bin/magento setup:upgrade 
@@ -1586,9 +1591,64 @@ Use esta chave de site no código HTML que seu site fornece aos usuários.
 Use esta chave secreta para comunicação entre seu site e o reCAPTCHA.
 6Lc9GsEZAAAAANxpGlTVwk2LJ1DgRpL8wZmZc1wG
 
+###################################
+#### MAGEPLAZA - SITEMAP E SEO ####
+###################################
+
+1) Instalar a patir da loja Mageplaza fazendo download dos módulos última versão
+   - SITEMAP (este módulo vem com  o SEO dentro dele - apagar)
+   - SEO
+2) Gravar na pasta magento2/app/code/MagePlaza/Sitemap e magento2/app/code/MagePlaza/Seo   
+3) Executar os cmandos:   
+   php -d memory_limit=-1 bin/magento setup:upgrade
+   php bin/magento cache:flush
+   php bin/magento cache:clean
+4) Arrumar um bug. Os módulos não pedem a licença e fica aparecendo uma mensagem que tem módulos sem registro
+   Inclçuir ca tabela as informações na tabela core_config_data conforme o exemplo abaixo
+	INSERT INTO `core_config_data` (`scope`, `scope_id`, `path`, `value`, `updated_at`) VALUES
+	('default', 0, 'seo/module/active', '1', '2020-11-05 22:55:26'),
+	('default', 0, 'seo/module/product_key', '80WDV8ITITJHEJII3SH5MT28Z3VWKJ4V59ZLDFTZ', '2020-11-05 22:55:26'),
+	('default', 0, 'seo/module/name', 'SEO-IBJNLS9JJ2SAXOJPLID9V0A7FWMSHDQGNKZYISP7', '2020-11-05 22:55:26'),
+	('default', 0, 'seo/module/create', '1', '2020-11-05 22:55:27'),
+	('default', 0, 'seo/module/subscribe', '1', '2020-11-05 22:55:27');
+	('default', 0, 'sitemap/module/active', '1', '2020-11-05 22:55:26'),
+	('default', 0, 'sitemap/module/product_key', '80WDV8ITITJHEJII3SH5MT28Z3VWKJ4V59ZLDFTZ', '2020-11-05 22:55:26'),
+	('default', 0, 'sitemap/module/name', 'SITEMAP-3ZOCXOSXKAT50VRQMS8SBSVQTS94I2BC82NVC3OK', '2020-11-05 22:55:26'),
+	('default', 0, 'sitemap/module/create', '1', '2020-11-05 22:55:27'),
+	('default', 0, 'sitemap/module/subscribe', '1', '2020-11-05 22:55:27');
+5) Execute os comandos:
+   php -d memory_limit=-1  bin/magento indexer:reindex
+   php -d memory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f	
+   php bin/magento cache:flush
+   php bin/magento cache:clean
+
+##############################################################
+### Reindexar Índices pelo Painel Administrativo (Sem SSH) ###
+##############################################################
+
+1) CRIAR UMA CONTA E COMPRAR "GRATUITAMENTE" NO SITE : https://bsscommerce.com/magento-2-reindex-from-backend-extension.html
+2) BAIXAR EM MY ACCOUNT / My Downloadable Products / M2 Reindex from Backend v1.0.4
+3) BAIXAR EM MY ACCOUNT / My Downloadable Products / M2 Core Extension v1.0.3
+4) DESCOMPACTAR O MÓDULO EM app/code/Bss/Reindex
+5) DESCOMPACTAR O MÓDULO EM app/code/Bss/Core
+6) APÓS A INSTALAÇÃO EXECUTAR OS SEGUINTES COMANDOS:
+  	   - php bin/magento setup:upgrade
+  	   - php bin/magento setup:static-content:deploy pt_BR -f
+	   - php bin/magento cache:flush
+7) USAR O MÓDULO EM: SISTEMA/GERENCIADOR DE ÍNDICE
+
+######################
+### CRON SCHEDULER ###
+######################
+
+1) INSTALAR VIA COMPOSER: composer require kiwicommerce/module-cron-scheduler --ignore-platform-reqs
+2) APÓS A INSTALAÇÃO EXECUTAR OS SEGUINTES COMANDOS:
+  	   - php bin/magento setup:upgrade
+  	   - php bin/magento setup:static-content:deploy pt_BR -f
+	   - php bin/magento cache:flush
 
 
-
+CAMINHO/INSTUÇÕES: https://github.com/kiwicommerce/magento2-cron-scheduler
 
 ####################################################
 ### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
@@ -1605,10 +1665,11 @@ php -dmemory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f -t Magent
 										ESCOLHIDA, NESSE EXEMPLO PT_BR PARA UM TEMA ESPECÍFICO.
 php bin/magento cache:flush					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
 php bin/magento cache:clean					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTERA ALGUMA CONFIGURAÇÃO DEVE-SE LIMPAR O CACHE
+php bin/magento cache:disable/enable			        -- USADO PARA HABILITAR/DESABILITAR O CACHE. 
 php -d memory_limit=-1  bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
 php bin/magento module:status                           	-- verifica o status dos módulos instalados
-php bin/magento module:enable UOL_PagSeguro			-- Habilita o módulo novo
-php bin/magento module:disable Mageplaza_Smtp			-- Desabilita o módulo
+php bin/magento module:enable PHPCuong_Faq --clear-static-content			-- Habilita o módulo novo
+php bin/magento module:disable PHPCuong_Faq --clear-static-content			-- Desabilita o módulo
 
 php bin/magento setup:backup -h					-- MOSTRA TODAS AS OPÇÕES DE BACKUP
 php bin/magento setup:backup --db				-- FAZ BACKUP DO BANCO DE DADOS E GRAVA NA PASTA var/backups
@@ -1619,24 +1680,60 @@ php bin/magento info:backup:list				-- MOSTRA TODOS OS BACKUPS JÁ FEITOS
 php bin/magento config:set admin/security/session_lifetime 1440 -- Muda o tempo de vida das variáveis de sessão.
 php bin/magento cron:run					-- força a execussão de jobs pendentes
 
-
 php bin/magento cron:install					-- Instalar o crontab do magento
-
 
 C:/Users/lindo/AppData/Roaming/Composer/auth.json       	-- lugar onde é guardado as credenciais no caso de clicar em Y
  
 composer require modulo --ignore-platform-reqs 			-- INSTALAR MÓDULOS VIA COMPOSER
+php -d memory_limit=-1 composer.phar clearcache			-- Limpa o cache do Composer
+which php                                                      -- Saber onde o PHP está instalado no servidor
+crontab -e							-- Editar o arquivo do Cron
+pwd								-- Saber o caminho físico da loja
+ 
+
+
+php -d memory_limit=-1 composer.phar require pagseguro/magento2 --ignore-platform-reqs --no-plugins
 
  php -dmemory_limit=-1 bin/magento setup:static-content:deploy pt_BR -f
  
  php -d memory_limit=-1 composer.phar require msp/nospam --ignore-platform-reqs
 
+php -d memory_limit=-1 composer.phar require mageplaza/magento-2-seo-extension mageplaza/module-sitemap --ignore-platform-reqs
+
+php -d memory_limit=-1 composer.phar update mageplaza/module-core --ignore-platform-reqs --no-plugins
+
+composer require kiwicommerce/module-cron-scheduler --ignore-platform-reqs
+
+composer.phar require magento2translations/language_pt_br:dev-master --ignore-platform-reqs
+
+ALTER TABLE tablename AUTO_INCREMENT = 1
+
+Voltar backup dos arquivos:  cp -TRv bkp_ph public_html
+			     cp -TRv  loja_vazia public_html
+
+Xcopy .\loja .\bkploja /E /H /C /I
+
+ 
 Linux
 =====
 
 1) EXECUTAR OS COMANDOS DE PERMISSÃO DE PASTAS E ARQUIVOS:
    find * -type d -print0 | xargs -0 chmod 0755
    find . -type f -print0 | xargs -0 chmod 0644
+   
+   
+   find . -type f -exec chmod 644 {} \;
+   find . -type d -exec chmod 755 {} \;
+   find ./var -type d -exec chmod 777 {} \;
+   find ./pub/media -type d -exec chmod 777 {} \;
+   find ./pub/static -type d -exec chmod 777 {} \;
+   chmod 777 ./app/etc
+   chmod 644 ./app/etc/*.xml
+   
+   
+   
+   
+   
 2) REMOVER ARQUIVOS DE UMA PASTA 
    rm -Rf nome_da_pasta
 3) FAZER UMA CÓPIA DE UMA PASTA PARA OUTRA
@@ -1690,7 +1787,7 @@ https://youtu.be/ZHxoAE0xppY -- Módulo de Otimização Seo
 https://youtu.be/tUtKimDOkvE -- Notificação e Envio de Novos Pedidos por Email no Magento
 
 https://youtu.be/IHFFugLilaU (mais tarde) -- Pop UP de Saída no Magento 2
-https://youtu.be/9WAP5iJ25LA (mais tarde) -- Reindexar Índices pelo Painel Administrativo (Sem SSH)
+https://youtu.be/9WAP5iJ25LA (mais  	) -- Reindexar Índices pelo Painel Administrativo (Sem SSH)
 https://youtu.be/w6jjzALue68 (INSTALADO) -- Como Proteger sua Loja de Spam e Cadastros Falsos
 https://youtu.be/4seZx2PFptw (mais tarde) -- Login com Redes Sociais Magento 2 - Facebook, Google, Twitter entre outros!
 https://youtu.be/GIvuNfsGtNo (INSTALADO) -- SMTP PRO Magento 2 - Disparo de E-mail Não Funciona?

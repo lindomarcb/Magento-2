@@ -294,7 +294,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 } elseif (isset($groupRelations[$code])) {
                     unset($labelValues[$code]);
 					$labelValues[$groupRelations[$code]]['label'] = $groupRelations[$code];
-                    $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
+	                $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
                 } else {
                     $labelValues[$code] = ['value' => $code, 'label' => $title];
                 }
