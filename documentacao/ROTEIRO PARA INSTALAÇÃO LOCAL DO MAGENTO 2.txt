@@ -1581,9 +1581,12 @@ ATENÇÃO: APÓS AS MUDANÇAS DE LAYOUT EXECUTAR OS SEGUINTES COMANDOS:
 
 "tedolls.com.br" foi registrado.
 Use esta chave de site no código HTML que seu site fornece aos usuários.
-6LcDGsEZAAAAAC2PvfJeu1OleD4gvo0YUwnb59OR
+Google API website key: 6LcDGsEZAAAAAC2PvfJeu1OleD4gvo0YUwnb59OR
 Use esta chave secreta para comunicação entre seu site e o reCAPTCHA.
-6LcDGsEZAAAAANCNWQYqe0R9q2XfpsF5Mol5uezc
+Google API secret key: 6LcDGsEZAAAAANCNWQYqe0R9q2XfpsF5Mol5uezc
+reCaptcha type: Invisible reCaptcha v2
+
+
 
 "lindomarcb" foi registrado.
 Use esta chave de site no código HTML que seu site fornece aos usuários.
@@ -1650,6 +1653,26 @@ Use esta chave secreta para comunicação entre seu site e o reCAPTCHA.
 
 CAMINHO/INSTUÇÕES: https://github.com/kiwicommerce/magento2-cron-scheduler
 
+
+ATENÇÃO: ALTERAR O ARQUIVO APP/BOOTSTRAP.PHP
+         --> Hardcode ini_set('memory_limit', '-1')no app/bootstrap.php qual é invocado quando qualquer comando é executado.
+         PARA QUE O CRON FUNCIONE SEM ESTOURAR A MEMÓRIA
+
+
+#############################################################
+### Magento 2 Rich Snippets (Schema.org Structured Data). ###
+#############################################################
+
+1) COMPRAR E BAIXAR O MÓDULO FREE EM: https://www.weltpixel.com/magento2-google-rich-cards-free-extension.html
+2) COLOCAR NA PASTA public_html/app/code
+3) APÓS A INSTALAÇÃO EXECUTAR OS SEGUINTES COMANDOS:
+  	   - php bin/magento setup:upgrade
+  	   - php bin/magento setup:static-content:deploy pt_BR -f
+	   - php bin/magento cache:flush
+ATENÇÃO: VIDEO: https://youtu.be/sZTu8d2zjrY
+
+
+
 ####################################################
 ### ALGUNS COMANDOS DO MAGENTO NO SHELL DO XAMPP ###
 ####################################################
@@ -1668,8 +1691,8 @@ php bin/magento cache:clean					-- USADO PARA LIMPAR O CACHE. TODA VEZ QUE ALTER
 php bin/magento cache:disable/enable			        -- USADO PARA HABILITAR/DESABILITAR O CACHE. 
 php -d memory_limit=-1  bin/magento indexer:reindex					-- REINDEXA OS ÍNDICES DAS TABELAS DO SISTEMA.
 php bin/magento module:status                           	-- verifica o status dos módulos instalados
-php bin/magento module:enable PHPCuong_Faq --clear-static-content			-- Habilita o módulo novo
-php bin/magento module:disable PHPCuong_Faq --clear-static-content			-- Desabilita o módulo
+php bin/magento module:enable Bss_OrderDetails --clear-static-content			-- Habilita o módulo novo
+php bin/magento module:disable Apptrian_ImageOptimizer --clear-static-content			-- Desabilita o módulo
 
 php bin/magento setup:backup -h					-- MOSTRA TODAS AS OPÇÕES DE BACKUP
 php bin/magento setup:backup --db				-- FAZ BACKUP DO BANCO DE DADOS E GRAVA NA PASTA var/backups
@@ -1689,8 +1712,8 @@ php -d memory_limit=-1 composer.phar clearcache			-- Limpa o cache do Composer
 which php                                                      -- Saber onde o PHP está instalado no servidor
 crontab -e							-- Editar o arquivo do Cron
 pwd								-- Saber o caminho físico da loja
- 
-
+ php bin/magento setup:di:compile
+php bin/magento indexer:reindex
 
 php -d memory_limit=-1 composer.phar require pagseguro/magento2 --ignore-platform-reqs --no-plugins
 
@@ -1819,3 +1842,104 @@ https://github.com/mageplaza/magento-2-image-optimizer?utm_source=mageplaza&utm_
    find . -type f -print0 | xargs -0 chmod 0644
 
 
+##########################
+### MELHORAR SCORE SEO ###
+##########################
+
+1) INCLUIR AS LINHAS ABAIXO NO ARQUIVO .htaccess PARA HABILITAR O GZIP
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    Header append Vary User-Agent env=!dont-vary
+</IfModule>
+2) INCLUIR <H1>DESTAQUES</H1> NA PÁGINA PRINCIPAL
+3) INCLUIR O CAMPO ALT="" EM TODAS AS IMAGENS ESTÁTICAS DO SITE
+4) INCLUIR NO CABEÇALHO DO TEMA NO CAMPO: Scripts e Folhas de Estilo
+   <link rel="canonical" href="https://tedolls.com.br" />
+   <link rel="canonical" href="https://www.tedolls.com.br" />
+   
+   
+ ####################  
+ #### robots.txt ####
+ ####################
+ 
+ # Directories
+ 
+ Disallow: /404/
+ Disallow: /app/
+ Disallow: /cgi-bin/
+ Disallow: /downloader/
+ Disallow: /errors/
+ Disallow: /includes/
+ Disallow: /lib/
+ Disallow: /magento/
+ Disallow: /pkginfo/
+ Disallow: /report/
+ Disallow: /scripts/
+ Disallow: /shell/
+ Disallow: /stats/
+ Disallow: /var/
+ 
+ # Paths (clean URLs)
+ 
+ Disallow: /catalog/product_compare/
+ Disallow: /catalog/category/view/
+ Disallow: /catalog/product/view/
+ Disallow: /catalog/product/gallery/
+ Disallow: /catalogsearch/
+ Disallow: /checkout/
+ Disallow: /control/
+ Disallow: /contacts/
+ Disallow: /customer/
+ Disallow: /customize/
+ Disallow: /newsletter/
+ Disallow: /poll/
+ Disallow: /review/
+ Disallow: /sendfriend/
+ Disallow: /tag/
+ Disallow: /wishlist/
+ 
+ # Files
+ 
+ Disallow: /cron.php
+ Disallow: /cron.sh
+ Disallow: /error_log
+ Disallow: /install.php
+ Disallow: /LICENSE.html
+ Disallow: /LICENSE.txt
+ Disallow: /LICENSE_AFL.txt
+ Disallow: /STATUS.txt
+ 
+ # Paths (no clean URLs)
+ 
+ Disallow: /*.js$
+ Disallow: /*.css$
+ Disallow: /*.php$
+ Disallow: /*?p=*&
+ Disallow: /*?SID=
+ Disallow: /*?limit=all
+ 
+Sitemap: http://www.tedolls.com.br/sitemap.xml
+
+################
+### CRON TAB ###
+################
+
+#~ MAGENTO START 9a20b2cc1a3d0d9c9e0d5b83a52f4dfb3d3b4bd336cde289096cd96391cf2bb8
+* * * * * /usr/bin/php -c /home/storage/0/f3/a7/tedolls1/public_html/.user.ini /home/storage/0/f3/a7/tedolls1/public_html/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> /home/storage/0/f3/a7/tedolls1/public_html/var/log/magento.cron.log
+* * * * * /usr/bin/php -c /home/storage/0/f3/a7/tedolls1/public_html/.user.ini /home/storage/0/f3/a7/tedolls1/public_html/update/cron.php >> /home/storage/0/f3/a7/tedolls1/public_html/var/log/update.cron.log
+* * * * * /usr/bin/php -c /home/storage/0/f3/a7/tedolls1/public_html/.user.ini /home/storage/0/f3/a7/tedolls1/public_html/bin/magento setup:cron:run >> /home/storage/0/f3/a7/tedolls1/public_html/var/log/setup.cron.log
+0 0 * * * /home/storage/0/f3/a7/tedolls1/public_html/mage2-backup.sh --backup-db --backup-code --skip-media --src-dir=/home/storage/0/f3/a7/tedolls1/public_html --dest-dir=/home/storage/0/f3/a7/tedolls1/public_html/var/backups > /dev/null 2>&1
+0 1 * * 6 /home/storage/0/f3/a7/tedolls1/public_html/limpeza_semanal.sh > /dev/null 2>&1
+#~ MAGENTO END 9a20b2cc1a3d0d9c9e0d5b83a52f4dfb3d3b4bd336cde289096cd96391cf2bb8
